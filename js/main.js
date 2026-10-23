@@ -1,13 +1,15 @@
-/* Clash Esports landing page.
-   Data below is the real Zayed branch list from data/clash-zayed.md, the WhatsApp catalogue and Gizmo (2026-10-23).
+/* Clash Esports branch page: zayed.html and october.html run this same file, each with its own data,
+   chosen by <body data-branch>. Zayed data: data/clash-zayed.md (WhatsApp catalogue and Gizmo, 2026-10-23).
+   October data: data/clash-october.md (WhatsApp catalogue, 2026-10-24).
    Booking goes to WhatsApp until Clash API is wired: ZONES -> GET /zones, PS -> GET /rooms. */
 
-const WHATSAPP = '201099584833';
+const BRANCH = document.body.dataset.branch === 'october' ? 'october' : 'zayed';
+const WHATSAPP = BRANCH === 'october' ? '201080972959' : '201099584833';
 
 /* PC rooms. pcs: hosts in Gizmo; age21: how many of them are for 21 and over (Gizmo's "+21" groups).
    side: the team colour from the catalogue. pack: the 10-hour price. was: the old catalogue price.
    Cave Room is Gizmo's TeamRoom+. */
-const ZONES = [
+const ZAYED_ZONES = [
   {
     id: 'normal', name: 'Normal', side: 'blue', pcs: 36, age21: 20, price: 30, was: 40, pack: 240,
     photo: 'assets/clash-hd/normal-room-2.jpg', w: 960, h: 1280,
@@ -52,7 +54,7 @@ const ZONES = [
 ];
 
 /* PlayStation rooms and simulators. unit: 'hour' or 'half'. */
-const PS = [
+const ZAYED_PS = [
   { name: 'Normal PS5 Room', price: 200, was: 250, unit: 'hour', people: 6, photo: 'assets/clash-hd/normal-ps5-room.jpg', w: 1200, h: 1600 },
   { name: 'VIP PS5 Room', price: 250, was: 300, unit: 'hour', people: 10, photo: 'assets/clash-hd/vip-ps5-room.jpg', w: 1200, h: 1600 },
   { name: 'Pool Room', price: 400, was: 600, unit: 'hour', people: 15, photo: 'assets/clash-hd/pool-room.jpg', w: 574, h: 1019 },
@@ -60,6 +62,38 @@ const PS = [
   { name: 'Standard Car Simulator', price: 100, unit: 'half', note: { ar: '3 شاشات 27 بوصة', en: 'Three 27" screens' }, photo: 'assets/clash-hd/standard-car-simulator.jpg', w: 960, h: 1280 },
   { name: 'Motion Car Simulator', price: 280, was: 400, unit: 'hour', note: { ar: 'كرسي بيتحرك مع العربية', en: 'The seat moves with the car' }, photo: 'assets/clash-hd/motion-car-simulator.jpg', w: 960, h: 1280 },
 ];
+
+/* October: five PC rooms, no 10-hour packs or PlayStation rooms in its catalogue yet. */
+const OCTOBER_ZONES = [
+  {
+    id: 'normal', name: 'Normal', side: 'blue', price: 25, was: 35, pack: null,
+    photo: 'assets/october-hd/normal-room.jpg', w: 1600, h: 2133,
+    spec: { screen: '165Hz', gpu: 'RX 6600 / RTX 3060 Ti', cpu: 'Intel Core i5 12400F', mouse: 'Redragon M609', keyboard: 'Redragon K552' },
+  },
+  {
+    id: 'vip', name: 'VIP', side: 'red', price: 35, was: 45, pack: null,
+    photo: 'assets/october-hd/vip-room-2.jpg', w: 1600, h: 2133,
+    spec: { screen: '240Hz', gpu: 'RTX 4060 Ti', cpu: 'Intel Core i5 12400F', mouse: 'Logitech G102', keyboard: 'Redragon K552' },
+  },
+  {
+    id: 'team', name: 'Team Room', side: 'both', price: 50, was: 60, pack: null,
+    photo: 'assets/october-hd/team-room.jpg', w: 1600, h: 2133,
+    spec: { screen: '380Hz', gpu: 'RTX 5060', cpu: 'AMD Ryzen 5 7500X3D', mouse: 'MAD R 8K', keyboard: 'ATTACK SHARK X68 HE' },
+  },
+  {
+    id: 'elite', name: 'Elite Room', side: 'yellow', price: 70, was: 80, pack: null,
+    photo: 'assets/october-hd/elite-room.jpg', w: 1600, h: 2133,
+    spec: { screen: '380Hz', gpu: 'RTX 5060', cpu: 'AMD Ryzen 5 7500X3D', mouse: 'Logitech Superlight 2', keyboard: { ar: 'كيبورد Razer 8K', en: 'Razer 8K keyboard' } },
+  },
+  {
+    id: 'stream', name: 'Stream Room', side: null, price: 80, was: 100, pack: null,
+    photo: 'assets/october-hd/stream-room-3.jpg', w: 1600, h: 2133,
+    spec: { screen: '520Hz', gpu: 'RTX 5070', cpu: 'AMD Ryzen 7 9800X3D', mouse: 'Logitech Superlight 2', keyboard: 'ATTACK SHARK R85 HE' },
+  },
+];
+
+const ZONES = BRANCH === 'october' ? OCTOBER_ZONES : ZAYED_ZONES;
+const PS = BRANCH === 'october' ? [] : ZAYED_PS;
 
 const EN = {
   skip: 'Skip to content', navLabel: 'Menu', navRooms: 'Rooms', navOffers: 'Packs', navPlaystation: 'PlayStation',
@@ -102,6 +136,24 @@ const EN = {
   branchZayed: 'Zayed branch', branchOctober: 'October branch', map: 'On the map', hours: 'Open 24 hours, every day', catalogue: 'Catalogue',
   changeBranch: 'Change branch', rules: 'Rules & terms', privacy: 'Privacy', whatsapp: 'WhatsApp',
 };
+
+/* the October page's own English words; everything else is shared with Zayed */
+if (BRANCH === 'october') Object.assign(EN, {
+  heroLine: 'A gaming lounge in 6th of October, open 24 hours. Five PC rooms, from Normal at 25 EGP to the Stream Room on a 520Hz screen.',
+  mPlace: 'October',
+  vsLine: 'October is split in two as well, and the war runs 24 hours. Whose side are you on?',
+  altVip: 'The October VIP room in red light with rows of PCs', altNormal: 'The October Normal room in blue light with rows of PCs',
+  vsRedMeta: '240Hz screens · RTX 4060 Ti', vsBlueMeta: '165Hz screens · RX 6600 / RTX 3060 Ti',
+  statsTitle: 'Clash October in numbers',
+  stat2: 'PC rooms, from Normal to the Stream Room.',
+  stat3: 'EGP an hour in the Normal room, down from 35.',
+  stat4: 'our fastest screen, in the Stream Room.',
+  altCover: 'A Stream Room seat against orange padded walls', capCover: 'The Stream Room, padded walls and its own light.',
+  roomsTitle: 'Five PC rooms', roomsLine: 'From Normal at 25 EGP to the Stream Room on a 520Hz screen. Tap a room for its details.',
+  offerA: 'A Normal hour', offerSub: 'Instead of 35. Every room in October is on offer right now, see the table below.',
+  offerCta: 'Book on WhatsApp', offersAll: 'Hour prices in October',
+  thHour: 'Per hour', thWas: 'Was', thSave: 'You save',
+});
 
 const AR_DYN = {
   side: { red: 'الفريق الأحمر', blue: 'الفريق الأزرق', both: 'الأحمر والأزرق في أوضة واحدة', yellow: 'الأوضة الصفرا' },
@@ -228,10 +280,22 @@ function renderCalc() {
   document.getElementById('zone-cta').href = wa(d.bookText(z.name, h));
 }
 
-/* ---------- 10-hour packs ---------- */
+/* ---------- 10-hour packs (Zayed), or the hour prices beside their old prices (October) ---------- */
 function renderPacks() {
   const d = D();
   const t = lang === 'en' ? EN : AR;
+  if (!ZONES.some((z) => z.pack)) {
+    document.getElementById('packs').innerHTML = ZONES.map((z) => `
+    <tr${z.id === 'normal' ? ' class="is-best"' : ''}>
+      <td dir="ltr">${z.name}</td>
+      <td>${d.egp(z.price)}</td>
+      <td data-label="${t.thWas}"><s>${d.egp(z.was)}</s></td>
+      <td data-label="${t.thSave}">${d.egp(z.was - z.price)}</td>
+      <td><a class="link" href="${wa(d.bookOne(z.name))}" target="_blank" rel="noopener">${d.book}</a></td>
+    </tr>`).join('');
+    document.getElementById('offer-cta').href = wa(d.bookOne('Normal'));
+    return;
+  }
   document.getElementById('packs').innerHTML = ZONES.filter((z) => z.pack).map((z) => `
     <tr${z.id === 'normal' ? ' class="is-best"' : ''}>
       <td dir="ltr">${z.name}</td>
@@ -247,6 +311,7 @@ function renderPacks() {
 /* ---------- PlayStation and simulators ---------- */
 function renderPs() {
   const d = D();
+  if (!document.getElementById('ps-grid')) return;
   document.getElementById('ps-grid').innerHTML = PS.map((p) => {
     const meta = [p.people ? d.people(p.people) : tr(p.note), p.was ? d.was(p.was) : ''].filter(Boolean).join(' · ');
     return `<li class="ps-card reveal is-in">
@@ -280,7 +345,7 @@ function applyLang(next) {
   document.querySelectorAll('[data-i18n-html]').forEach((el) => { if (t[el.dataset.i18nHtml]) el.innerHTML = t[el.dataset.i18nHtml]; });
   document.querySelectorAll('[data-i18n-alt]').forEach((el) => { if (t[el.dataset.i18nAlt]) el.alt = t[el.dataset.i18nAlt]; });
   document.querySelectorAll('[data-i18n-aria]').forEach((el) => { if (t[el.dataset.i18nAria]) el.setAttribute('aria-label', t[el.dataset.i18nAria]); });
-  document.title = lang === 'en' ? 'Clash Esports | Red vs Blue · Gaming lounge open 24 hours' : AR._title;
+  document.title = lang === 'en' ? `Clash Esports ${BRANCH === 'october' ? 'October' : 'Zayed'} | Gaming lounge open 24 hours` : AR._title;
   const btn = document.getElementById('lang-toggle');
   btn.textContent = lang === 'en' ? 'ع' : 'EN';
   btn.lang = lang === 'en' ? 'ar' : 'en';

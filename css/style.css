@@ -247,6 +247,7 @@ html.js .vs.is-live .vs-halves { min-height: 0; }
 .room-name { font-family: "Barlow Condensed", sans-serif; font-weight: 700; font-size: var(--step-lead); line-height: 1; text-transform: uppercase; }
 .room-meta { display: flex; justify-content: space-between; gap: 12px; color: var(--muted); font-weight: 600; }
 .room-meta b { color: var(--ink); font-family: var(--font-display); font-size: 1.25rem; }
+.room-meta span:last-child { white-space: nowrap; }
 @media (hover: hover) and (pointer: fine) {
   .room-card a:hover .room-pic img { transform: scale(1.05); }
   .room-card a:hover .room-name { color: var(--red-strong); }

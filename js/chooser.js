@@ -11,9 +11,10 @@ const phoneQuery = matchMedia('(max-width: 720px), (max-aspect-ratio: 3/4)');
 const EN = {
   title: 'Pick your branch',
   zayed: 'Zayed', zayedLine: 'Open 24 hours · 7 PC rooms · PlayStation and simulators',
-  october: 'October', octoberLine: 'Our second branch, in 6th of October',
+  october: 'October', octoberLine: 'Open 24 hours · 5 PC rooms · from 25 EGP an hour',
   enter: 'Enter branch',
   altZayed: 'The Clash Zayed hall in red and blue light with the bull logo',
+  altOctober: 'The Normal room at Clash October in blue light',
 };
 const AR = {};
 document.querySelectorAll('[data-i18n]').forEach((el) => { AR[el.dataset.i18n] = el.textContent; });
