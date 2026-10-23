@@ -64,17 +64,17 @@ const PS = [
 const EN = {
   skip: 'Skip to content', navLabel: 'Menu', navRooms: 'Rooms', navOffers: 'Packs', navPlaystation: 'PlayStation',
   navStart: 'Get started', navContact: 'Contact', login: 'Log in', signup: 'Sign up', menu: 'Menu',
-  heroLine: 'A gaming lounge in Zayed, open 24 hours. 91 gaming PCs, PlayStation rooms and racing simulators.',
+  heroLine: 'A gaming lounge in Zayed, open 24 hours. Seven PC rooms, PlayStation rooms and racing simulators.',
   heroCta: 'Book on WhatsApp', heroRooms: 'See the rooms', heroStatement: 'We never close. 24 hours, every day.',
   mRed: 'Red', mBlue: 'Blue', m24: '24 hours', mZayed: 'Zayed',
   vsTitle: 'Red vs Blue', vsLine: 'The lounge is split in two and the war runs 24 hours. Whose side are you on?',
   altVip: 'The VIP room in red light with rows of PCs', altNormal: 'The Normal room in blue light with rows of PCs',
-  vsRedTeam: 'Team red', vsRedMeta: '31 PCs · 240Hz screens · RTX 3080',
-  vsBlueTeam: 'Team blue', vsBlueMeta: '36 PCs · 165Hz screens · RTX 3060 Ti',
+  vsRedTeam: 'Team red', vsRedMeta: '240Hz screens · RTX 3080',
+  vsBlueTeam: 'Team blue', vsBlueMeta: '165Hz screens · RTX 3060 Ti',
   perHour: 'EGP an hour',
   statsTitle: 'Clash Zayed in numbers',
   stat1: 'hours a day. The lounge never closes.',
-  stat2: 'gaming PCs in seven rooms, 35 of them for players 21 and over.',
+  stat2: 'PC rooms, from Normal at 30 EGP to the Stream Room with a mic and a 4K camera.',
   stat3: 'people fit in our biggest PlayStation room, the Pool Room.',
   stat4: 'our fastest screen, in the Duo Stream Room.',
   altWaiting: 'The waiting area with red and blue chairs under a red and blue lit ceiling', capWaiting: 'The waiting area, seats for both teams.',
@@ -100,12 +100,12 @@ const EN = {
   altIg4: 'A gaming screen in a blue-lit room', altIg5: 'An FC27 poster: available in Clash rooms',
   footTitle: 'Come play today', footCta: 'Book on WhatsApp',
   branchZayed: 'Zayed branch', branchOctober: 'October branch', map: 'On the map', hours: 'Open 24 hours, every day', catalogue: 'Catalogue',
-  rules: 'Rules & terms', privacy: 'Privacy', whatsapp: 'WhatsApp',
+  changeBranch: 'Change branch', rules: 'Rules & terms', privacy: 'Privacy', whatsapp: 'WhatsApp',
 };
 
 const AR_DYN = {
   side: { red: 'الفريق الأحمر', blue: 'الفريق الأزرق', both: 'الأحمر والأزرق في أوضة واحدة', yellow: 'الأوضة الصفرا' },
-  pcs: 'عدد الأجهزة', screen: 'الشاشة', gpu: 'كارت الشاشة', cpu: 'المعالج', mouse: 'الماوس', keyboard: 'الكيبورد', headset: 'الهيدسيت', extra: 'كمان',
+  age: 'السن', age21note: 'فيه أجهزة لـ 21 سنة وأكبر بس', sideNone: 'أوضة ستريم', screen: 'الشاشة', gpu: 'كارت الشاشة', cpu: 'المعالج', mouse: 'الماوس', keyboard: 'الكيبورد', headset: 'الهيدسيت', extra: 'كمان',
   pcsN: (n) => `${n} ${n <= 10 ? 'أجهزة' : 'جهاز'}`,
   age21: (n) => `منهم ${n} جهاز لـ 21 سنة وأكبر`,
   noSpec: 'اسألنا على واتساب عن أجهزة الأوضة دي.',
@@ -122,7 +122,7 @@ const AR_DYN = {
 };
 const EN_DYN = {
   side: { red: 'Team red', blue: 'Team blue', both: 'Red and blue in one room', yellow: 'The yellow room' },
-  pcs: 'PCs', screen: 'Screen', gpu: 'Graphics', cpu: 'Processor', mouse: 'Mouse', keyboard: 'Keyboard', headset: 'Headset', extra: 'Also',
+  age: 'Age', age21note: 'Some PCs are for players 21 and over only', sideNone: 'Stream room', screen: 'Screen', gpu: 'Graphics', cpu: 'Processor', mouse: 'Mouse', keyboard: 'Keyboard', headset: 'Headset', extra: 'Also',
   pcsN: (n) => `${n} ${n === 1 ? 'PC' : 'PCs'}`,
   age21: (n) => `${n} of them for players 21 and over`,
   noSpec: 'Ask us on WhatsApp about the PCs in this room.',
@@ -156,7 +156,7 @@ function renderRooms() {
           <span class="room-tag" aria-hidden="true">${tagFor(z.side)}</span>
         </div>
         <h3 class="room-name" dir="ltr">${z.name}</h3>
-        <p class="room-meta"><span>${d.pcsN(z.pcs)}</span><span><b dir="ltr">${z.price}</b> ${d.perHourShort}</span></p>
+        <p class="room-meta"><span>${z.side ? d.side[z.side] : d.sideNone}</span><span><b dir="ltr">${z.price}</b> ${d.perHourShort}</span></p>
       </a>
     </li>`).join('');
 }
@@ -209,8 +209,8 @@ function renderZone() {
   const side = document.getElementById('zone-side');
   side.textContent = z.side ? d.side[z.side] : '';
   side.className = 'zone-side' + (z.side && z.side !== 'both' ? ` ${z.side}` : '');
-  const pcs = d.pcsN(z.pcs) + (z.age21 ? ` <span class="muted">(${d.age21(z.age21)})</span>` : '');
-  const rows = [`<tr><th scope="row">${d.pcs}</th><td>${pcs}</td></tr>`];
+  /* device counts stay off the landing page; they belong to the booking pages (phase 2) */
+  const rows = z.age21 ? [`<tr><th scope="row">${d.age}</th><td>${d.age21note}</td></tr>`] : [];
   const keys = ['screen', 'gpu', 'cpu', 'mouse', 'keyboard', 'headset', 'extra'].filter((k) => z.spec[k]);
   keys.forEach((k) => rows.push(`<tr><th scope="row">${d[k]}</th><td dir="auto">${tr(z.spec[k])}</td></tr>`));
   if (!keys.length) rows.push(`<tr><td colspan="2">${d.noSpec}</td></tr>`);

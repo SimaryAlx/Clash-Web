@@ -1,0 +1,96 @@
+<!doctype html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Clash Esports أكتوبر</title>
+<meta name="description" content="Clash Esports فرع أكتوبر. كلمنا على واتساب للأوض والأسعار.">
+<link rel="icon" href="assets/brand/clash-logo-512.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@600;700&family=Cairo:wght@400;600;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="css/style.css">
+<script>document.documentElement.classList.add('js');try{var c=sessionStorage.getItem('clash-arrive');if(c){document.documentElement.dataset.arrive=c;sessionStorage.removeItem('clash-arrive')}}catch(e){}</script>
+</head>
+<body>
+
+<header class="bar" id="top">
+  <a class="brand" href="index.html" aria-label="Clash Esports">
+    <img src="assets/instagram-hd/profile.jpg" width="512" height="512" alt="">
+    <span dir="ltr">CLASH</span>
+  </a>
+  <div class="bar-actions" style="margin-inline-start:auto">
+    <a class="link-quiet branch-switch" href="index.html" data-i18n="changeBranch">غيّر الفرع</a>
+    <button class="lang" type="button" id="lang-toggle" lang="en" aria-label="English">EN</button>
+  </div>
+</header>
+
+<main id="main">
+  <section class="hero october-hero" aria-labelledby="hero-title">
+    <div class="hero-body">
+      <h1 class="monument" id="hero-title" dir="ltr" lang="en">
+        <span class="mono-word mono-a">CLASH</span>
+        <span class="mono-word mono-b">OCTOBER</span>
+      </h1>
+      <div class="hero-foot">
+        <p class="hero-line" data-i18n="line">فرع كلاش في 6 أكتوبر. أوض الفرع وأسعاره هتنزل هنا قريب، ولحد ساعتها كلمنا على واتساب وإحنا نقولك كل حاجة.</p>
+        <div class="hero-actions">
+          <a class="btn btn-blue" href="https://wa.me/201080972959" target="_blank" rel="noopener" data-i18n="cta">كلمنا على واتساب</a>
+          <a class="link" href="https://maps.app.goo.gl/MMiwAKUFoKLvjNiF8" target="_blank" rel="noopener" data-i18n="map">الفرع على الخريطة</a>
+        </div>
+      </div>
+    </div>
+  </section>
+</main>
+
+<footer class="foot" id="contact" aria-labelledby="foot-title">
+  <div class="foot-top">
+    <div class="foot-invite">
+      <h2 id="foot-title" data-i18n="footTitle">عايز تشوف زايد؟</h2>
+      <a class="btn btn-ink" href="zayed.html" data-i18n="footCta">ادخل فرع زايد</a>
+    </div>
+    <div class="foot-branch">
+      <h3 data-i18n="branchOctober">فرع أكتوبر</h3>
+      <ul>
+        <li><a href="tel:+201080972959" dir="ltr">010 8097 2959</a></li>
+        <li><a href="https://maps.app.goo.gl/MMiwAKUFoKLvjNiF8" target="_blank" rel="noopener" data-i18n="map">الفرع على الخريطة</a></li>
+      </ul>
+    </div>
+    <ul class="foot-social">
+      <li><a href="https://www.instagram.com/clash.esports.eg/" target="_blank" rel="noopener">Instagram</a></li>
+      <li><a href="https://wa.me/201080972959" target="_blank" rel="noopener">WhatsApp</a></li>
+    </ul>
+  </div>
+  <div class="foot-legal">
+    <p><span dir="ltr">© 2026 Clash Esports</span></p>
+  </div>
+  <p class="foot-name" aria-hidden="true" dir="ltr"><span>CLA</span><span>SH</span></p>
+</footer>
+
+<script>
+(() => {
+  const EN = {
+    changeBranch: 'Change branch',
+    line: 'Clash in 6th of October. The branch rooms and prices are coming to this page soon; until then, message us on WhatsApp and we will tell you everything.',
+    cta: 'Message us on WhatsApp', map: 'The branch on the map',
+    footTitle: 'Want to see Zayed?', footCta: 'Enter the Zayed branch', branchOctober: 'October branch',
+  };
+  const AR = {};
+  document.querySelectorAll('[data-i18n]').forEach((el) => { AR[el.dataset.i18n] = el.textContent; });
+  const btn = document.getElementById('lang-toggle');
+  const apply = (lang) => {
+    const t = lang === 'en' ? EN : AR;
+    document.documentElement.lang = lang;
+    document.documentElement.dir = lang === 'en' ? 'ltr' : 'rtl';
+    document.querySelectorAll('[data-i18n]').forEach((el) => { el.textContent = t[el.dataset.i18n]; });
+    btn.textContent = lang === 'en' ? 'ع' : 'EN';
+    try { localStorage.setItem('clash-lang', lang); } catch (e) { /* storage unavailable */ }
+  };
+  let lang = 'ar';
+  try { lang = localStorage.getItem('clash-lang') === 'en' ? 'en' : 'ar'; } catch (e) { /* storage unavailable */ }
+  apply(lang);
+  btn.addEventListener('click', () => { lang = lang === 'en' ? 'ar' : 'en'; apply(lang); });
+})();
+</script>
+</body>
+</html>

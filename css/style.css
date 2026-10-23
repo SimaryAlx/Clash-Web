@@ -527,3 +527,14 @@ html.js .rooms.is-live .room-pic img { width: 116%; max-width: none; margin-inli
   .foot-branch, .foot-branch + .foot-branch, .foot-social { grid-column: 1 / 13; }
   .foot-name { font-size: 46vw; }
 }
+
+/* ---------- arriving from the branch picker: the chosen colour lifts off the page ---------- */
+@media (prefers-reduced-motion: no-preference) {
+  html[data-arrive] body::after {
+    content: ""; position: fixed; inset: 0; z-index: 100; pointer-events: none;
+    background: var(--red);
+    animation: arrive 900ms cubic-bezier(0.65, 0, 0.35, 1) 120ms both;
+  }
+  html[data-arrive="blue"] body::after { background: var(--blue); }
+}
+@keyframes arrive { from { clip-path: inset(0 0 0 0); } to { clip-path: inset(0 0 100% 0); } }

@@ -1,0 +1,122 @@
+/* Clash Esports: the branch picker. Zayed (red) on the left, October (blue) on the right,
+   the 3D logo standing on the seam between them. */
+
+:root {
+  --bg: #08080a;
+  --ink: #f3f3f1;
+  --muted: #b9b9c0;
+  --red: #e5232f;
+  --blue: #1f6bff;
+  --margin: clamp(16px, 2.2vw, 32px);
+  --step-small: clamp(0.875rem, 0.85rem + 0.1vw, 0.9375rem);
+  --step-body: clamp(1.0625rem, 1rem + 0.25vw, 1.1875rem);
+  --step-lead: clamp(1.375rem, 1.15rem + 0.8vw, 1.875rem);
+  --step-name: clamp(3.5rem, 2rem + 6vw, 8rem);
+  --ease: cubic-bezier(0.22, 1, 0.36, 1);
+  --ease-io: cubic-bezier(0.65, 0, 0.35, 1);
+}
+
+*, *::before, *::after { box-sizing: border-box; }
+html, body { height: 100%; }
+body {
+  margin: 0; background: var(--bg); color: var(--ink);
+  font-family: "Cairo", system-ui, sans-serif; font-size: var(--step-body); line-height: 1.5;
+  overflow: hidden;
+}
+img { display: block; max-width: 100%; }
+a { color: inherit; text-decoration: none; }
+:focus-visible { outline: 3px solid var(--ink); outline-offset: -6px; }
+
+/* ---------- bar ---------- */
+.pick-bar {
+  position: fixed; inset: 0 0 auto 0; z-index: 20;
+  display: flex; align-items: center; justify-content: space-between;
+  height: 64px; padding: 0 var(--margin); pointer-events: none;
+}
+.pick-bar > * { pointer-events: auto; }
+.pick-brand { margin: 0; font-family: "Barlow Condensed", sans-serif; font-weight: 700; font-size: var(--step-lead); letter-spacing: 0.02em; }
+.pick-brand span { color: var(--muted); font-weight: 600; }
+.lang {
+  background: rgba(8, 8, 10, 0.72); border: 0; color: var(--ink); cursor: pointer;
+  font-family: "Barlow Condensed", "Cairo", sans-serif; font-weight: 700; font-size: 1.05rem;
+  min-width: 48px; min-height: 44px;
+}
+
+/* ---------- the two halves ---------- */
+.pick { position: relative; height: 100svh; }
+.pick-title {
+  position: absolute; z-index: 15; inset: 72px 0 auto 0; margin: 0;
+  display: flex; justify-content: center; pointer-events: none;
+}
+.pick-title span {
+  background: var(--bg); padding: 0.1em 0.45em;
+  font-weight: 800; font-size: var(--step-lead); line-height: 1.4;
+}
+.branches { position: absolute; inset: 0; display: flex; }
+.branch {
+  position: relative; flex: 1 1 50%; overflow: hidden; display: grid;
+  transition: flex-basis 700ms var(--ease), filter 400ms ease;
+}
+.branch > img, .branch-art { position: absolute; inset: 0; width: 100%; height: 100%; }
+.branch > img { object-fit: cover; transition: transform 1.2s var(--ease), filter 400ms ease; }
+.branch-zayed { background: var(--red); }
+.branch-october { background: var(--blue); }
+.branch-art {
+  display: grid; place-items: center;
+  font-family: "Barlow Condensed", sans-serif; font-weight: 700; font-size: 22vw; line-height: 1;
+  color: rgba(8, 8, 10, 0.22); writing-mode: vertical-rl; letter-spacing: -0.02em;
+}
+/* a flat band under the words so they read on any photograph */
+.branch-copy {
+  position: relative; align-self: end; display: grid; gap: 4px;
+  margin: var(--margin); padding: clamp(18px, 2.4vw, 32px); max-width: 30rem;
+}
+.branch-zayed .branch-copy { background: var(--red); justify-self: start; }
+.branch-october .branch-copy { background: var(--bg); justify-self: end; }
+.branch-name { font-weight: 800; font-size: var(--step-name); line-height: 1.05; }
+[lang="en"] .branch-name { font-family: "Barlow Condensed", sans-serif; font-weight: 700; text-transform: uppercase; line-height: 0.9; }
+.branch-line { font-weight: 600; }
+.branch-go { margin-top: 12px; display: inline-flex; align-items: center; gap: 10px; font-weight: 800; }
+.branch-go svg { width: 22px; height: 22px; transition: translate 240ms var(--ease); }
+[dir="rtl"] .branch-go svg { scale: -1 1; }
+
+@media (hover: hover) and (pointer: fine) {
+  .branches:hover .branch { filter: brightness(0.55) saturate(0.7); }
+  .branches .branch:hover { filter: none; flex-basis: 58%; }
+  .branch:hover > img { transform: scale(1.06); }
+  .branch:hover .branch-go svg { translate: 6px 0; }
+  [dir="rtl"] .branch:hover .branch-go svg { translate: -6px 0; }
+}
+.branch:focus-visible { flex-basis: 58%; }
+
+/* ---------- the logo on the seam ---------- */
+.logo-stage { position: absolute; inset: 0; z-index: 10; pointer-events: none; display: grid; place-items: center; }
+.logo-flat { width: min(26vw, 38svh); height: auto; }
+#logo3d { position: absolute; inset: 0; width: 100%; height: 100%; display: none; }
+.has-3d .logo-flat { display: none; }
+.has-3d #logo3d { display: block; }
+
+/* ---------- leaving: the chosen half takes the screen, then its colour closes over it ---------- */
+.is-leaving .branch { transition: flex-basis 900ms var(--ease-io), filter 300ms ease; }
+.is-leaving .branch.is-chosen { flex-basis: 100%; filter: none; }
+.is-leaving .branch:not(.is-chosen) { flex-basis: 0%; }
+.is-leaving .pick-title, .is-leaving .branch-copy { opacity: 0; transition: opacity 250ms ease; }
+.sheet { position: fixed; inset: 0; z-index: 30; pointer-events: none; background: var(--red); clip-path: inset(100% 0 0 0); }
+.sheet.is-blue { background: var(--blue); }
+.sheet.is-on { clip-path: inset(0 0 0 0); transition: clip-path 650ms var(--ease-io); }
+
+/* ---------- phone: Zayed on top, October below ---------- */
+@media (max-width: 720px), (max-aspect-ratio: 3/4) {
+  .branches { flex-direction: column; }
+  .branch-copy { margin: 12px; padding: 16px; max-width: none; }
+  .branch-zayed .branch-copy { align-self: start; margin-top: 120px; }
+  .branch-october .branch-copy { justify-self: stretch; }
+  .branch-zayed .branch-copy { justify-self: stretch; }
+  .branch-name { font-size: clamp(2.75rem, 13vw, 4rem); }
+  .branch-art { writing-mode: horizontal-tb; font-size: 30vw; }
+  .logo-flat { width: 34vw; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .branch, .branch > img, .sheet.is-on { transition: none; }
+}
