@@ -1,0 +1,11 @@
+# Only the website itself is published. Everything else stays on this machine.
+skill-sources/
+.taste-skill/
+data/
+dist/
+video/
+assets/*
+!assets/clash-hd/
+!assets/instagram-hd/
+!assets/video/
+!assets/scenes/
