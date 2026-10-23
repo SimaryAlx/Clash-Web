@@ -281,7 +281,7 @@ function setup3D() {
   /* the halves collide: sparks out of the seam, the current surges, the camera shakes */
   let shake = 0, surge = 0;
   function impact(power) {
-    const n = Math.round(220 * power);
+    const n = Math.round(110 * power);
     for (let k = 0; k < n; k++) {
       const i = sparks.next++ % sparks.count;
       const y = (MAP.seamBottom + Math.random() * (MAP.seamTop - MAP.seamBottom) - 0.5) * H;
@@ -295,7 +295,7 @@ function setup3D() {
       sparks.vel[i * 3 + 1] = Math.sin(a) * sp + 0.6;
       sparks.vel[i * 3 + 2] = (Math.random() - 0.2) * sp * 0.6;
       sparks.life[i] = 0.6 + Math.random() * 0.7;
-      const c = Math.random() < 0.25 ? WHITE : side < 0 ? RED : BLUE;
+      const c = Math.random() < 0.08 ? WHITE : side < 0 ? RED : BLUE;
       sparks.base[i * 3] = c.r; sparks.base[i * 3 + 1] = c.g; sparks.base[i * 3 + 2] = c.b;
     }
     shake = Math.max(shake, power);
@@ -309,7 +309,7 @@ function setup3D() {
   let start = performance.now();
   let prev = performance.now();
   let rotY = 0, rotX = 0, redI = 60, blueI = 60;
-  let anger = 0, sleep = 0, nextSnort = 3, clashT = 0, slamCool = 0, arcClock = 0;
+  let anger = 0, sleep = 0, nextSnort = 3, clashT = 0, slamCool = 0;
   let landed = reduced;
   const lean = { left: 0, right: 0 };
   let running = true;
@@ -364,7 +364,7 @@ function setup3D() {
     lean.right = damp(lean.right, state.side > 0 ? 1 : state.side < 0 ? -1 : 0, 0.08);
     clashT += dt * (2 + anger * 10);
     const clash = reduced ? 0 : anger * Math.max(0, Math.sin(clashT)) * 0.09;
-    if (!reduced && landed && anger > 0.85 && slamCool <= 0 && Math.sin(clashT) > 0.97) { impact(0.45); slamCool = 0.5; }
+    if (!reduced && landed && anger > 0.9 && slamCool <= 0 && Math.sin(clashT) > 0.97) { impact(0.3); slamCool = 1.2; }
     slamCool -= dt;
     const breathGap = reduced ? 0 : 0.012 + Math.sin(t * 1.1) * 0.01;
     for (const [g, l, dir] of [[pieces.left, lean.left, -1], [pieces.right, lean.right, 1]]) {
@@ -373,7 +373,7 @@ function setup3D() {
       g.position.set(home.x + dir * (gap + fly * 6), home.y + Math.max(0, l) * 0.05, home.z + l * 0.35 + fly * 1.5);
       g.rotation.set(0, -dir * Math.max(0, -l) * 0.2 + dir * Math.max(0, l) * 0.08 - dir * fly * 1.1, dir * fly * 0.25);
       g.scale.setScalar(1 + Math.max(0, l) * 0.06);
-      g.userData.face.material.emissiveIntensity = 0.62 + Math.max(0, l) * 0.25 - Math.max(0, -l) * 0.3 - sleep * 0.25;
+      g.userData.face.material.emissiveIntensity = 0.62 + Math.max(0, l) * 0.1 - Math.max(0, -l) * 0.15 - sleep * 0.2;
     }
     const word = pieces.word;
     word.position.y = word.userData.home.y - (1 - rise) * 1.4;
@@ -383,33 +383,28 @@ function setup3D() {
     /* the eyes: they track the pointer a little, flare with anger, go dim asleep, burn in the hovered colour */
     glows.forEach((s, i) => {
       const mine = i === 0 ? lean.left : lean.right;
-      const flare = (landed ? 0.55 : 0.9) + anger * 1.3 + Math.max(0, mine) * 0.9 - sleep * 0.5;
-      const pulse = 1 + Math.sin(t * (3 + anger * 9) + i) * (0.05 + anger * 0.15);
-      s.material.opacity = Math.max(0.05, Math.min(1, flare)) * (reduced ? 0.7 : 1);
-      s.scale.setScalar(0.28 * pulse * (0.7 + Math.max(0, flare) * 0.45));
+      const flare = (landed ? 0.5 : 0.7) + anger * 0.35 + Math.max(0, mine) * 0.3 - sleep * 0.4;
+      const pulse = 1 + Math.sin(t * (1.2 + anger * 1.6) + i) * (0.04 + anger * 0.06);
+      s.material.opacity = Math.max(0.05, Math.min(0.75, flare)) * (reduced ? 0.7 : 1);
+      s.scale.setScalar(0.24 * pulse * (0.75 + Math.max(0, flare) * 0.25));
       s.position.set(s.userData.home.x + state.px * 0.025 * look, s.userData.home.y - state.py * 0.02 * look, s.userData.home.z);
     });
 
     /* the current in the seam: brighter with anger, with a hovered branch and right after a collision */
-    const energy = reduced ? 0.12 : Math.min(1.4, 0.14 + anger * 0.9 + Math.abs(lean.left) * 0.45 + surge * 0.8) * (1 - sleep * 0.8) * (landed ? 1 : 0);
-    arcClock -= dt;
-    if (arcClock <= 0) {
-      arcClock = 0.045;
-      const top = (MAP.seamTop - 0.5) * H, bottom = (MAP.seamBottom - 0.5) * H;
-      let x = 0;
-      const amp = 0.02 + energy * 0.06;
-      arc.forEach((s, i) => {
-        const k = i / (arc.length - 1);
-        x = x * 0.55 + (Math.random() - 0.5) * amp * 2;
-        s.userData.p = [x, top + (bottom - top) * k];
-        s.userData.r = 0.05 + Math.random() * 0.07;
-      });
-    }
+    const energy = reduced ? 0.12 : Math.min(1.4, 0.14 + anger * 0.9 + Math.abs(lean.left) * 0.45 + surge * 0.25) * (1 - sleep * 0.8) * (landed ? 1 : 0);
+    const top = (MAP.seamTop - 0.5) * H, bottom = (MAP.seamBottom - 0.5) * H;
+    const amp = 0.015 + energy * 0.035;
+    arc.forEach((s, i) => {
+      const k = i / (arc.length - 1);
+      const x = amp * (Math.sin(k * 11 + t * 1.6) * 0.6 + Math.sin(k * 27 - t * 1.1) * 0.4);
+      s.userData.p = [x, top + (bottom - top) * k];
+      if (s.userData.r === undefined) s.userData.r = 0.05 + ((i * 37) % 11) / 11 * 0.06;
+    });
     const midX = (pieces.left.position.x + pieces.right.position.x) / 2 - (pieces.left.userData.home.x + pieces.right.userData.home.x) / 2;
     arc.forEach((s) => {
       s.position.set(midX + s.userData.p[0], s.userData.p[1], 0.06);
       s.scale.setScalar(s.userData.r * (0.7 + energy * 0.9));
-      s.material.opacity = Math.min(1, energy) * (0.55 + Math.random() * 0.45);
+      s.material.opacity = Math.min(0.7, energy * 0.75) * (0.9 + Math.sin(t * 0.9 + s.userData.p[1] * 3) * 0.1);
     });
 
     /* snorts: every few seconds when calm, often when angry */
@@ -461,10 +456,10 @@ function setup3D() {
     embers.pts.visible = landed;
 
     /* lights follow the mood, the branch and the collision */
-    const wantRed = (state.side < 0 ? 150 : state.side > 0 ? 25 : 60) * (1 - sleep * 0.6) + anger * 60 * (0.6 + Math.random() * 0.4);
-    const wantBlue = (state.side > 0 ? 150 : state.side < 0 ? 25 : 60) * (1 - sleep * 0.6) + anger * 60 * (0.6 + Math.random() * 0.4);
-    redI = damp(redI, wantRed, 0.1);
-    blueI = damp(blueI, wantBlue, 0.1);
+    const wantRed = (state.side < 0 ? 95 : state.side > 0 ? 40 : 60) * (1 - sleep * 0.5) + anger * 18;
+    const wantBlue = (state.side > 0 ? 95 : state.side < 0 ? 40 : 60) * (1 - sleep * 0.5) + anger * 18;
+    redI = damp(redI, wantRed, 0.03);
+    blueI = damp(blueI, wantBlue, 0.03);
     red.intensity = redI;
     blue.intensity = blueI;
     surge = Math.max(0, surge - dt * 2.8);
@@ -544,7 +539,6 @@ function choose(el) {
     logo.state.leaving = { t0: performance.now(), dir: sideOf(el) };
   }
   const sheet = document.querySelector('.sheet');
-  sheet.classList.toggle('is-blue', colour === 'blue');
   setTimeout(() => { canvas.style.transition = 'opacity 260ms ease'; canvas.style.opacity = '0'; }, 820);
   setTimeout(() => sheet.classList.add('is-on'), 780);
   setTimeout(() => { location.href = href; }, 1460);

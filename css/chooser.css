@@ -55,10 +55,10 @@ a { color: inherit; text-decoration: none; }
 .branches { position: absolute; inset: 0; display: flex; }
 .branch {
   position: relative; flex: 1 1 50%; overflow: hidden; display: grid;
-  transition: flex-basis 700ms var(--ease), filter 400ms ease;
+  transition: flex-basis 900ms var(--ease), filter 900ms ease;
 }
 .branch > img, .branch-art { position: absolute; inset: 0; width: 100%; height: 100%; }
-.branch > img { object-fit: cover; transition: transform 1.2s var(--ease), filter 400ms ease; }
+.branch > img { object-fit: cover; transition: transform 1.2s var(--ease), filter 900ms ease; }
 .branch-zayed { background: var(--red); }
 .branch-october { background: var(--blue); }
 .branch-art {
@@ -81,8 +81,8 @@ a { color: inherit; text-decoration: none; }
 [dir="rtl"] .branch-go svg { scale: -1 1; }
 
 @media (hover: hover) and (pointer: fine) {
-  .branches:hover .branch { filter: brightness(0.55) saturate(0.7); }
-  .branches .branch:hover { filter: none; flex-basis: 58%; }
+  .branches:hover .branch { filter: brightness(0.82) saturate(0.9); }
+  .branches .branch:hover { filter: none; flex-basis: 56%; }
   .branch:hover > img { transform: scale(1.06); }
   .branch:hover .branch-go svg { translate: 6px 0; }
   [dir="rtl"] .branch:hover .branch-go svg { translate: -6px 0; }
@@ -101,9 +101,8 @@ a { color: inherit; text-decoration: none; }
 .is-leaving .branch.is-chosen { flex-basis: 100%; filter: none; }
 .is-leaving .branch:not(.is-chosen) { flex-basis: 0%; }
 .is-leaving .pick-title, .is-leaving .branch-copy { opacity: 0; transition: opacity 250ms ease; }
-.sheet { position: fixed; inset: 0; z-index: 30; pointer-events: none; background: var(--red); clip-path: inset(100% 0 0 0); }
-.sheet.is-blue { background: var(--blue); }
-.sheet.is-on { clip-path: inset(0 0 0 0); transition: clip-path 650ms var(--ease-io); }
+.sheet { position: fixed; inset: 0; z-index: 30; pointer-events: none; background: var(--bg); opacity: 0; }
+.sheet.is-on { opacity: 1; transition: opacity 600ms ease; }
 
 /* ---------- arrival: dark until the halves of the bull collide, then the branches open out from the seam ---------- */
 .branches { clip-path: inset(0 0 0 0); }
