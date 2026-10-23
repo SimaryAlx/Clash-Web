@@ -44,7 +44,7 @@ document.getElementById('lang-toggle').addEventListener('click', () => { lang = 
    Each piece is a solid: its picture on the front and copies of its silhouette stacked behind, each a step darker.
 
    On arrival the screen is dark; the red half flies in from the left, the blue from the right, and they slam
-   together: a flash, a shock ring, a burst of red and blue sparks, the camera shakes, the word rises and the two
+   together: a burst of red and blue sparks, the camera shakes, the word rises and the two
    branches open out from the seam. After that the bull watches the pointer, leans its own colour forward toward
    the branch under the pointer, crackles with current along its seam, gets angry when the pointer is thrown
    around (eyes flare, it shakes, the halves clash and throw sparks, it snorts), calms when the pointer rests,
@@ -119,9 +119,7 @@ function setup3D() {
   red.position.set(-4.5, 1.2, 3.2);
   const blue = new THREE.PointLight(0x2f7bff, 60, 30, 2);
   blue.position.set(4.5, 1.2, 3.2);
-  const flashLight = new THREE.PointLight(0xffffff, 0, 20, 2);
-  flashLight.position.set(0, 0, 2.5);
-  scene.add(red, blue, flashLight);
+  scene.add(red, blue);
 
   const H = 2.7;          // logo height in scene units
   let W = 1.8;            // set from the picture's aspect
@@ -132,7 +130,7 @@ function setup3D() {
   const glows = [];
   const smoke = [];
   const arc = [];
-  let embers = null, sparks = null, ring = null;
+  let embers = null, sparks = null;
   let ready = false;
 
   /* one solid piece of the logo: the picture between u0..u1 and v0..v1 */
@@ -211,10 +209,6 @@ function setup3D() {
     sparks.next = 0;
     body.add(sparks.pts);
 
-    /* the shock ring of the collision */
-    ring = new THREE.Mesh(new THREE.RingGeometry(0.92, 1, 96), new THREE.MeshBasicMaterial({ color: 0xffffff, transparent: true, opacity: 0, blending: THREE.AdditiveBlending, depthWrite: false }));
-    ring.position.z = 0.1;
-    body.add(ring);
 
     ready = true;
     root.classList.add('has-3d');
@@ -284,8 +278,8 @@ function setup3D() {
     }
   }
 
-  /* the halves collide: sparks out of the seam, a shock ring, a flash, the camera shakes */
-  let shake = 0, flash = 0, ringT = 1;
+  /* the halves collide: sparks out of the seam, the current surges, the camera shakes */
+  let shake = 0, surge = 0;
   function impact(power) {
     const n = Math.round(220 * power);
     for (let k = 0; k < n; k++) {
@@ -305,8 +299,7 @@ function setup3D() {
       sparks.base[i * 3] = c.r; sparks.base[i * 3 + 1] = c.g; sparks.base[i * 3 + 2] = c.b;
     }
     shake = Math.max(shake, power);
-    flash = Math.max(flash, power);
-    ringT = 0;
+    surge = Math.max(surge, power);
   }
 
   const ease = (t) => 1 - Math.pow(1 - Math.min(Math.max(t, 0), 1), 3);
@@ -380,7 +373,7 @@ function setup3D() {
       g.position.set(home.x + dir * (gap + fly * 6), home.y + Math.max(0, l) * 0.05, home.z + l * 0.35 + fly * 1.5);
       g.rotation.set(0, -dir * Math.max(0, -l) * 0.2 + dir * Math.max(0, l) * 0.08 - dir * fly * 1.1, dir * fly * 0.25);
       g.scale.setScalar(1 + Math.max(0, l) * 0.06);
-      g.userData.face.material.emissiveIntensity = 0.62 + Math.max(0, l) * 0.25 - Math.max(0, -l) * 0.3 - sleep * 0.25 + flash * 0.8;
+      g.userData.face.material.emissiveIntensity = 0.62 + Math.max(0, l) * 0.25 - Math.max(0, -l) * 0.3 - sleep * 0.25;
     }
     const word = pieces.word;
     word.position.y = word.userData.home.y - (1 - rise) * 1.4;
@@ -390,7 +383,7 @@ function setup3D() {
     /* the eyes: they track the pointer a little, flare with anger, go dim asleep, burn in the hovered colour */
     glows.forEach((s, i) => {
       const mine = i === 0 ? lean.left : lean.right;
-      const flare = (landed ? 0.55 : 0.9) + anger * 1.3 + Math.max(0, mine) * 0.9 - sleep * 0.5 + flash;
+      const flare = (landed ? 0.55 : 0.9) + anger * 1.3 + Math.max(0, mine) * 0.9 - sleep * 0.5;
       const pulse = 1 + Math.sin(t * (3 + anger * 9) + i) * (0.05 + anger * 0.15);
       s.material.opacity = Math.max(0.05, Math.min(1, flare)) * (reduced ? 0.7 : 1);
       s.scale.setScalar(0.28 * pulse * (0.7 + Math.max(0, flare) * 0.45));
@@ -398,7 +391,7 @@ function setup3D() {
     });
 
     /* the current in the seam: brighter with anger, with a hovered branch and right after a collision */
-    const energy = reduced ? 0.12 : Math.min(1.4, 0.14 + anger * 0.9 + Math.abs(lean.left) * 0.45 + flash * 1.2) * (1 - sleep * 0.8) * (landed ? 1 : 0);
+    const energy = reduced ? 0.12 : Math.min(1.4, 0.14 + anger * 0.9 + Math.abs(lean.left) * 0.45 + surge * 0.8) * (1 - sleep * 0.8) * (landed ? 1 : 0);
     arcClock -= dt;
     if (arcClock <= 0) {
       arcClock = 0.045;
@@ -449,11 +442,6 @@ function setup3D() {
     sparks.geo.attributes.position.needsUpdate = true;
     sparks.geo.attributes.color.needsUpdate = true;
 
-    /* the shock ring */
-    ringT = Math.min(1, ringT + dt / 0.7);
-    ring.scale.setScalar(0.2 + ease(ringT) * 2.6);
-    ring.material.opacity = (1 - ringT) * 0.9;
-    ring.position.y = ((MAP.seamTop + MAP.seamBottom) / 2 - 0.5) * H;
 
     /* embers rise and part around the pointer */
     const half = CAM.z * Math.tan(THREE.MathUtils.degToRad(camera.fov / 2));
@@ -479,8 +467,7 @@ function setup3D() {
     blueI = damp(blueI, wantBlue, 0.1);
     red.intensity = redI;
     blue.intensity = blueI;
-    flashLight.intensity = flash * 160;
-    flash = Math.max(0, flash - dt * 2.8);
+    surge = Math.max(0, surge - dt * 2.8);
 
     /* camera shake after a collision */
     shake = Math.max(0, shake - dt * 2.2);
