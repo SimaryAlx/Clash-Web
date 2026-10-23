@@ -105,9 +105,24 @@ a { color: inherit; text-decoration: none; }
 .sheet.is-blue { background: var(--blue); }
 .sheet.is-on { clip-path: inset(0 0 0 0); transition: clip-path 650ms var(--ease-io); }
 
+/* ---------- arrival: dark until the halves of the bull collide, then the branches open out from the seam ---------- */
+.branches { clip-path: inset(0 0 0 0); }
+.is-intro .branches { clip-path: inset(0 50% 0 50%); }
+.is-intro .pick-title, .is-intro .pick-bar { opacity: 0; }
+.is-landed .branches { transition: clip-path 1100ms var(--ease-io) 150ms; }
+.is-landed .pick-title, .is-landed .pick-bar { transition: opacity 600ms ease 700ms; }
+@media (prefers-reduced-motion: no-preference) {
+.is-landed body::before {
+  content: ""; position: fixed; inset: 0; z-index: 25; pointer-events: none; background: #fff;
+  animation: impact-flash 520ms ease-out both;
+}
+}
+@keyframes impact-flash { 0% { opacity: 0.85; } 100% { opacity: 0; } }
+
 /* ---------- phone: Zayed on top, October below ---------- */
 @media (max-width: 720px), (max-aspect-ratio: 3/4) {
   .branches { flex-direction: column; }
+  .is-intro .branches { clip-path: inset(50% 0 50% 0); }
   .branch-copy { margin: 12px; padding: 16px; max-width: none; }
   .branch-zayed .branch-copy { align-self: start; margin-top: 120px; }
   .branch-october .branch-copy { justify-self: stretch; }
