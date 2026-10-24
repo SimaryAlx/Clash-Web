@@ -148,7 +148,7 @@ button { font: inherit; color: inherit; }
 
 html.js .hero.is-live { margin-top: calc(-1 * var(--bar)); }
 html.js .hero.is-live .hero-full { display: block; position: absolute; inset: 0; z-index: 1; margin: 0; }
-html.js .hero.is-live .hero-full video { width: 100%; height: 100%; object-fit: cover; display: block; }
+html.js .hero.is-live .hero-full video, html.js .hero.is-live .hero-full img { width: 100%; height: 100%; object-fit: cover; display: block; }
 html.js .hero.is-live .mono-pic img { visibility: hidden; }
 html.js .hero.is-live .hero-body { height: 100svh; min-height: 0; padding-top: var(--bar); }
 html.js .hero.is-live .hero-statement { display: grid; place-items: center; position: absolute; inset: 0; z-index: 3; pointer-events: none; padding: var(--margin); }
@@ -332,6 +332,10 @@ html.js .rooms.is-live .room-pic img { width: 116%; max-width: none; margin-inli
 .ps-price b { font-family: var(--font-display); font-size: var(--step-lead); }
 .ps-meta { opacity: 0.92; }
 .ps .btn { background: var(--bg); color: var(--ink); }
+/* the PlayStation page: its four rooms in one staggered row */
+.ps-grid-4 { grid-template-columns: repeat(4, 1fr); }
+.ps-grid-4 .ps-card:nth-child(n) { margin-top: 0; }
+.ps-grid-4 .ps-card:nth-child(even) { margin-top: 96px; }
 @media (hover: hover) and (pointer: fine) {
   .ps .btn:hover { background: var(--ink); color: var(--bg); }
   .ps-card:hover .ps-pic img { transform: scale(1.05); }
@@ -433,7 +437,7 @@ html.js .rooms.is-live .room-pic img { width: 116%; max-width: none; margin-inli
   html.js .rooms.is-live { --cards: 3; }
   .ps-grid { grid-template-columns: repeat(2, 1fr); }
   .ps-card:nth-child(n) { margin-top: 0; }
-  .ps-card:nth-child(even) { margin-top: 64px; }
+  .ps-card:nth-child(even), .ps-grid-4 .ps-card:nth-child(even) { margin-top: 64px; }
   .insta-row { grid-template-columns: repeat(3, 1fr); }
   .insta-row li:nth-child(n+4) { display: none; }
   .stage-1 .ui, .stage-2 .ui, .stage-3 .ui, .stage-4 .ui { grid-column: span 6; }
@@ -509,7 +513,7 @@ html.js .rooms.is-live .room-pic img { width: 116%; max-width: none; margin-inli
 
   .ps-grid { grid-template-columns: 1fr 1fr; gap: 32px 12px; margin-top: 40px; }
   .ps-card:nth-child(n) { margin-top: 0; }
-  .ps-card:nth-child(even) { margin-top: 40px; }
+  .ps-card:nth-child(even), .ps-grid-4 .ps-card:nth-child(even) { margin-top: 40px; }
   .ps-row { flex-direction: column; align-items: stretch; }
   .ps .btn { width: 100%; }
 

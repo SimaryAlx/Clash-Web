@@ -17,7 +17,7 @@
         return `inset(${r.top - s.top}px ${s.right - r.right}px ${s.bottom - r.bottom}px ${r.left - s.left}px)`;
       };
       tl.fromTo(full, { clipPath: windowInset }, { clipPath: 'inset(0px 0px 0px 0px)', duration: 0.6, ease: 'power2.inOut' }, 0)
-        .fromTo(q('.hero-full video'), { scale: 1.18 }, { scale: 1, duration: 0.7 }, 0)
+        .fromTo(q('.hero-full video, .hero-full img'), { scale: 1.18 }, { scale: 1, duration: 0.7 }, 0)
         .to(q('.mono-a'), phone ? { yPercent: -80, autoAlpha: 0, duration: 0.3 } : { xPercent: -45, autoAlpha: 0, duration: 0.35 }, 0.04)
         .to(q('.mono-b'), phone ? { yPercent: 80, autoAlpha: 0, duration: 0.3 } : { xPercent: 45, autoAlpha: 0, duration: 0.35 }, 0.04)
         .to(q('.hero-foot'), { y: 40, autoAlpha: 0, duration: 0.2 }, 0)
