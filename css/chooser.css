@@ -71,8 +71,13 @@ a { color: inherit; text-decoration: none; }
   position: relative; align-self: end; display: grid; gap: 4px;
   margin: var(--margin); padding: clamp(18px, 2.4vw, 32px); max-width: 30rem;
 }
-.branch-zayed .branch-copy { background: var(--red); justify-self: start; }
-.branch-october .branch-copy { background: var(--bg); justify-self: end; }
+/* both boxes dark; Zayed's red and October's blue are only the 4px edge and the arrow */
+.branch-zayed { --team: var(--red); }
+.branch-october { --team: #4a88ff; }
+.branch-copy { background: var(--bg); border-inline-start: 4px solid var(--team); }
+.branch-go svg { color: var(--team); }
+.branch-zayed .branch-copy { justify-self: start; }
+.branch-october .branch-copy { justify-self: end; }
 .branch-name { font-weight: 800; font-size: var(--step-name); line-height: 1.05; }
 [lang="en"] .branch-name { font-family: "Barlow Condensed", sans-serif; font-weight: 700; text-transform: uppercase; line-height: 0.9; }
 .branch-line { font-weight: 600; }

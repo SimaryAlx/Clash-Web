@@ -3,7 +3,7 @@
 (() => {
   const EN = {
     skip: 'Skip to content', changeBranch: 'Change branch', login: 'Log in', signup: 'Sign up', whatsapp: 'WhatsApp',
-    hubTitle: 'Clash Zayed', hubSub: 'What are you playing today?',
+    hubSub: 'Clash Zayed · What are you playing today?',
     altPc: 'The VIP room in red light with rows of PCs', altPs: 'A PS5 room with a big screen in red and blue light',
     pcLine: 'Seven rooms, from Normal at 30 EGP to the Stream Room', psLine: 'Four PS5 rooms for your crew, 6 to 15 people',
     enter: 'Enter', here: 'At the lounge',

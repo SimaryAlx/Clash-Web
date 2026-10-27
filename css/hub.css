@@ -2,7 +2,8 @@
    narrower panels that only open a few words. Dark seams keep the four apart. Loads after style.css. */
 
 .hub { display: grid; grid-template-rows: auto 1fr; height: calc(100svh - var(--bar)); padding: 0 var(--margin) var(--margin); gap: 20px; }
-.hub-title { display: flex; flex-wrap: wrap; align-items: baseline; gap: 0 0.5em; font-weight: 800; font-size: var(--step-lead); line-height: 1.3; }
+.hub-title { display: flex; flex-wrap: wrap; align-items: baseline; gap: 0 0.75em; }
+.hub-title h1 { font-family: "Barlow Condensed", sans-serif; font-weight: 700; font-size: clamp(3.5rem, 1.5rem + 6.5vw, 8.5rem); line-height: 0.85; letter-spacing: -0.01em; text-transform: uppercase; }
 .hub-sub { color: var(--muted); font-weight: 600; }
 .hub-actions { margin-inline-start: auto; }
 
@@ -17,22 +18,21 @@
 .card-info { flex-grow: 0.8; }
 .card > img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; transition: transform 1.2s var(--ease-out), filter 800ms ease; }
 .card-info > img { filter: saturate(0.55) brightness(0.62); }
-.card-pc { background: var(--red); }
-.card-ps { background: var(--blue); }
+/* the team colour is only the 4px edge of the box under the words */
+.card-pc { --team: var(--red); }
+.card-ps { --team: var(--blue-strong); }
 
 /* a flat band under the words so they read on any photograph */
 .card-copy {
   position: relative; align-self: end; display: grid; gap: 4px; justify-items: start;
   margin: 12px; padding: clamp(16px, 2vw, 28px);
 }
-.card-pc .card-copy { background: var(--red); }
-.card-ps .card-copy { background: var(--blue); }
+.card-main .card-copy { background: var(--bg); border-inline-start: 4px solid var(--team); margin: 10px; padding: clamp(14px, 1.6vw, 24px); }
+.card-main .card-go svg { color: var(--team); }
 .card-info .card-copy { background: var(--bg); margin: 10px; padding: clamp(14px, 1.4vw, 22px); }
 /* sized by the card, so PLAYSTATION still fits when its door is the narrow one */
-.card-name { font-family: "Barlow Condensed", "Cairo", sans-serif; font-weight: 700; font-size: clamp(2.25rem, 14cqi, 6rem); line-height: 0.95; text-transform: uppercase; }
+.card-name { font-family: "Barlow Condensed", "Cairo", sans-serif; font-weight: 700; font-size: clamp(2rem, 15cqi, 4.5rem); line-height: 0.95; text-transform: uppercase; }
 /* PC is two letters, so it stands at monument size; PLAYSTATION fills its band */
-.card-pc .card-name { font-size: clamp(3rem, 30cqi, 11rem); line-height: 0.85; }
-.card-ps .card-name { font-size: clamp(2.25rem, 17cqi, 7rem); }
 .card-info .card-name { font-family: "Cairo", sans-serif; font-weight: 800; font-size: var(--step-lead); line-height: 1.3; text-transform: none; }
 [lang="en"] .card-info .card-name { font-family: "Barlow Condensed", sans-serif; font-weight: 700; text-transform: uppercase; font-size: clamp(1.75rem, 1.4rem + 1vw, 2.25rem); line-height: 1; }
 .card-line { font-weight: 600; max-width: 30ch; }
@@ -102,8 +102,8 @@
   .card-info { min-height: 34svh; }
   .card-copy { margin: 8px; }
   .card-info .card-copy { margin: 6px; padding: 12px; }
-  .card-pc .card-name { font-size: clamp(3rem, 20vw, 5rem); }
-  .card-ps .card-name { font-size: clamp(2.5rem, 13vw, 3.5rem); }
+  .hub-title h1 { font-size: clamp(3rem, 17vw, 4.5rem); }
+  .card-main .card-name { font-size: clamp(2.25rem, 12vw, 3rem); }
   .card-info .card-name { font-size: 1.15rem; }
 }
 
