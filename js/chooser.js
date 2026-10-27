@@ -475,8 +475,8 @@ function setup3D() {
 
     /* leaving: the head opens down the middle like two doors and the camera goes through */
     if (state.leaving) {
-      const p = easeIn((now - state.leaving.t0) / 1000 / 1.15);
-      const open = ease((now - state.leaving.t0) / 1000 / 0.8);
+      const p = easeIn((now - state.leaving.t0) / 1000 / 0.65);
+      const open = ease((now - state.leaving.t0) / 1000 / 0.45);
       for (const [g, dir] of [[pieces.left, -1], [pieces.right, 1]]) {
         g.position.x = g.userData.home.x + dir * open * 2.2;
         g.rotation.y = -dir * open * 1.3;
@@ -544,9 +544,9 @@ function choose(el) {
     logo.state.leaving = { t0: performance.now(), dir: sideOf(el) };
   }
   const sheet = document.querySelector('.sheet');
-  setTimeout(() => { canvas.style.transition = 'opacity 260ms ease'; canvas.style.opacity = '0'; }, 820);
-  setTimeout(() => sheet.classList.add('is-on'), 780);
-  setTimeout(() => { location.href = href; }, 1460);
+  setTimeout(() => { canvas.style.transition = 'opacity 220ms ease'; canvas.style.opacity = '0'; }, 380);
+  setTimeout(() => sheet.classList.add('is-on'), 340);
+  setTimeout(() => { location.href = href; }, 650);
 }
 
 /* coming back with the browser's back button: undo the exit */

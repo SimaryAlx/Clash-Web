@@ -87,23 +87,23 @@
 
 /* arriving: the cards rise one after another, then their words */
 @media (prefers-reduced-motion: no-preference) {
-  .js .rc { animation: rise-in 900ms var(--ease-out) both; animation-delay: calc(var(--i, 0) * 90ms + 150ms); }
+  .js .rc { animation: rise-in 600ms var(--ease-out) both; animation-delay: calc(var(--i, 0) * 60ms + 60ms); }
   .js .rc:nth-child(2) { --i: 1; } .js .rc:nth-child(3) { --i: 2; } .js .rc:nth-child(4) { --i: 3; } .js .rc:nth-child(n+5) { --i: 4; }
-  .js .rc .gal-slide img { animation: photo-in 1600ms var(--ease-out) backwards; animation-delay: calc(var(--i, 0) * 90ms + 150ms); }
-  .js .rc-copy { animation: words-in 700ms var(--ease-out) backwards; animation-delay: calc(var(--i, 0) * 90ms + 650ms); }
-  .js .rl-title { animation: words-in 700ms var(--ease-out) 80ms both; }
+  .js .rc .gal-slide img { animation: photo-in 1000ms var(--ease-out) backwards; animation-delay: calc(var(--i, 0) * 60ms + 60ms); }
+  .js .rc-copy { animation: words-in 450ms var(--ease-out) backwards; animation-delay: calc(var(--i, 0) * 60ms + 320ms); }
+  .js .rl-title { animation: words-in 450ms var(--ease-out) both; }
 }
 @keyframes rise-in { from { clip-path: inset(100% 0 0 0); } to { clip-path: inset(0 0 0 0); } }
 @keyframes photo-in { from { transform: scale(1.14); } to { transform: none; } }
 @keyframes words-in { from { opacity: 0; transform: translateY(16px); } to { opacity: 1; transform: none; } }
 
 /* leaving: the chosen room takes the row, then the page dims to dark */
-.is-leaving .rc { transition: flex-grow 800ms cubic-bezier(0.65, 0, 0.35, 1), filter 300ms ease; }
+.is-leaving .rc { transition: flex-grow 450ms cubic-bezier(0.65, 0, 0.35, 1), filter 200ms ease; }
 .is-leaving .rc.is-chosen { flex-grow: 1; filter: none; }
 .is-leaving .rc:not(.is-chosen) { flex-grow: 0; }
-.is-leaving .rc-copy, .is-leaving .gal-btn, .is-leaving .gal-bars { opacity: 0; transition: opacity 250ms ease; }
+.is-leaving .rc-copy, .is-leaving .gal-btn, .is-leaving .gal-bars { opacity: 0; transition: opacity 150ms ease; }
 .sheet { position: fixed; inset: 0; z-index: 70; pointer-events: none; background: var(--bg); opacity: 0; visibility: hidden; }
-.sheet.is-on { opacity: 1; visibility: visible; transition: opacity 500ms ease; }
+.sheet.is-on { opacity: 1; visibility: visible; transition: opacity 260ms ease; }
 
 /* ---------- the room page ---------- */
 .rp { padding: 0 var(--margin) var(--section); }
@@ -181,8 +181,8 @@
 @media (hover: hover) and (pointer: fine) { .other a:hover img { transform: scale(1.05); } }
 
 @media (prefers-reduced-motion: no-preference) {
-  .js .rp-top .gal-slide:first-child img { animation: photo-in 1400ms var(--ease-out) backwards; }
-  .js .rp-info > * { animation: words-in 700ms var(--ease-out) backwards; }
+  .js .rp-top .gal-slide:first-child img { animation: photo-in 900ms var(--ease-out) backwards; }
+  .js .rp-info > * { animation: words-in 450ms var(--ease-out) backwards; }
   .js .rp-info > :nth-child(2) { animation-delay: 80ms; } .js .rp-info > :nth-child(3) { animation-delay: 160ms; }
   .js .rp-info > :nth-child(4) { animation-delay: 220ms; } .js .rp-info > :nth-child(n+5) { animation-delay: 280ms; }
 }

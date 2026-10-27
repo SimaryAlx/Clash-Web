@@ -57,8 +57,8 @@ window.ClashSite = (() => {
     try { sessionStorage.setItem('clash-arrive', colour); } catch (err) { /* storage unavailable */ }
     card.classList.add('is-chosen');
     document.body.classList.add('is-leaving');
-    setTimeout(() => document.querySelector('.sheet').classList.add('is-on'), 450);
-    setTimeout(() => { location.href = href; }, 980);
+    setTimeout(() => document.querySelector('.sheet').classList.add('is-on'), 260);
+    setTimeout(() => { location.href = href; }, 560);
     return true;
   }
   /* the floating WhatsApp button steps aside while the footer, which has its own, is on screen */

@@ -45,13 +45,14 @@ a { color: inherit; text-decoration: none; }
 /* ---------- the two halves ---------- */
 .pick { position: relative; height: 100svh; }
 .pick-title {
-  position: absolute; z-index: 15; inset: 72px 0 auto 0; margin: 0;
-  display: flex; justify-content: center; pointer-events: none;
+  position: absolute; z-index: 21; inset: 0 0 auto 0; height: 64px; margin: 0;
+  display: flex; align-items: center; justify-content: center; pointer-events: none;
 }
 .pick-title span {
-  background: var(--bg); padding: 0.1em 0.45em;
+  background: var(--bg); padding: 0.1em 0.5em;
   font-weight: 800; font-size: var(--step-lead); line-height: 1.4;
 }
+[lang="en"] .pick-title span { font-family: "Barlow Condensed", sans-serif; font-weight: 700; text-transform: uppercase; letter-spacing: 0.02em; }
 .branches { position: absolute; inset: 0; display: flex; }
 .branch {
   position: relative; flex: 1 1 50%; overflow: hidden; display: grid;
@@ -102,12 +103,12 @@ a { color: inherit; text-decoration: none; }
 .has-3d #logo3d { display: block; }
 
 /* ---------- leaving: the chosen half takes the screen, then its colour closes over it ---------- */
-.is-leaving .branch { transition: flex-basis 900ms var(--ease-io), filter 300ms ease; }
+.is-leaving .branch { transition: flex-basis 500ms var(--ease-io), filter 200ms ease; }
 .is-leaving .branch.is-chosen { flex-basis: 100%; filter: none; }
 .is-leaving .branch:not(.is-chosen) { flex-basis: 0%; }
-.is-leaving .pick-title, .is-leaving .branch-copy { opacity: 0; transition: opacity 250ms ease; }
+.is-leaving .pick-title, .is-leaving .branch-copy { opacity: 0; transition: opacity 150ms ease; }
 .sheet { position: fixed; inset: 0; z-index: 30; pointer-events: none; background: var(--bg); opacity: 0; }
-.sheet.is-on { opacity: 1; transition: opacity 600ms ease; }
+.sheet.is-on { opacity: 1; transition: opacity 280ms ease; }
 
 /* ---------- arrival: dark until the halves of the bull collide, then the branches open out from the seam ---------- */
 .branches { clip-path: inset(0 0 0 0); }
@@ -119,6 +120,7 @@ a { color: inherit; text-decoration: none; }
 /* ---------- phone: Zayed on top, October below ---------- */
 @media (max-width: 720px), (max-aspect-ratio: 3/4) {
   .branches { flex-direction: column; }
+  .pick-title { inset: 64px 0 auto 0; height: auto; }
   .is-intro .branches { clip-path: inset(50% 0 50% 0); }
   .branch-copy { margin: 12px; padding: 16px; max-width: none; }
   .branch-zayed .branch-copy { align-self: start; margin-top: 120px; }
