@@ -53,6 +53,7 @@ document.getElementById('lang-toggle').addEventListener('click', () => {
    branches open out from the seam. After that the bull watches the pointer, leans its own colour forward toward
    the branch under the pointer, crackles with current along its seam, gets angry when the pointer is thrown
    around (eyes flare, it shakes, the halves clash and throw sparks, it snorts), calms when the pointer rests,
+   breathes smoke out of its nostrils all the while,
    dozes when the pointer leaves, and on a choice opens down the middle like two doors. Embers drift up behind
    it, red on Zayed's side and blue on October's, and part around the pointer. */
 const canvas = document.getElementById('logo3d');
@@ -81,6 +82,26 @@ function softDot(inner, outer) {
   r.addColorStop(1, 'rgba(0,0,0,0)');
   g.fillStyle = r;
   g.fillRect(0, 0, 128, 128);
+  const t = new THREE.CanvasTexture(c);
+  t.colorSpace = THREE.SRGBColorSpace;
+  return t;
+}
+
+/* a cloudy puff of smoke: a few soft blobs overlapping, drawn once */
+function cloudTexture() {
+  const c = document.createElement('canvas');
+  c.width = c.height = 64;
+  const g = c.getContext('2d');
+  let seed = 7;
+  const rnd = () => { seed = (seed * 16807) % 2147483647; return seed / 2147483647; };
+  for (let i = 0; i < 9; i++) {
+    const a = rnd() * Math.PI * 2, d = rnd() * 13, x = 32 + Math.cos(a) * d, y = 32 + Math.sin(a) * d, r = 11 + rnd() * 10;
+    const grad = g.createRadialGradient(x, y, 0, x, y, r);
+    grad.addColorStop(0, 'rgba(255,255,255,0.34)');
+    grad.addColorStop(1, 'rgba(255,255,255,0)');
+    g.fillStyle = grad;
+    g.fillRect(0, 0, 64, 64);
+  }
   const t = new THREE.CanvasTexture(c);
   t.colorSpace = THREE.SRGBColorSpace;
   return t;
@@ -190,9 +211,9 @@ function setup3D() {
       glows.push(s);
     });
 
-    /* steam from the nostrils: a small pool of soft puffs, reused */
-    const puffTex = softDot('rgba(235,235,245,0.9)', 'rgba(200,200,215,0.35)');
-    for (let i = 0; i < 18; i++) {
+    /* smoke from the nostrils: a small pool of cloudy puffs, reused */
+    const puffTex = cloudTexture();
+    for (let i = 0; i < 48; i++) {
       const s = new THREE.Sprite(new THREE.SpriteMaterial({ map: puffTex, transparent: true, depthWrite: false, opacity: 0 }));
       s.userData.life = 0;
       body.add(s);
@@ -269,17 +290,24 @@ function setup3D() {
   document.addEventListener('pointerleave', () => { state.away = true; });
   addEventListener('blur', () => { state.away = true; });
 
-  /* puffs of steam from both nostrils */
+  /* one puff of smoke from a nostril: out and down first, then it slows, rises and spreads */
   let puffIndex = 0;
+  function puff(g, at, dir, strength) {
+    const s = smoke[puffIndex++ % smoke.length];
+    s.position.copy(local(g, at, 0.12).add(g.position));
+    s.userData.v = new THREE.Vector3(dir * (0.2 + Math.random() * 0.25), -0.35 - Math.random() * 0.25, 0.5 + Math.random() * 0.35).multiplyScalar(strength);
+    s.userData.life = 1;
+    s.userData.size = 0.08 + Math.random() * 0.04;
+    s.userData.grow = (0.65 + Math.random() * 0.35) * (0.8 + strength * 0.3);
+    s.userData.spin = (Math.random() - 0.5) * 1.2;
+    s.userData.base = 0.34 + strength * 0.14;
+    s.material.rotation = Math.random() * Math.PI * 2;
+    s.scale.setScalar(s.userData.size);
+  }
+  /* a snort: a short hard burst from both nostrils */
   function snort(strength) {
     for (const [g, at, dir] of [[pieces.left, MAP.noseL, -1], [pieces.right, MAP.noseR, 1]]) {
-      for (let k = 0; k < 3; k++) {
-        const s = smoke[puffIndex++ % smoke.length];
-        s.position.copy(local(g, at, 0.12).add(g.position));
-        s.userData.v = new THREE.Vector3(dir * (0.25 + Math.random() * 0.25), -0.12 - Math.random() * 0.2, 0.5 + Math.random() * 0.3).multiplyScalar(strength);
-        s.userData.life = 1;
-        s.scale.setScalar(0.08);
-      }
+      for (let k = 0; k < 4; k++) puff(g, at, dir, strength);
     }
   }
 
@@ -314,7 +342,7 @@ function setup3D() {
   let start = performance.now();
   let prev = performance.now();
   let rotY = 0, rotX = 0, redI = 60, blueI = 60;
-  let anger = 0, sleep = 0, nextSnort = 3, clashT = 0, slamCool = 0;
+  let anger = 0, sleep = 0, nextSnort = 3, clashT = 0, slamCool = 0, breathPhase = 0, puffDue = 0;
   let landed = reduced;
   const lean = { left: 0, right: 0 };
   let running = true;
@@ -412,19 +440,31 @@ function setup3D() {
       s.material.opacity = Math.min(0.7, energy * 0.75) * (0.9 + Math.sin(t * 0.9 + s.userData.p[1] * 3) * 0.1);
     });
 
-    /* snorts: every few seconds when calm, often when angry */
-    nextSnort -= dt * (1 + anger * 6);
-    if (!reduced && landed && nextSnort <= 0 && sleep < 0.5) {
-      snort(0.6 + anger * 0.9);
-      nextSnort = 3.5 + Math.random() * 3;
+    /* breathing: smoke out of both nostrils on every breath out, all the time; quicker and heavier when angry,
+       slow and faint asleep. Only the smoke breathes; the head moves as before. */
+    if (!reduced) breathPhase += dt * (Math.PI * 2) / (3.4 - anger * 1.6 + sleep * 1.6);
+    if (!reduced && landed && Math.cos(breathPhase) < 0 && Math.sin(breathPhase) > -0.75) {
+      const strength = (0.5 + anger * 0.7) * (1 - sleep * 0.5);
+      puffDue += dt * (5 + anger * 6) * (1 - sleep * 0.5);
+      while (puffDue >= 1) {
+        puffDue -= 1;
+        puff(pieces.left, MAP.noseL, -1, strength);
+        puff(pieces.right, MAP.noseR, 1, strength);
+      }
     }
+    /* and a snort now and then when angry */
+    nextSnort -= dt * anger * 2;
+    if (!reduced && landed && anger > 0.75 && nextSnort <= 0) { snort(1.3); nextSnort = 3 + Math.random() * 2; }
     for (const s of smoke) {
       if (s.userData.life <= 0) { s.material.opacity = 0; continue; }
-      s.userData.life -= dt * 0.9;
+      s.userData.life -= dt * 0.5;
+      s.userData.v.multiplyScalar(1 - Math.min(1, dt * 1.1));
+      s.userData.v.y += dt * 0.55;
       s.position.addScaledVector(s.userData.v, dt);
-      s.userData.v.y += dt * 0.35;
-      s.scale.setScalar(0.08 + (1 - s.userData.life) * 0.5);
-      s.material.opacity = Math.max(0, s.userData.life) * 0.55;
+      s.material.rotation += s.userData.spin * dt;
+      const age = 1 - s.userData.life;
+      s.scale.setScalar(s.userData.size + age * s.userData.grow);
+      s.material.opacity = Math.max(0, Math.min(1, age * 3) * Math.pow(s.userData.life, 1.3) * s.userData.base);
     }
 
     /* sparks: fly, fall, fade */
