@@ -1,0 +1,193 @@
+/* Clash Zayed PlayStation: the rooms page (four full-height cards of swipeable photos) and the room page
+   (photos beside the details and the booking). Loads after style.css; the walk between pages is in js/site.js. */
+
+/* ---------- the photo strip ---------- */
+.gal { position: relative; overflow: hidden; background: var(--surface); }
+.gal-track {
+  display: flex; height: 100%; overflow-x: auto; overscroll-behavior-x: contain;
+  scroll-snap-type: x mandatory; scrollbar-width: none;
+}
+.gal-track::-webkit-scrollbar { display: none; }
+.gal-track:focus-visible { outline-offset: -3px; }
+.gal-slide { flex: 0 0 100%; scroll-snap-align: start; }
+.gal-slide img { width: 100%; height: 100%; object-fit: cover; }
+/* one bar per photo along the top, the lit one is the photo on screen */
+.gal-bars { position: absolute; inset: 12px 12px auto; display: flex; gap: 4px; pointer-events: none; }
+.gal-bars span { flex: 1; height: 3px; background: rgba(243, 243, 241, 0.35); transition: background-color 300ms ease; }
+.gal-bars span.is-on { background: var(--ink); }
+.gal-btn {
+  position: absolute; top: 40%; width: 44px; height: 44px; translate: 0 -50%;
+  display: grid; place-items: center; border: 0; cursor: pointer;
+  background: rgba(8, 8, 10, 0.72); color: var(--ink);
+  transition: background-color var(--t-hover) ease, scale var(--t-press) var(--ease-out);
+}
+.gal-btn svg { width: 20px; height: 20px; }
+.gal-btn:active { scale: 0.94; }
+.gal-prev { inset-inline-start: 12px; }
+.gal-next { inset-inline-end: 12px; }
+.gal-prev svg, [dir="rtl"] .gal-next svg { scale: -1 1; }
+[dir="rtl"] .gal-prev svg { scale: 1 1; }
+.is-single .gal-btn, .is-single .gal-bars { display: none; }
+@media (hover: hover) and (pointer: fine) { .gal-btn:hover { background: var(--ink); color: var(--bg); } }
+
+/* ---------- the rooms page ---------- */
+.psl { display: grid; grid-template-rows: auto 1fr; height: calc(100svh - var(--bar)); padding: 0 var(--margin) var(--margin); gap: 20px; }
+.psl-title { display: flex; flex-wrap: wrap; align-items: baseline; gap: 0 0.75em; }
+.psl-title h1 { font-weight: 800; font-size: var(--step-lead); line-height: 1.3; }
+.psl-sub { color: var(--muted); font-weight: 600; }
+.psl-rooms { display: flex; gap: 6px; min-height: 0; }
+.psl-plain { display: grid; gap: 12px; font-size: var(--step-lead); }
+
+.psr {
+  position: relative; flex: 1 1 0; min-width: 0; overflow: hidden; display: grid;
+  container-type: inline-size;
+  transition: flex-grow 800ms var(--ease-out), filter 800ms ease;
+}
+.psr > .gal { position: absolute; inset: 0; }
+.psr .gal-track { cursor: pointer; }
+/* a flat band under the words so they read on any photograph */
+.psr-copy {
+  position: relative; z-index: 1; align-self: end; display: grid; gap: 2px; justify-items: start;
+  margin: 10px; padding: clamp(14px, 1.6vw, 24px); text-decoration: none; color: #fff;
+}
+.psr-blue .psr-copy { background: var(--blue); }
+.psr-red .psr-copy { background: var(--red); }
+.psr-name { font-family: "Barlow Condensed", sans-serif; font-weight: 700; font-size: clamp(2.5rem, 24cqi, 6.5rem); line-height: 0.9; text-transform: uppercase; }
+.psr-line { font-weight: 600; }
+.psr-price { margin-top: 6px; font-weight: 600; font-size: var(--step-small); }
+.psr-price b { font-family: var(--font-display); font-size: var(--step-lead); }
+.psr-price s { opacity: 0.8; margin-inline-start: 4px; }
+.psr-go { margin-top: 8px; display: inline-flex; align-items: center; gap: 10px; font-weight: 800; }
+.psr-go svg { width: 20px; height: 20px; transition: translate 240ms var(--ease-out); }
+[dir="rtl"] .psr-go svg { scale: -1 1; }
+
+@media (hover: hover) and (pointer: fine) {
+  .psl-rooms:hover .psr { filter: brightness(0.85); }
+  .psl-rooms .psr:hover { filter: none; flex-grow: 1.45; }
+  .psr:hover .psr-go svg { translate: 6px 0; }
+  [dir="rtl"] .psr:hover .psr-go svg { translate: -6px 0; }
+}
+
+/* arriving: the cards rise one after another, then their words */
+@media (prefers-reduced-motion: no-preference) {
+  .js .psr { animation: rise-in 900ms var(--ease-out) both; animation-delay: calc(var(--i, 0) * 90ms + 150ms); }
+  .js .psr:nth-child(2) { --i: 1; } .js .psr:nth-child(3) { --i: 2; } .js .psr:nth-child(4) { --i: 3; }
+  .js .psr .gal-slide img { animation: photo-in 1600ms var(--ease-out) backwards; animation-delay: calc(var(--i, 0) * 90ms + 150ms); }
+  .js .psr-copy { animation: words-in 700ms var(--ease-out) backwards; animation-delay: calc(var(--i, 0) * 90ms + 650ms); }
+  .js .psl-title { animation: words-in 700ms var(--ease-out) 80ms both; }
+}
+@keyframes rise-in { from { clip-path: inset(100% 0 0 0); } to { clip-path: inset(0 0 0 0); } }
+@keyframes photo-in { from { transform: scale(1.14); } to { transform: none; } }
+@keyframes words-in { from { opacity: 0; transform: translateY(16px); } to { opacity: 1; transform: none; } }
+
+/* leaving: the chosen room takes the row, then the page dims to dark */
+.is-leaving .psr { transition: flex-grow 800ms cubic-bezier(0.65, 0, 0.35, 1), filter 300ms ease; }
+.is-leaving .psr.is-chosen { flex-grow: 1; filter: none; }
+.is-leaving .psr:not(.is-chosen) { flex-grow: 0; }
+.is-leaving .psr-copy, .is-leaving .gal-btn, .is-leaving .gal-bars { opacity: 0; transition: opacity 250ms ease; }
+.sheet { position: fixed; inset: 0; z-index: 70; pointer-events: none; background: var(--bg); opacity: 0; visibility: hidden; }
+.sheet.is-on { opacity: 1; visibility: visible; transition: opacity 500ms ease; }
+
+/* ---------- the room page ---------- */
+.rp { padding: 0 var(--margin) var(--section); }
+.rp-back { display: inline-flex; align-items: center; gap: 8px; }
+.rp-back svg { width: 18px; height: 18px; scale: -1 1; }
+[dir="rtl"] .rp-back svg { scale: 1 1; }
+.rp-top { display: grid; grid-template-columns: 7fr 5fr; column-gap: clamp(24px, 4vw, 72px); align-items: start; margin-top: 8px; }
+.rp-media {
+  position: sticky; top: calc(var(--bar) + 12px);
+  display: grid; grid-template-rows: 1fr auto; gap: 8px;
+  height: calc(100svh - var(--bar) - 24px);
+}
+.rp-media .gal { min-height: 0; }
+.gal-thumbs { display: flex; gap: 8px; }
+.gal-thumb { width: 72px; height: 72px; padding: 0; border: 0; background: var(--surface); cursor: pointer; opacity: 0.55; transition: opacity var(--t-hover) ease; }
+.gal-thumb img { width: 100%; height: 100%; object-fit: cover; }
+.gal-thumb[aria-current="true"] { opacity: 1; outline: 3px solid var(--ink); outline-offset: -3px; }
+@media (hover: hover) and (pointer: fine) { .gal-thumb:hover { opacity: 1; } }
+
+.rp-info { display: grid; gap: 20px; align-content: start; padding-block: clamp(8px, 4vh, 48px) 0; }
+.rp-name {
+  font-family: "Barlow Condensed", sans-serif; font-weight: 700; text-transform: uppercase;
+  font-size: clamp(3.5rem, 2rem + 5vw, 8rem); line-height: 0.88; letter-spacing: -0.01em;
+}
+[data-side="red"] .rp-name { color: var(--red); }
+[data-side="blue"] .rp-name { color: var(--blue-strong); }
+.rp-name span { display: block; color: var(--ink); }
+[dir="rtl"] .rp-name { text-align: right; }
+.rp-about { font-size: var(--step-lead); line-height: 1.45; font-weight: 600; max-width: 30ch; }
+.rp-price { display: flex; flex-wrap: wrap; align-items: baseline; gap: 4px 12px; font-weight: 600; }
+.rp-price b { font-size: clamp(4rem, 3rem + 3vw, 6rem); line-height: 0.9; }
+.rp-price s { color: var(--muted); }
+.rp-save { margin-top: -12px; color: var(--muted); }
+.rp-facts { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; border-top: 2px solid var(--surface-2); padding-top: 20px; }
+.rp-facts dt { color: var(--muted); font-size: var(--step-small); }
+.rp-facts dd { font-weight: 800; }
+.rp-h { font-weight: 800; font-size: var(--step-body); }
+.rp-inside { display: grid; gap: 8px; margin-top: -8px; }
+.rp-inside li { display: flex; align-items: center; gap: 12px; }
+.rp-inside li::before { content: ""; width: 10px; height: 10px; flex: none; background: var(--red); }
+[data-side="blue"] .rp-inside li::before { background: var(--blue); }
+
+.rp-book { display: grid; gap: 14px; background: var(--surface); padding: clamp(20px, 2vw, 28px); margin-top: 8px; }
+.rp-hours { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 12px; }
+.stepper { display: flex; align-items: center; gap: 4px; }
+.step {
+  width: 52px; height: 52px; border: 0; background: var(--surface-2); color: var(--ink); cursor: pointer;
+  font-size: 1.6rem; font-weight: 700; line-height: 1;
+  transition: background-color var(--t-hover) ease, scale var(--t-press) var(--ease-out);
+}
+.step:active { scale: 0.94; }
+.step:disabled { opacity: 0.35; cursor: default; }
+.stepper output { min-width: 64px; text-align: center; font-size: var(--step-body); }
+.rp-total { font-size: var(--step-lead); }
+.rp-total b { font-family: var(--font-display); }
+.rp-cta { width: 100%; }
+.rp-note { color: var(--muted); }
+@media (hover: hover) and (pointer: fine) { .step:not(:disabled):hover { background: var(--ink); color: var(--bg); } }
+
+.rp-more { margin-top: var(--section); display: grid; gap: 28px; }
+.others { display: grid; grid-template-columns: repeat(3, 1fr); gap: var(--gutter); }
+.other a { position: relative; display: grid; aspect-ratio: 4 / 5; overflow: hidden; text-decoration: none; color: #fff; }
+.other img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; transition: transform 600ms var(--ease-out); }
+.other-copy { position: relative; align-self: end; display: grid; margin: 10px; padding: 14px 16px; font-weight: 600; justify-self: start; }
+.other-blue .other-copy { background: var(--blue); }
+.other-red .other-copy { background: var(--red); }
+.other-name { font-family: "Barlow Condensed", sans-serif; font-weight: 700; font-size: var(--step-head); line-height: 0.9; text-transform: uppercase; }
+.other-copy b { font-family: var(--font-display); }
+@media (hover: hover) and (pointer: fine) { .other a:hover img { transform: scale(1.05); } }
+
+@media (prefers-reduced-motion: no-preference) {
+  .js .rp-top .gal-slide:first-child img { animation: photo-in 1400ms var(--ease-out) backwards; }
+  .js .rp-info > * { animation: words-in 700ms var(--ease-out) backwards; }
+  .js .rp-info > :nth-child(2) { animation-delay: 80ms; } .js .rp-info > :nth-child(3) { animation-delay: 160ms; }
+  .js .rp-info > :nth-child(4) { animation-delay: 220ms; } .js .rp-info > :nth-child(n+5) { animation-delay: 280ms; }
+}
+
+/* ---------- tablet: the rooms two by two; the room page in one column ---------- */
+@media (max-width: 1080px) {
+  .psl { height: auto; }
+  .psl-rooms { display: grid; grid-template-columns: 1fr 1fr; grid-auto-rows: 62svh; }
+  .rp-top { grid-template-columns: 1fr; row-gap: 24px; }
+  .rp-media { position: static; height: 72svh; }
+  .rp-info { padding-top: 0; }
+}
+
+/* ---------- phone: one room per screen, swipe sideways for its photos ---------- */
+@media (max-width: 720px) {
+  .psl { gap: 14px; }
+  .psl-rooms { grid-template-columns: 1fr; grid-auto-rows: 78svh; gap: 10px; }
+  .psr-name { font-size: clamp(2.75rem, 16vw, 4rem); }
+  .rp-media { height: 64svh; }
+  .gal-thumb { width: 60px; height: 60px; }
+  .rp-facts { grid-template-columns: 1fr; }
+  /* two rooms side by side, the third across both */
+  .others { grid-template-columns: 1fr 1fr; }
+  .others li:nth-child(3) { grid-column: 1 / -1; }
+  .others li:nth-child(3) a { aspect-ratio: 16 / 10; }
+  .other-name { font-size: 2rem; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .psr, .gal-btn, .sheet.is-on { transition: none; }
+}

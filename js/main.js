@@ -1,10 +1,9 @@
-/* Clash Esports branch pages: zayed-pc.html, zayed-ps.html and october.html run this same file, each with its own data,
-   chosen by <body data-branch> and <body data-page> (pc or ps). Each part draws only when its section is on the page. Zayed data: data/clash-zayed.md (WhatsApp catalogue and Gizmo, 2026-10-23).
+/* Clash Esports PC pages: zayed-pc.html and october.html run this same file, each with its own data,
+   chosen by <body data-branch>. (The Zayed PlayStation pages run js/ps.js.) Zayed data: data/clash-zayed.md (WhatsApp catalogue and Gizmo, 2026-10-23).
    October data: data/clash-october.md (WhatsApp catalogue, 2026-10-24).
-   Booking goes to WhatsApp until Clash API is wired: ZONES -> GET /zones, PS -> GET /rooms. */
+   Booking goes to WhatsApp until Clash API is wired: ZONES -> GET /zones. */
 
 const BRANCH = document.body.dataset.branch === 'october' ? 'october' : 'zayed';
-const PAGE = document.body.dataset.page === 'ps' ? 'ps' : 'pc';
 const WHATSAPP = BRANCH === 'october' ? '201080972959' : '201099584833';
 
 /* PC rooms. pcs: hosts in Gizmo; age21: how many of them are for 21 and over (Gizmo's "+21" groups).
@@ -54,16 +53,6 @@ const ZAYED_ZONES = [
   },
 ];
 
-/* PlayStation rooms and simulators. unit: 'hour' or 'half'. sim: a simulator, which the sections page only mentions. */
-const ZAYED_PS = [
-  { name: 'Normal PS5 Room', price: 200, was: 250, unit: 'hour', people: 6, photo: 'assets/clash-hd/normal-ps5-room.jpg', w: 1200, h: 1600 },
-  { name: 'VIP PS5 Room', price: 250, was: 300, unit: 'hour', people: 10, photo: 'assets/clash-hd/vip-ps5-room.jpg', w: 1200, h: 1600 },
-  { name: 'Pool Room', price: 400, was: 600, unit: 'hour', people: 15, photo: 'assets/clash-hd/pool-room.jpg', w: 574, h: 1019 },
-  { name: 'Cinema Room', price: 500, was: 700, unit: 'hour', people: 12, photo: 'assets/clash-hd/cinema-room-2.jpg', w: 739, h: 1600 },
-  { name: 'Standard Car Simulator', sim: true, price: 100, unit: 'half', note: { ar: '3 شاشات 27 بوصة', en: 'Three 27" screens' }, photo: 'assets/clash-hd/standard-car-simulator.jpg', w: 960, h: 1280 },
-  { name: 'Motion Car Simulator', sim: true, price: 280, was: 400, unit: 'hour', note: { ar: 'كرسي بيتحرك مع العربية', en: 'The seat moves with the car' }, photo: 'assets/clash-hd/motion-car-simulator.jpg', w: 960, h: 1280 },
-];
-
 /* October: five PC rooms, no 10-hour packs or PlayStation rooms in its catalogue yet. */
 const OCTOBER_ZONES = [
   {
@@ -94,7 +83,6 @@ const OCTOBER_ZONES = [
 ];
 
 const ZONES = BRANCH === 'october' ? OCTOBER_ZONES : ZAYED_ZONES;
-const PS = BRANCH === 'october' ? [] : ZAYED_PS.filter((p) => !p.sim);
 
 const EN = {
   skip: 'Skip to content', navLabel: 'Menu', navRooms: 'Rooms', navOffers: 'Packs', navPlaystation: 'PlayStation',
@@ -120,8 +108,6 @@ const EN = {
   offerSub: 'That is 24 EGP an hour instead of 30. Every PC room has a 10-hour pack, see the table below.',
   offerCta: 'Book this pack on WhatsApp', offersAll: 'All 10-hour packs',
   thZone: 'Room', thHours: 'Hours', thPrice: 'Price', thHourly: 'Per hour', thSave: 'You save', thBook: 'Book',
-  psHeroLine: 'Closed PS5 rooms for your crew at Clash Zayed, from 6 to 15 people. Open 24 hours.', psStatement: 'Your crew, your room, 24 hours.',
-  psRoomsTitle: 'Four PlayStation rooms', psRoomsLine: 'Normal, VIP, Pool and Cinema. Closed rooms for your crew, from 6 to 15 people.',
   startTitle: 'From sign-up to your seat in minutes',
   uiRegister: 'Create account', uiPhone: 'Mobile', uiSendCode: 'Send code',
   s1t: 'First, make your account.', s1: 'The same username and password you use on the lounge PCs. We text a code to your phone to confirm it.',
@@ -171,8 +157,7 @@ const AR_DYN = {
   book: 'احجز',
   bookText: (name, h) => `عايز أحجز ${name} لمدة ${D().hoursN(h)}`,
   bookOne: (name) => `عايز أحجز ${name}`,
-  perHour: 'جنيه للساعة', perHalf: 'جنيه لكل نص ساعة', perHourShort: 'ج/ساعة',
-  people: (n) => `لحد ${n} أفراد`,
+  perHour: 'جنيه للساعة', perHourShort: 'ج/ساعة',
 };
 const EN_DYN = {
   side: { red: 'Team red', blue: 'Team blue', both: 'Red and blue in one room', yellow: 'The yellow room' },
@@ -188,8 +173,7 @@ const EN_DYN = {
   book: 'Book',
   bookText: (name, h) => `I want to book the ${name} for ${D().hoursN(h)}`,
   bookOne: (name) => `I want to book the ${name}`,
-  perHour: 'EGP an hour', perHalf: 'EGP per 30 minutes', perHourShort: 'EGP/h',
-  people: (n) => `Up to ${n} people`,
+  perHour: 'EGP an hour', perHourShort: 'EGP/h',
 };
 
 let lang = 'ar';
@@ -315,24 +299,6 @@ function renderPacks() {
   document.getElementById('offer-cta').href = wa(d.bookText('Normal', 10));
 }
 
-/* ---------- PlayStation and simulators ---------- */
-function renderPs() {
-  const d = D();
-  if (!document.getElementById('ps-grid')) return;
-  document.getElementById('ps-grid').innerHTML = PS.map((p) => {
-    const meta = [p.people ? d.people(p.people) : tr(p.note), p.was ? d.was(p.was) : ''].filter(Boolean).join(' · ');
-    return `<li class="ps-card reveal is-in">
-      <div class="ps-pic"><img src="${p.photo}" width="${p.w}" height="${p.h}" alt="${p.name}" loading="lazy"></div>
-      <h3 class="ps-name" dir="ltr">${p.name}</h3>
-      <p class="ps-meta">${meta}</p>
-      <div class="ps-row">
-        <p class="ps-price"><b dir="ltr">${p.price}</b> ${p.unit === 'half' ? d.perHalf : d.perHour}</p>
-        <a class="btn btn-small" href="${wa(d.bookOne(p.name))}" target="_blank" rel="noopener">${d.book}</a>
-      </div>
-    </li>`;
-  }).join('');
-}
-
 /* ---------- language ---------- */
 function captureArabic() {
   document.querySelectorAll('[data-i18n]').forEach((el) => { AR[el.dataset.i18n] = el.textContent; });
@@ -352,12 +318,12 @@ function applyLang(next) {
   document.querySelectorAll('[data-i18n-html]').forEach((el) => { if (t[el.dataset.i18nHtml]) el.innerHTML = t[el.dataset.i18nHtml]; });
   document.querySelectorAll('[data-i18n-alt]').forEach((el) => { if (t[el.dataset.i18nAlt]) el.alt = t[el.dataset.i18nAlt]; });
   document.querySelectorAll('[data-i18n-aria]').forEach((el) => { if (t[el.dataset.i18nAria]) el.setAttribute('aria-label', t[el.dataset.i18nAria]); });
-  document.title = lang === 'en' ? `Clash Esports ${BRANCH === 'october' ? 'October' : 'Zayed'} | ${PAGE === 'ps' ? 'PlayStation rooms' : 'PC rooms'}, open 24 hours` : AR._title;
+  document.title = lang === 'en' ? `Clash Esports ${BRANCH === 'october' ? 'October' : 'Zayed'} | PC rooms, open 24 hours` : AR._title;
   const btn = document.getElementById('lang-toggle');
   btn.textContent = lang === 'en' ? 'ع' : 'EN';
   btn.lang = lang === 'en' ? 'ar' : 'en';
   btn.setAttribute('aria-label', lang === 'en' ? 'العربية' : 'English');
-  renderRooms(); renderTabs(); renderZone(); renderPacks(); renderPs();
+  renderRooms(); renderTabs(); renderZone(); renderPacks();
   try { localStorage.setItem('clash-lang', lang); } catch (e) { /* storage unavailable */ }
   if (window.ScrollTrigger) requestAnimationFrame(() => ScrollTrigger.refresh());
 }
