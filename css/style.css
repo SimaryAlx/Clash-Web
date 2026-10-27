@@ -61,6 +61,7 @@ button { font: inherit; color: inherit; }
 .num { font-family: var(--font-display); font-variant-numeric: tabular-nums; font-weight: 700; }
 
 .skip { position: absolute; inset-inline-start: 16px; top: -60px; background: var(--red); color: var(--accent-ink); padding: 8px 16px; z-index: 60; }
+.skip:not(:focus) { clip-path: inset(50%); }
 .skip:focus { top: 8px; }
 
 /* ---------- controls ---------- */

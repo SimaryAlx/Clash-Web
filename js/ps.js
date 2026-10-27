@@ -63,7 +63,7 @@
   const EN = {
     skip: 'Skip to content', navLabel: 'Menu', navSections: 'Sections', navRooms: 'Rooms', navPc: 'PC rooms', navContact: 'Contact',
     changeBranch: 'Change branch', login: 'Log in', signup: 'Sign up', menu: 'Menu', whatsapp: 'WhatsApp',
-    psTitle: 'PlayStation, Zayed', psSub: 'Swipe through each room, tap it for details and booking.',
+    psSub: 'Zayed · Swipe through each room, tap it for details and booking.',
     back: 'All PlayStation rooms', others: 'The other rooms',
     footTitle: 'Come play today', footCta: 'Book on WhatsApp',
     branchZayed: 'Zayed branch', branchOctober: 'October branch', map: 'On the map', hours: 'Open 24 hours, every day', catalogue: 'Catalogue',
