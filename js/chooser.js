@@ -34,8 +34,9 @@ function applyLang(lang) {
   btn.setAttribute('aria-label', lang === 'en' ? 'العربية' : 'English');
   try { localStorage.setItem('clash-lang', lang); } catch (e) { /* storage unavailable */ }
 }
-let lang = 'ar';
-try { lang = localStorage.getItem('clash-lang') === 'en' ? 'en' : 'ar'; } catch (e) { /* storage unavailable */ }
+/* English first; Arabic only for visitors who switched to it */
+let lang = 'en';
+try { lang = localStorage.getItem('clash-lang') === 'ar' ? 'ar' : 'en'; } catch (e) { /* storage unavailable */ }
 applyLang(lang);
 document.getElementById('lang-toggle').addEventListener('click', () => { lang = lang === 'en' ? 'ar' : 'en'; applyLang(lang); });
 

@@ -89,7 +89,8 @@ window.ClashSite = (() => {
       capture();
       let saved = null;
       try { saved = localStorage.getItem('clash-lang'); } catch (e) { /* storage unavailable */ }
-      apply(saved === 'en' ? 'en' : 'ar');
+      /* English first; Arabic only for visitors who switched to it */
+      apply(saved === 'ar' ? 'ar' : 'en');
       document.getElementById('lang-toggle').addEventListener('click', () => apply(lang === 'en' ? 'ar' : 'en'));
       wireMenu();
     },
