@@ -31,7 +31,6 @@ window.ClashSite = (() => {
     btn.textContent = lang === 'en' ? 'ع' : 'EN';
     btn.lang = lang === 'en' ? 'ar' : 'en';
     btn.setAttribute('aria-label', lang === 'en' ? 'العربية' : 'English');
-    try { localStorage.setItem('clash-lang', lang); } catch (e) { /* storage unavailable */ }
     onChange(lang);
   }
 
@@ -88,10 +87,14 @@ window.ClashSite = (() => {
       if (opts.onChange) onChange = opts.onChange;
       capture();
       let saved = null;
-      try { saved = localStorage.getItem('clash-lang'); } catch (e) { /* storage unavailable */ }
+      try { saved = localStorage.getItem('clash-language'); } catch (e) { /* storage unavailable */ }
       /* English first; Arabic only for visitors who switched to it */
       apply(saved === 'ar' ? 'ar' : 'en');
-      document.getElementById('lang-toggle').addEventListener('click', () => apply(lang === 'en' ? 'ar' : 'en'));
+      /* the choice is remembered only when the visitor makes it */
+      document.getElementById('lang-toggle').addEventListener('click', () => {
+        apply(lang === 'en' ? 'ar' : 'en');
+        try { localStorage.setItem('clash-language', lang); } catch (e) { /* storage unavailable */ }
+      });
       wireMenu();
     },
     get lang() { return lang; },

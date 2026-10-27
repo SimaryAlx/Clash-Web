@@ -32,13 +32,17 @@ function applyLang(lang) {
   btn.textContent = lang === 'en' ? 'ع' : 'EN';
   btn.lang = lang === 'en' ? 'ar' : 'en';
   btn.setAttribute('aria-label', lang === 'en' ? 'العربية' : 'English');
-  try { localStorage.setItem('clash-lang', lang); } catch (e) { /* storage unavailable */ }
 }
 /* English first; Arabic only for visitors who switched to it */
 let lang = 'en';
-try { lang = localStorage.getItem('clash-lang') === 'ar' ? 'ar' : 'en'; } catch (e) { /* storage unavailable */ }
+try { lang = localStorage.getItem('clash-language') === 'ar' ? 'ar' : 'en'; } catch (e) { /* storage unavailable */ }
 applyLang(lang);
-document.getElementById('lang-toggle').addEventListener('click', () => { lang = lang === 'en' ? 'ar' : 'en'; applyLang(lang); });
+/* the choice is remembered only when the visitor makes it */
+document.getElementById('lang-toggle').addEventListener('click', () => {
+  lang = lang === 'en' ? 'ar' : 'en';
+  applyLang(lang);
+  try { localStorage.setItem('clash-language', lang); } catch (e) { /* storage unavailable */ }
+});
 
 /* ---------- the 3D bull ----------
    Built from the logo picture in three pieces: the red half of the head, the blue half, and the CLASH word.
