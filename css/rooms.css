@@ -1,4 +1,4 @@
-/* Clash Zayed PlayStation: the rooms page (four full-height cards of swipeable photos) and the room page
+/* Clash Esports rooms, PC and PlayStation: the list page (full-height cards of swipeable photos) and the room page
    (photos beside the details and the booking). Loads after style.css; the walk between pages is in js/site.js. */
 
 /* ---------- the photo strip ---------- */
@@ -31,66 +31,77 @@
 @media (hover: hover) and (pointer: fine) { .gal-btn:hover { background: var(--ink); color: var(--bg); } }
 
 /* ---------- the rooms page ---------- */
-.psl { display: grid; grid-template-rows: auto 1fr; height: calc(100svh - var(--bar)); padding: 0 var(--margin) var(--margin); gap: 20px; }
-.psl-title { display: flex; flex-wrap: wrap; align-items: baseline; gap: 0 0.75em; }
-.psl-title h1 { font-family: "Barlow Condensed", sans-serif; font-weight: 700; font-size: clamp(3.5rem, 1.5rem + 6.5vw, 8.5rem); line-height: 0.85; letter-spacing: -0.01em; text-transform: uppercase; }
-.psl-sub { color: var(--muted); font-weight: 600; }
-.psl-rooms { display: flex; gap: 6px; min-height: 0; }
-.psl-plain { display: grid; gap: 12px; font-size: var(--step-lead); }
+.rl { display: grid; grid-template-rows: auto 1fr; height: calc(100svh - var(--bar)); padding: 0 var(--margin) var(--margin); gap: 20px; }
+.rl-title { display: flex; flex-wrap: wrap; align-items: baseline; gap: 0 0.75em; }
+.rl-title h1 { font-family: "Barlow Condensed", sans-serif; font-weight: 700; font-size: clamp(3.5rem, 1.5rem + 6.5vw, 8.5rem); line-height: 0.85; letter-spacing: -0.01em; text-transform: uppercase; }
+.rl-sub { color: var(--muted); font-weight: 600; }
+.rl-rooms { display: flex; gap: 6px; min-height: 0; }
+/* more than five rooms: rows of four that the page scrolls through */
+.rl:has(.is-many) { height: auto; }
+.rl-rooms.is-many { flex-wrap: wrap; }
+.rl-rooms.is-many .rc { flex: 1 1 22%; height: 74svh; }
+.rl-plain { display: grid; gap: 12px; font-size: var(--step-lead); }
 
-.psr {
+.rc {
   position: relative; flex: 1 1 0; min-width: 0; overflow: hidden; display: grid;
   container-type: inline-size;
   transition: flex-grow 800ms var(--ease-out), filter 800ms ease;
 }
-.psr > .gal { position: absolute; inset: 0; }
-.psr .gal-track { cursor: pointer; }
+.rc > .gal { position: absolute; inset: 0; }
+.rc .gal-track { cursor: pointer; }
 /* the room's team colour lives only in small marks: the edge of its box, the lit photo bar, the arrow */
-.psr-red, .other-red { --team: var(--red); }
-.psr-blue, .other-blue { --team: var(--blue-strong); }
-.psr .gal-bars span.is-on { background: var(--team); }
+.rc-red { --team: var(--red); }
+.rc-blue { --team: var(--blue-strong); }
+.rc-yellow { --team: var(--yellow); }
+.rc-none { --team: var(--muted); }
+/* red and blue in one room: the edge is red above and blue below */
+.rc-both { --team: var(--red); }
+.rc-both .rc-copy::before, .rc-both .other-copy::before {
+  content: ""; position: absolute; inset-inline-start: -4px; bottom: 0; width: 4px; height: 50%; background: var(--blue-strong);
+}
+.rc .gal-bars span.is-on { background: var(--team); }
 
 /* a small dark box under the words, so they read on any photograph without a field of colour */
-.psr-copy {
+.rc-copy {
   position: relative; z-index: 1; align-self: end; justify-self: start; display: grid; gap: 2px; justify-items: start;
   max-width: calc(100% - 20px); margin: 10px; padding: 14px 18px;
   background: var(--bg); border-inline-start: 4px solid var(--team);
   text-decoration: none; color: var(--ink);
 }
-.psr-name { font-family: "Barlow Condensed", sans-serif; font-weight: 700; font-size: clamp(2rem, 15cqi, 4rem); line-height: 0.95; text-transform: uppercase; }
-.psr-line { font-weight: 600; color: var(--muted); }
-.psr-price { margin-top: 4px; font-weight: 600; font-size: var(--step-small); }
-.psr-price b { font-family: var(--font-display); font-size: var(--step-lead); }
-.psr-price s { color: var(--muted); margin-inline-start: 4px; }
-.psr-go { margin-top: 6px; display: inline-flex; align-items: center; gap: 10px; font-weight: 800; }
-.psr-go svg { color: var(--team); }
-.psr-go svg { width: 20px; height: 20px; transition: translate 240ms var(--ease-out); }
-[dir="rtl"] .psr-go svg { scale: -1 1; }
+.rc-name { font-family: "Barlow Condensed", sans-serif; font-weight: 700; font-size: clamp(2rem, 15cqi, 4rem); line-height: 0.95; text-transform: uppercase; }
+.rc-line { font-weight: 600; color: var(--muted); }
+.rc-price { margin-top: 4px; font-weight: 600; font-size: var(--step-small); }
+.rc-price b { font-family: var(--font-display); font-size: var(--step-lead); }
+.rc-price s { color: var(--muted); margin-inline-start: 4px; }
+.rc-go { margin-top: 6px; display: inline-flex; align-items: center; gap: 10px; font-weight: 800; }
+.rc-go svg { color: var(--team); }
+.rc-go svg { width: 20px; height: 20px; transition: translate 240ms var(--ease-out); }
+[dir="rtl"] .rc-go svg { scale: -1 1; }
 
 @media (hover: hover) and (pointer: fine) {
-  .psl-rooms:hover .psr { filter: brightness(0.85); }
-  .psl-rooms .psr:hover { filter: none; flex-grow: 1.45; }
-  .psr:hover .psr-go svg { translate: 6px 0; }
-  [dir="rtl"] .psr:hover .psr-go svg { translate: -6px 0; }
+  .rl-rooms:hover .rc { filter: brightness(0.85); }
+  .rl-rooms .rc:hover { filter: none; flex-grow: 1.45; }
+  .rc:hover .rc-go svg { translate: 6px 0; }
+  [dir="rtl"] .rc:hover .rc-go svg { translate: -6px 0; }
 }
 
 /* arriving: the cards rise one after another, then their words */
 @media (prefers-reduced-motion: no-preference) {
-  .js .psr { animation: rise-in 900ms var(--ease-out) both; animation-delay: calc(var(--i, 0) * 90ms + 150ms); }
-  .js .psr:nth-child(2) { --i: 1; } .js .psr:nth-child(3) { --i: 2; } .js .psr:nth-child(4) { --i: 3; }
-  .js .psr .gal-slide img { animation: photo-in 1600ms var(--ease-out) backwards; animation-delay: calc(var(--i, 0) * 90ms + 150ms); }
-  .js .psr-copy { animation: words-in 700ms var(--ease-out) backwards; animation-delay: calc(var(--i, 0) * 90ms + 650ms); }
-  .js .psl-title { animation: words-in 700ms var(--ease-out) 80ms both; }
+  .js .rc { animation: rise-in 900ms var(--ease-out) both; animation-delay: calc(var(--i, 0) * 90ms + 150ms); }
+  .js .rc:nth-child(2) { --i: 1; } .js .rc:nth-child(3) { --i: 2; } .js .rc:nth-child(4) { --i: 3; } .js .rc:nth-child(n+5) { --i: 4; }
+  .js .rc .gal-slide img { animation: photo-in 1600ms var(--ease-out) backwards; animation-delay: calc(var(--i, 0) * 90ms + 150ms); }
+  .js .rc-copy { animation: words-in 700ms var(--ease-out) backwards; animation-delay: calc(var(--i, 0) * 90ms + 650ms); }
+  .js .rl-title { animation: words-in 700ms var(--ease-out) 80ms both; }
 }
 @keyframes rise-in { from { clip-path: inset(100% 0 0 0); } to { clip-path: inset(0 0 0 0); } }
 @keyframes photo-in { from { transform: scale(1.14); } to { transform: none; } }
 @keyframes words-in { from { opacity: 0; transform: translateY(16px); } to { opacity: 1; transform: none; } }
 
 /* leaving: the chosen room takes the row, then the page dims to dark */
-.is-leaving .psr { transition: flex-grow 800ms cubic-bezier(0.65, 0, 0.35, 1), filter 300ms ease; }
-.is-leaving .psr.is-chosen { flex-grow: 1; filter: none; }
-.is-leaving .psr:not(.is-chosen) { flex-grow: 0; }
-.is-leaving .psr-copy, .is-leaving .gal-btn, .is-leaving .gal-bars { opacity: 0; transition: opacity 250ms ease; }
+.is-leaving .rc { transition: flex-grow 800ms cubic-bezier(0.65, 0, 0.35, 1), filter 300ms ease; }
+.is-leaving .rc.is-chosen { flex-grow: 1; filter: none; }
+.is-leaving .rc:not(.is-chosen) { flex-grow: 0; }
+.is-leaving .rc-copy, .is-leaving .gal-btn, .is-leaving .gal-bars { opacity: 0; transition: opacity 250ms ease; }
 .sheet { position: fixed; inset: 0; z-index: 70; pointer-events: none; background: var(--bg); opacity: 0; visibility: hidden; }
 .sheet.is-on { opacity: 1; visibility: visible; transition: opacity 500ms ease; }
 
@@ -119,6 +130,8 @@
 }
 [data-side="red"] .rp-name { color: var(--red); }
 [data-side="blue"] .rp-name { color: var(--blue-strong); }
+[data-side="yellow"] .rp-name { color: var(--yellow); }
+[data-side="none"] .rp-name { color: var(--ink); }
 .rp-name span { display: block; color: var(--ink); }
 [dir="rtl"] .rp-name { text-align: right; }
 .rp-about { font-size: var(--step-lead); line-height: 1.45; font-weight: 600; max-width: 30ch; }
@@ -134,6 +147,12 @@
 .rp-inside li { display: flex; align-items: center; gap: 12px; }
 .rp-inside li::before { content: ""; width: 10px; height: 10px; flex: none; background: var(--red); }
 [data-side="blue"] .rp-inside li::before { background: var(--blue); }
+
+/* the PCs, one row per part */
+.rp-spec { display: grid; margin-top: -8px; }
+.rp-spec > div { display: grid; grid-template-columns: minmax(7rem, 1fr) 2fr; gap: 12px; padding: 10px 0; border-top: 2px solid var(--surface-2); }
+.rp-spec dt { color: var(--muted); }
+.rp-spec dd { font-weight: 600; }
 
 .rp-book { display: grid; gap: 14px; background: var(--surface); padding: clamp(20px, 2vw, 28px); margin-top: 8px; }
 .rp-hours { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 12px; }
@@ -153,7 +172,7 @@
 @media (hover: hover) and (pointer: fine) { .step:not(:disabled):hover { background: var(--ink); color: var(--bg); } }
 
 .rp-more { margin-top: var(--section); display: grid; gap: 28px; }
-.others { display: grid; grid-template-columns: repeat(3, 1fr); gap: var(--gutter); }
+.others { display: grid; grid-template-columns: repeat(var(--n, 3), 1fr); gap: var(--gutter); }
 .other a { position: relative; display: grid; aspect-ratio: 4 / 5; overflow: hidden; text-decoration: none; color: #fff; }
 .other img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; transition: transform 600ms var(--ease-out); }
 .other-copy { position: relative; align-self: end; display: grid; margin: 10px; padding: 12px 16px; font-weight: 600; justify-self: start; background: var(--bg); color: var(--ink); border-inline-start: 4px solid var(--team); }
@@ -170,8 +189,9 @@
 
 /* ---------- tablet: the rooms two by two; the room page in one column ---------- */
 @media (max-width: 1080px) {
-  .psl { height: auto; }
-  .psl-rooms { display: grid; grid-template-columns: 1fr 1fr; grid-auto-rows: 62svh; }
+  .rl { height: auto; }
+  .rl-rooms { display: grid; grid-template-columns: 1fr 1fr; grid-auto-rows: 62svh; }
+  .rl-rooms.is-many .rc { height: auto; }
   .rp-top { grid-template-columns: 1fr; row-gap: 24px; }
   .rp-media { position: static; height: 72svh; }
   .rp-info { padding-top: 0; }
@@ -179,20 +199,20 @@
 
 /* ---------- phone: one room per screen, swipe sideways for its photos ---------- */
 @media (max-width: 720px) {
-  .psl { gap: 14px; }
-  .psl-title h1 { font-size: clamp(3rem, 17vw, 4.5rem); }
-  .psl-rooms { grid-template-columns: 1fr; grid-auto-rows: 78svh; gap: 10px; }
-  .psr-name { font-size: clamp(2.25rem, 12vw, 3rem); }
+  .rl { gap: 14px; }
+  .rl-title h1 { font-size: clamp(3rem, 17vw, 4.5rem); }
+  .rl-rooms { grid-template-columns: 1fr; grid-auto-rows: 78svh; gap: 10px; }
+  .rc-name { font-size: clamp(2.25rem, 12vw, 3rem); }
   .rp-media { height: 64svh; }
   .gal-thumb { width: 60px; height: 60px; }
   .rp-facts { grid-template-columns: 1fr; }
-  /* two rooms side by side, the third across both */
+  /* two rooms side by side; an odd one out goes across both */
   .others { grid-template-columns: 1fr 1fr; }
-  .others li:nth-child(3) { grid-column: 1 / -1; }
-  .others li:nth-child(3) a { aspect-ratio: 16 / 10; }
+  .others li:last-child:nth-child(odd) { grid-column: 1 / -1; }
+  .others li:last-child:nth-child(odd) a { aspect-ratio: 16 / 10; }
   .other-name { font-size: 2rem; }
 }
 
 @media (prefers-reduced-motion: reduce) {
-  .psr, .gal-btn, .sheet.is-on { transition: none; }
+  .rc, .gal-btn, .sheet.is-on { transition: none; }
 }

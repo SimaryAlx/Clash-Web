@@ -10,10 +10,10 @@
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@600;700&family=Cairo:wght@400;600;800&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="css/style.css">
-<link rel="stylesheet" href="css/ps.css">
+<link rel="stylesheet" href="css/rooms.css">
 <script>document.documentElement.classList.add('js');try{var c=sessionStorage.getItem('clash-arrive');if(c){document.documentElement.dataset.arrive=c;sessionStorage.removeItem('clash-arrive')}}catch(e){}</script>
 </head>
-<body data-branch="zayed" data-page="ps">
+<body data-branch="zayed" data-kind="ps" data-page="list">
 
 <a class="skip" href="#main" data-i18n="skip">اقفز للمحتوى</a>
 
@@ -25,7 +25,7 @@
   <nav class="nav" aria-label="القائمة" data-i18n-aria="navLabel">
     <ul class="nav-links" id="nav-links">
       <li><a href="zayed.html" data-i18n="navSections">الأقسام</a></li>
-      <li><a href="#ps-rooms" data-i18n="navRooms">الأوض</a></li>
+      <li><a href="#rooms" data-i18n="navRooms">الأوض</a></li>
       <li><a href="zayed-pc.html" data-i18n="navPc">أوض PC</a></li>
       <li><a href="#contact" data-i18n="navContact">تواصل معانا</a></li>
     </ul>
@@ -41,16 +41,16 @@
   </div>
 </header>
 
-<main id="main" class="psl">
-  <div class="psl-title">
+<main id="main" class="rl">
+  <div class="rl-title">
     <h1 dir="ltr" lang="en">PlayStation</h1>
-    <p class="psl-sub" data-i18n="psSub">زايد · اسحب صور كل أوضة، ودوس عليها للتفاصيل والحجز.</p>
+    <p class="rl-sub" data-i18n="subZayedPs">زايد · اسحب صور كل أوضة، ودوس عليها للتفاصيل والحجز.</p>
   </div>
 
-  <!-- the four rooms, each a card of photos you swipe; js/ps.js draws them -->
-  <div class="psl-rooms" id="ps-rooms"></div>
+  <!-- a card of photos you swipe for every room; js/rooms.js draws them -->
+  <div class="rl-rooms" id="rooms"></div>
   <noscript>
-    <ul class="psl-plain">
+    <ul class="rl-plain">
       <li><a href="zayed-ps-room.html?room=normal">Normal PS5 Room · 200 جنيه للساعة</a></li>
       <li><a href="zayed-ps-room.html?room=vip">VIP PS5 Room · 250 جنيه للساعة</a></li>
       <li><a href="zayed-ps-room.html?room=pool">Pool Room · 400 جنيه للساعة</a></li>
@@ -99,6 +99,6 @@
 <div class="sheet" aria-hidden="true"></div>
 
 <script src="js/site.js" defer></script>
-<script src="js/ps.js" defer></script>
+<script src="js/rooms.js" defer></script>
 </body>
 </html>

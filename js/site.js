@@ -1,4 +1,4 @@
-/* Clash Esports: what the pages that don't run main.js share (the sections page and the PlayStation pages):
+/* Clash Esports: what every page except the branch picker shares (the sections page and the room pages):
    the Arabic / English switch, where Arabic is read from the page itself and each page hands over its English words,
    and the walk from one page into the next. */
 window.ClashSite = (() => {
@@ -62,6 +62,13 @@ window.ClashSite = (() => {
     setTimeout(() => { location.href = href; }, 980);
     return true;
   }
+  /* the floating WhatsApp button steps aside while the footer, which has its own, is on screen */
+  const float = document.querySelector('.wa');
+  const foot = document.querySelector('.foot');
+  if (float && foot && 'IntersectionObserver' in window) {
+    new IntersectionObserver(([e]) => float.classList.toggle('is-away', e.isIntersecting)).observe(foot);
+  }
+
   /* coming back with the browser's back button: undo the walk */
   window.addEventListener('pageshow', (e) => {
     if (!e.persisted) return;
