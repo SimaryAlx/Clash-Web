@@ -3,13 +3,16 @@
 
 /* ---------- the photo strip ---------- */
 .gal { position: relative; overflow: hidden; background: var(--surface); }
+/* native scrolling both ways: sideways moves the photos, up and down moves the page; no pinch or double-tap zoom here */
 .gal-track {
   display: flex; height: 100%; overflow-x: auto; overscroll-behavior-x: contain;
   scroll-snap-type: x mandatory; scrollbar-width: none;
+  touch-action: pan-x pan-y; -webkit-user-select: none; user-select: none;
 }
 .gal-track::-webkit-scrollbar { display: none; }
 .gal-track:focus-visible { outline-offset: -3px; }
 .gal-slide { flex: 0 0 100%; scroll-snap-align: start; }
+.gal-slide img, .gal-thumb img, .other img { -webkit-user-drag: none; -webkit-touch-callout: none; }
 .gal-slide img { width: 100%; height: 100%; object-fit: cover; }
 /* one bar per photo along the top, the lit one is the photo on screen */
 .gal-bars { position: absolute; inset: 12px 12px auto; display: flex; gap: 4px; pointer-events: none; }
@@ -31,7 +34,7 @@
 @media (hover: hover) and (pointer: fine) { .gal-btn:hover { background: var(--ink); color: var(--bg); } }
 
 /* ---------- the rooms page ---------- */
-.rl { display: grid; grid-template-rows: auto 1fr; height: calc(100svh - var(--bar)); padding: 0 var(--margin) var(--margin); gap: 20px; }
+.rl { display: grid; grid-template-rows: auto 1fr; height: calc(100svh - var(--bar-full)); padding: 0 var(--margin) var(--margin); gap: 20px; }
 .rl-title { display: flex; flex-wrap: wrap; align-items: baseline; gap: 0 0.75em; }
 .rl-title h1 { font-family: "Barlow Condensed", sans-serif; font-weight: 700; font-size: clamp(3.5rem, 1.5rem + 6.5vw, 8.5rem); line-height: 0.85; letter-spacing: -0.01em; text-transform: uppercase; }
 .rl-sub { color: var(--muted); font-weight: 600; }
@@ -89,12 +92,10 @@
 @media (prefers-reduced-motion: no-preference) {
   .js .rc { animation: rise-in 600ms var(--ease-out) both; animation-delay: calc(var(--i, 0) * 60ms + 60ms); }
   .js .rc:nth-child(2) { --i: 1; } .js .rc:nth-child(3) { --i: 2; } .js .rc:nth-child(4) { --i: 3; } .js .rc:nth-child(n+5) { --i: 4; }
-  .js .rc .gal-slide img { animation: photo-in 1000ms var(--ease-out) backwards; animation-delay: calc(var(--i, 0) * 60ms + 60ms); }
   .js .rc-copy { animation: words-in 450ms var(--ease-out) backwards; animation-delay: calc(var(--i, 0) * 60ms + 320ms); }
   .js .rl-title { animation: words-in 450ms var(--ease-out) both; }
 }
 @keyframes rise-in { from { clip-path: inset(100% 0 0 0); } to { clip-path: inset(0 0 0 0); } }
-@keyframes photo-in { from { transform: scale(1.14); } to { transform: none; } }
 @keyframes words-in { from { opacity: 0; transform: translateY(16px); } to { opacity: 1; transform: none; } }
 
 /* leaving: the chosen room takes the row, then the page dims to dark */
@@ -112,9 +113,9 @@
 [dir="rtl"] .rp-back svg { scale: 1 1; }
 .rp-top { display: grid; grid-template-columns: 7fr 5fr; column-gap: clamp(24px, 4vw, 72px); align-items: start; margin-top: 8px; }
 .rp-media {
-  position: sticky; top: calc(var(--bar) + 12px);
+  position: sticky; top: calc(var(--bar-full) + 12px);
   display: grid; grid-template-rows: 1fr auto; gap: 8px;
-  height: calc(100svh - var(--bar) - 24px);
+  height: calc(100svh - var(--bar-full) - 24px);
 }
 .rp-media .gal { min-height: 0; }
 .gal-thumbs { display: flex; gap: 8px; }
@@ -181,7 +182,6 @@
 @media (hover: hover) and (pointer: fine) { .other a:hover img { transform: scale(1.05); } }
 
 @media (prefers-reduced-motion: no-preference) {
-  .js .rp-top .gal-slide:first-child img { animation: photo-in 900ms var(--ease-out) backwards; }
   .js .rp-info > * { animation: words-in 450ms var(--ease-out) backwards; }
   .js .rp-info > :nth-child(2) { animation-delay: 80ms; } .js .rp-info > :nth-child(3) { animation-delay: 160ms; }
   .js .rp-info > :nth-child(4) { animation-delay: 220ms; } .js .rp-info > :nth-child(n+5) { animation-delay: 280ms; }

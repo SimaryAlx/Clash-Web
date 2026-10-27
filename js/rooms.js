@@ -287,13 +287,13 @@
     return `
       <div class="gal" data-gal>
         <ul class="gal-track" tabindex="0" aria-label="${w.photos(r.name)}">
-          ${r.photos.map(([f, pw, ph], i) => `<li class="gal-slide"><img src="${photoSrc(f)}" width="${pw}" height="${ph}" alt="${w.photo(i + 1, n)} · ${r.name}"${eager && i === 0 ? '' : ' loading="lazy"'}></li>`).join('')}
+          ${r.photos.map(([f, pw, ph], i) => `<li class="gal-slide"><img src="${photoSrc(f)}" draggable="false" width="${pw}" height="${ph}" alt="${w.photo(i + 1, n)} · ${r.name}"${eager && i === 0 ? '' : ' loading="lazy"'}></li>`).join('')}
         </ul>
         <p class="gal-bars" aria-hidden="true">${r.photos.map(() => '<span></span>').join('')}</p>
         <button class="gal-btn gal-prev" type="button" aria-label="${w.prev}">${arrow}</button>
         <button class="gal-btn gal-next" type="button" aria-label="${w.next}">${arrow}</button>
       </div>
-      ${thumbs ? `<div class="gal-thumbs">${r.photos.map(([f], i) => `<button type="button" class="gal-thumb" data-to="${i}" aria-label="${w.photo(i + 1, n)}"><img src="${photoSrc(f)}" alt="" loading="lazy"></button>`).join('')}</div>` : ''}`;
+      ${thumbs ? `<div class="gal-thumbs">${r.photos.map(([f], i) => `<button type="button" class="gal-thumb" data-to="${i}" aria-label="${w.photo(i + 1, n)}"><img src="${photoSrc(f)}" draggable="false" alt="" loading="lazy"></button>`).join('')}</div>` : ''}`;
   }
 
   function wireGallery(root, scope = root) {
@@ -432,7 +432,7 @@
     document.getElementById('others').innerHTML = others.map((x) => `
       <li class="other rc-${x.side || 'none'}">
         <a href="${roomUrl(x)}">
-          <img src="${photoSrc(x.photos[0][0])}" width="${x.photos[0][1]}" height="${x.photos[0][2]}" alt="" loading="lazy">
+          <img src="${photoSrc(x.photos[0][0])}" draggable="false" width="${x.photos[0][1]}" height="${x.photos[0][2]}" alt="" loading="lazy">
           <span class="other-copy"><span class="other-name" dir="ltr">${shortName(x)}</span><span><b dir="ltr">${x.price}</b> ${w.perHour}</span></span>
         </a>
       </li>`).join('');

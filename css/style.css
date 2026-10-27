@@ -33,6 +33,10 @@
   --gutter: clamp(12px, 1.6vw, 24px);
   --section: clamp(96px, 12vw, 200px);
   --bar: 64px;
+  /* the iPhone status bar and home bar (0 elsewhere); the header grows by the first, the footer by the second */
+  --safe-top: env(safe-area-inset-top, 0px);
+  --safe-bottom: env(safe-area-inset-bottom, 0px);
+  --bar-full: calc(var(--bar) + var(--safe-top));
 
   --ease-out: cubic-bezier(0.22, 1, 0.36, 1);
   --ease-soft: cubic-bezier(0.25, 0.1, 0.25, 1);
@@ -41,7 +45,7 @@
 }
 
 *, *::before, *::after { box-sizing: border-box; }
-html { -webkit-text-size-adjust: 100%; scroll-behavior: smooth; scroll-padding-top: var(--bar); }
+html { -webkit-text-size-adjust: 100%; scroll-behavior: smooth; scroll-padding-top: var(--bar-full); background: var(--surface); }
 body {
   margin: 0;
   background: var(--bg);
@@ -94,7 +98,7 @@ button { font: inherit; color: inherit; }
 .bar {
   position: sticky; top: 0; z-index: 40;
   display: flex; align-items: center; gap: 24px;
-  height: var(--bar); padding: 0 var(--margin);
+  height: var(--bar-full); padding: var(--safe-top) var(--margin) 0;
   background: var(--bg);
 }
 .brand { display: flex; align-items: center; gap: 10px; text-decoration: none; }
@@ -121,7 +125,7 @@ button { font: inherit; color: inherit; }
 .foot {
   position: relative; overflow: hidden;
   background: var(--surface); color: var(--ink);
-  padding: var(--section) var(--margin) 0;
+  padding: var(--section) var(--margin) var(--safe-bottom);
 }
 .foot::before, .foot::after { content: ""; position: absolute; top: 0; height: 4px; z-index: 0; }
 .foot::before { inset-inline: 0 50%; background: var(--red); }
@@ -150,7 +154,7 @@ button { font: inherit; color: inherit; }
 
 /* ---------- whatsapp ---------- */
 .wa {
-  position: fixed; bottom: 20px; inset-inline-end: 20px; z-index: 45;
+  position: fixed; bottom: calc(20px + var(--safe-bottom)); inset-inline-end: 20px; z-index: 45;
   width: 56px; height: 56px; border-radius: 50%;
   display: grid; place-items: center;
   background: #25d366; color: #0c0c0d;
@@ -183,7 +187,7 @@ button { font: inherit; color: inherit; }
   .bar { gap: 8px; }
   .brand span { display: none; }
   .menu-toggle { display: inline-block; }
-  .nav { position: absolute; top: var(--bar); inset-inline: 0; margin: 0; }
+  .nav { position: absolute; top: var(--bar-full); inset-inline: 0; margin: 0; }
   .nav-links {
     display: none; flex-direction: column; gap: 0;
     background: var(--surface); padding: 8px var(--margin) 16px;

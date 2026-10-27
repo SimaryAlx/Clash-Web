@@ -1,7 +1,7 @@
 /* Clash Zayed: the sections page. PC and PlayStation are the two big doors; food and simulators are
    narrower panels that only open a few words. Dark seams keep the four apart. Loads after style.css. */
 
-.hub { display: grid; grid-template-rows: auto 1fr; height: calc(100svh - var(--bar)); padding: 0 var(--margin) var(--margin); gap: 20px; }
+.hub { display: grid; grid-template-rows: auto 1fr; height: calc(100svh - var(--bar-full)); padding: 0 var(--margin) var(--margin); gap: 20px; }
 .hub-title { display: flex; flex-wrap: wrap; align-items: baseline; gap: 0 0.75em; }
 .hub-title h1 { font-family: "Barlow Condensed", sans-serif; font-weight: 700; font-size: clamp(3.5rem, 1.5rem + 6.5vw, 8.5rem); line-height: 0.85; letter-spacing: -0.01em; text-transform: uppercase; }
 .hub-sub { color: var(--muted); font-weight: 600; }
@@ -87,7 +87,7 @@
 
 /* ---------- tablet: PC and PlayStation on top, the two small panels below ---------- */
 @media (max-width: 1080px) {
-  .hub { height: auto; min-height: calc(100svh - var(--bar)); }
+  .hub { height: auto; min-height: calc(100svh - var(--bar-full)); }
   .cards { display: grid; grid-template-columns: 1fr 1fr; grid-template-rows: minmax(52svh, auto) minmax(30svh, auto); }
   .card-info > img { filter: saturate(0.55) brightness(0.55); }
   .is-leaving .card.is-chosen { filter: none; }
