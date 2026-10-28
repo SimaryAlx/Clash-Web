@@ -381,6 +381,24 @@
   }
 
   let hours = 2;
+  /* booking through the site: on when the database is connected; before that only on a preview link (?demo),
+     so a visitor's request can never stay stuck in their own browser */
+  const siteBooking = () => KIND === 'ps' && window.ClashBooking && window.ClashStore
+    && (ClashStore.live || /[?&]demo/.test(location.search));
+  function bookWithWhatsApp(r, w) {
+    const draw = () => {
+      document.getElementById('hours').textContent = hours;
+      /* ten hours of a room with a pack is the pack */
+      document.getElementById('total').innerHTML = hours === 10 && r.pack ? w.packTotal(r.pack, r.price * 10) : w.total(hours, hours * r.price);
+      document.getElementById('book').href = wa(w.bookText(r.name, hours));
+      document.getElementById('less').disabled = hours <= 1;
+      document.getElementById('more').disabled = hours >= 12;
+    };
+    document.getElementById('less').addEventListener('click', () => { hours = Math.max(1, hours - 1); draw(); });
+    document.getElementById('more').addEventListener('click', () => { hours = Math.min(12, hours + 1); draw(); });
+    draw();
+  }
+
   function renderRoom() {
     const r = currentRoom();
     const w = W();
@@ -397,8 +415,8 @@
         <p class="rp-save">${w.save(r.was - r.price)}</p>
         ${factsHtml(r, w)}
         ${insideHtml(r, w)}
-        <div class="rp-book">
-          <div class="rp-hours">
+        <div class="rp-book" id="book-box">
+          ${siteBooking() ? '' : `<div class="rp-hours">
             <p class="rp-h" id="hours-label">${w.hoursLabel}</p>
             <div class="stepper" role="group" aria-labelledby="hours-label">
               <button type="button" class="step" id="less" aria-label="${w.less}">−</button>
@@ -408,22 +426,18 @@
           </div>
           <p class="rp-total" id="total"></p>
           <a class="btn rp-cta" id="book" href="#" target="_blank" rel="noopener">${w.book}</a>
-          <p class="rp-note">${w.bookNote}</p>
+          <p class="rp-note">${w.bookNote}</p>`}
         </div>
       </div>`;
     const media = document.querySelector('.rp-media');
     wireGallery(media.querySelector('.gal'), media);
-    const draw = () => {
-      document.getElementById('hours').textContent = hours;
-      /* ten hours of a room with a pack is the pack */
-      document.getElementById('total').innerHTML = hours === 10 && r.pack ? w.packTotal(r.pack, r.price * 10) : w.total(hours, hours * r.price);
-      document.getElementById('book').href = wa(w.bookText(r.name, hours));
-      document.getElementById('less').disabled = hours <= 1;
-      document.getElementById('more').disabled = hours >= 12;
-    };
-    document.getElementById('less').addEventListener('click', () => { hours = Math.max(1, hours - 1); draw(); });
-    document.getElementById('more').addEventListener('click', () => { hours = Math.min(12, hours + 1); draw(); });
-    draw();
+    /* PlayStation: the booking request goes to the staff panel; PC: hours and WhatsApp until its turn comes */
+    if (siteBooking()) {
+      ClashBooking.mount(document.getElementById('book-box'), { id: r.id, name: r.name }, wa(w.bookText(r.name, 2)));
+    } else {
+      bookWithWhatsApp(r, w);
+    }
+
 
     /* the other rooms, to move on without going back */
     /* three or four to a row, so none is left on its own */
