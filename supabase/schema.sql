@@ -12,6 +12,13 @@
 create extension if not exists pgcrypto;
 create extension if not exists btree_gist;
 
+-- the time a booking holds its room. Postgres calls timestamptz + interval only "stable" because days and months
+-- shift with daylight saving; minutes never do, so this is safe to mark immutable and use in the constraint below
+create or replace function public.booking_span(p_start timestamptz, p_minutes int) returns tstzrange
+language sql immutable as $$
+  select tstzrange(p_start, p_start + make_interval(mins => coalesce(p_minutes, 0)))
+$$;
+
 -- ---------------------------------------------------------------- rooms: every bookable room, one row each
 create table if not exists public.rooms (
   id          text primary key,                 -- 'zayed-ps-normal-1'
@@ -76,7 +83,7 @@ create table if not exists public.bookings (
   constraint confirmed_is_complete check (status <> 'confirmed' or (room_id is not null and minutes is not null)),
   constraint no_double_booking exclude using gist (
     room_id with =,
-    tstzrange(starts_at, starts_at + make_interval(mins => coalesce(minutes, 0))) with &&
+    public.booking_span(starts_at, minutes) with &&
   ) where (status = 'confirmed')
 );
 create index if not exists bookings_starts_at on public.bookings (starts_at);
