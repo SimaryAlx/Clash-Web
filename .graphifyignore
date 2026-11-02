@@ -1,0 +1,9 @@
+# graphify maps the site's own code only: pages, styles, scripts and the database file.
+assets/
+video/
+dist/
+data/
+skill-sources/
+.taste-skill/
+graphify-out/
+node_modules/

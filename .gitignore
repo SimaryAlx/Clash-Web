@@ -11,3 +11,6 @@ assets/*
 !assets/scenes/
 !assets/brand/
 !assets/october-hd/
+
+# the code map graphify builds on this machine
+graphify-out/
