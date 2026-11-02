@@ -119,7 +119,9 @@ window.ClashStore = (() => {
       },
       async signUp(name, email, password) {
         const c = await sb();
-        const { data, error } = await c.auth.signUp({ email, password, options: { data: { name } } });
+        /* the confirmation email links back to this panel, not to Supabase's default Site URL */
+        const emailRedirectTo = location.origin + location.pathname;
+        const { data, error } = await c.auth.signUp({ email, password, options: { data: { name }, emailRedirectTo } });
         if (error) throw new StoreError(/registered/i.test(error.message) ? 'exists' : 'bad_signup', error.message);
         if (!data.session) return { needsConfirm: true };
         return this.session();
