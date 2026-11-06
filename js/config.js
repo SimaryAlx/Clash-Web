@@ -5,4 +5,6 @@
 window.CLASH_CONFIG = {
   supabaseUrl: 'https://cahmrpglmwxfmppnkmsb.supabase.co',
   supabaseAnonKey: 'sb_publishable_3eqOdUx2WacHf9lgSgTWOQ_IS3aEkYN',
+  // the member portal's data: 'mock' (made-up PCs and member, in this browser) or 'http' (the Clash API, once it exists)
+  CLASH_API_MODE: 'mock',
 };

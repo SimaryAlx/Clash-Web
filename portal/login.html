@@ -1,0 +1,96 @@
+<!doctype html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="utf-8">
+<meta name="robots" content="noindex, nofollow">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="theme-color" content="#08080a">
+<meta name="robots" content="noindex">
+<title>تسجيل الدخول | Clash Esports</title>
+<link rel="icon" href="../assets/instagram-hd/profile.jpg">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@600;700&family=Cairo:wght@400;600;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../css/style.css">
+<link rel="stylesheet" href="../css/portal-login.css">
+<script>document.documentElement.classList.add('js');try{if(localStorage.getItem('clash-language')!=='ar'){document.documentElement.lang='en';document.documentElement.dir='ltr'}}catch(e){}</script>
+</head>
+<body class="pl-page">
+
+<a class="skip" href="#main" data-i18n="skip">اقفز للمحتوى</a>
+
+<header class="bar" id="top">
+  <a class="brand" href="../index.html" aria-label="Clash Esports">
+    <img src="../assets/instagram-hd/profile.jpg" width="150" height="150" alt="">
+    <span dir="ltr">CLASH</span>
+  </a>
+  <span class="demo-tag" dir="ltr" title="Demo with sample data">DEMO</span>
+  <nav class="nav" aria-label="القائمة" data-i18n-aria="navLabel">
+    <ul class="nav-links" id="nav-links">
+      <li><a href="../zayed.html" data-i18n="navSections">الأقسام</a></li>
+      <li><a href="../zayed-pc.html" data-i18n="navPc">أوض PC</a></li>
+      <li><a href="../zayed-ps.html" data-i18n="navPlaystation">بلايستيشن</a></li>
+      <li><a href="#contact" data-i18n="navContact">تواصل معانا</a></li>
+    </ul>
+  </nav>
+  <div class="bar-actions">
+    <button class="lang" type="button" id="lang-toggle" lang="en" aria-label="English">EN</button>
+    <button class="menu-toggle" type="button" id="menu-toggle" aria-expanded="false" aria-controls="nav-links">
+      <span data-i18n="menu">القائمة</span>
+    </button>
+  </div>
+</header>
+
+<main id="main" class="pl-main">
+  <section class="pl-box is-checking" id="pl-box" aria-labelledby="pl-title">
+    <h1 id="pl-title" class="pl-title" data-i18n="title">تسجيل الدخول</h1>
+    <p class="pl-hint" data-i18n="hint">نفس اسم المستخدم والباسورد اللي بتستخدمهم على أجهزة الصالة.</p>
+    <p class="pl-hint demo-note" data-i18n="demoNote">نسخة تجريبية: ادخل بأي اسم مستخدم وأي باسورد. الأرقام كلها تجريبية.</p>
+
+    <form id="pl-form" novalidate autocomplete="on">
+      <div class="pl-field">
+        <label for="pl-user" data-i18n="user">اسم المستخدم</label>
+        <input id="pl-user" name="username" type="text" dir="ltr" inputmode="text" autocomplete="username" autocapitalize="none" autocorrect="off" spellcheck="false" aria-describedby="pl-user-err" required>
+        <p class="pl-err" id="pl-user-err" hidden></p>
+      </div>
+
+      <div class="pl-field">
+        <label for="pl-pass" data-i18n="pass">الباسورد</label>
+        <div class="pl-pass">
+          <input id="pl-pass" name="password" type="password" dir="ltr" autocomplete="current-password" aria-describedby="pl-pass-err" required>
+          <button type="button" class="pl-eye" id="pl-eye" aria-controls="pl-pass" aria-pressed="false">إظهار</button>
+        </div>
+        <p class="pl-err" id="pl-pass-err" hidden></p>
+      </div>
+
+      <label class="pl-check">
+        <input type="checkbox" id="pl-remember" name="remember">
+        <span class="pl-tick" aria-hidden="true"></span>
+        <span data-i18n="remember">افتكرني على الجهاز ده</span>
+      </label>
+
+      <p class="pl-msg" id="pl-msg" hidden></p>
+
+      <button class="btn pl-submit" type="submit" id="pl-submit"><span id="pl-submit-label">دخول</span></button>
+    </form>
+
+    <ul class="pl-links">
+      <li><span class="pl-soon" aria-disabled="true"><span data-i18n="forgot">نسيت الباسورد؟</span> <em data-i18n="soon">قريبًا</em></span></li>
+      <li><span class="pl-soon" aria-disabled="true"><span data-i18n="create">اعمل حساب</span> <em data-i18n="soon2">قريبًا</em></span></li>
+    </ul>
+  </section>
+</main>
+
+<footer class="foot pl-foot" id="contact">
+  <div class="foot-legal">
+    <p><a href="https://wa.me/201099584833" target="_blank" rel="noopener" data-i18n="help">محتاج مساعدة؟ كلمنا على واتساب</a> · <a href="../index.html" data-i18n="back">الرجوع للموقع</a> · <span dir="ltr">© 2026 Clash Esports</span></p>
+  </div>
+</footer>
+
+<script src="../js/config.js" defer></script>
+<script src="../js/pc-layout.js" defer></script>
+<script src="../js/clash-api.js" defer></script>
+<script src="../js/site.js" defer></script>
+<script src="../js/portal-login.js" defer></script>
+</body>
+</html>

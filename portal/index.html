@@ -1,0 +1,113 @@
+<!doctype html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="utf-8">
+<meta name="robots" content="noindex, nofollow">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="theme-color" content="#08080a">
+<title>حسابي | Clash Esports</title>
+<meta name="robots" content="noindex">
+<link rel="icon" href="../assets/instagram-hd/profile.jpg">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@600;700&family=Cairo:wght@400;600;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../css/style.css">
+<link rel="stylesheet" href="../css/portal.css">
+<script>document.documentElement.classList.add('js');try{if(localStorage.getItem('clash-language')!=='ar'){document.documentElement.lang='en';document.documentElement.dir='ltr'}}catch(e){}</script>
+</head>
+<body class="portal" data-page="portal">
+
+<a class="skip" href="#main" data-i18n="skip">اقفز للمحتوى</a>
+
+<header class="bar" id="top">
+  <button class="pn-toggle" type="button" id="pn-toggle" aria-expanded="false" aria-controls="pn-menu" aria-label="القائمة" data-i18n-aria="menu">
+    <span aria-hidden="true">&#9776;</span>
+  </button>
+  <a class="brand" href="../index.html" aria-label="Clash Esports">
+    <img src="../assets/instagram-hd/profile.jpg" width="150" height="150" alt="">
+    <span dir="ltr">CLASH</span>
+  </a>
+  <span class="demo-tag" dir="ltr" title="Demo with sample data">DEMO</span>
+  <div class="bar-actions">
+    <a class="link-quiet branch-switch" href="../zayed.html" data-i18n="backSite">الموقع</a>
+    <button class="lang" type="button" id="lang-toggle" lang="en" aria-label="English">EN</button>
+  </div>
+</header>
+
+<div class="pn-shell">
+  <nav class="pn-menu" id="pn-menu" aria-label="قائمة الحساب" data-i18n-aria="menuLabel">
+    <ul>
+      <li><a class="is-active" href="index.html" aria-current="page" data-i18n="tabDash">لوحتي</a></li>
+      <li><a href="#places" id="pn-menu-open" data-i18n="tabOpen">افتح PC</a></li>
+      <li><button type="button" class="pn-menu-btn" id="pn-menu-wait" disabled><span data-i18n="tabWait">قائمة الانتظار</span><em id="pn-menu-badge" hidden></em></button></li>
+      <li><span class="is-soon" aria-disabled="true"><span data-i18n="tabSessions">الجلسات</span><em data-i18n="soon">قريبًا</em></span></li>
+      <li><span class="is-soon" aria-disabled="true"><span data-i18n="tabTopup">شحن رصيد</span><em data-i18n="soon">قريبًا</em></span></li>
+      <li><span class="is-soon" aria-disabled="true"><span data-i18n="tabOffers">العروض</span><em data-i18n="soon">قريبًا</em></span></li>
+    </ul>
+    <button class="pn-logout" type="button" id="pn-logout" data-i18n="logout">تسجيل الخروج</button>
+  </nav>
+
+  <main id="main" class="pn-main" aria-busy="true">
+    <section class="pn-member" id="member" aria-live="polite"></section>
+
+    <section class="pn-cards" id="cards" aria-label="رصيدك" data-i18n-aria="cardsLabel"></section>
+
+    <!-- T6 fills this: the open PC session card with countdown and End session -->
+    <section id="session"></section>
+
+    <!-- T7 fills this: the dashed "Waiting list" pill (and the expiry note) above the chips -->
+    <section id="waitpill" aria-live="polite"></section>
+
+    <!-- T4 fills these: place chips, then the zone box (name, price, your time, free/total) -->
+    <section id="places"></section>
+    <section id="zones"></section>
+
+    <!-- T5 fills this: the floor map (halls and rooms drawn from js/pc-layout.js) -->
+    <section id="floor"></section>
+
+    <!-- bottom sheets (open a PC, waiting list): phone = bottom sheet, desktop = under the zone box -->
+    <div id="dock"></div>
+  </main>
+</div>
+
+<footer class="foot" id="contact" aria-labelledby="foot-title">
+  <div class="foot-top">
+    <div class="foot-invite">
+      <h2 id="foot-title" data-i18n="footTitle">تعالى العب النهارده</h2>
+      <a class="btn btn-ink" href="https://wa.me/201099584833" target="_blank" rel="noopener" data-i18n="footCta">احجز على واتساب</a>
+    </div>
+    <div class="foot-branch">
+      <h3 data-i18n="branchZayed">فرع زايد</h3>
+      <ul>
+        <li><a href="tel:+201099584833" dir="ltr">010 9958 4833</a></li>
+        <li><a href="https://maps.app.goo.gl/peiC2damBcNow2vN6" target="_blank" rel="noopener" data-i18n="map">على الخريطة</a></li>
+        <li data-i18n="hours">مفتوح 24 ساعة، كل يوم</li>
+      </ul>
+    </div>
+    <div class="foot-branch">
+      <h3><a href="../october.html" data-i18n="branchOctober">فرع أكتوبر</a></h3>
+      <ul>
+        <li><a href="tel:+201080972959" dir="ltr">010 8097 2959</a></li>
+        <li><a href="https://maps.app.goo.gl/XJoLmY8eey7gvoQFA" target="_blank" rel="noopener" data-i18n="map">على الخريطة</a></li>
+      </ul>
+    </div>
+    <ul class="foot-social">
+      <li><a href="https://www.instagram.com/clash.esports.eg/" target="_blank" rel="noopener">Instagram</a></li>
+      <li><a href="https://wa.me/201099584833" target="_blank" rel="noopener">WhatsApp</a></li>
+    </ul>
+  </div>
+  <div class="foot-legal">
+    <p><span dir="ltr">© 2026 Clash Esports</span></p>
+  </div>
+  <p class="foot-name" aria-hidden="true" dir="ltr"><span>CLA</span><span>SH</span></p>
+</footer>
+
+<script src="../js/config.js"></script>
+<script src="../js/pc-layout.js"></script>
+<script src="../js/clash-api.js"></script>
+<script src="../js/site.js" defer></script>
+<script src="../js/portal-map.js" defer></script>
+<script src="../js/portal-wait.js" defer></script>
+<script src="../js/portal.js" defer></script>
+</body>
+</html>

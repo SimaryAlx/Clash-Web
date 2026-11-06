@@ -1,0 +1,103 @@
+/* Clash Esports member portal: the login page. Sits on css/style.css (tokens, header, footer).
+   A dark box with a 4px team-colour edge (red above, blue below); colour only in small marks. */
+
+.pl-page { min-height: 100vh; min-height: 100svh; display: flex; flex-direction: column; }
+.pl-main {
+  flex: 1; display: grid; place-items: center;
+  padding: clamp(24px, 6vw, 72px) 16px;
+  padding-inline: max(16px, env(safe-area-inset-left, 0px), env(safe-area-inset-right, 0px));
+}
+
+/* ---------- the box ---------- */
+.pl-box {
+  position: relative; width: 100%; max-width: 440px;
+  background: var(--surface);
+  padding: 32px 24px 28px;
+  padding-inline-start: 28px;
+  opacity: 1; transform: none;
+  transition: opacity 0.6s var(--ease-soft), transform 0.6s var(--ease-soft);
+}
+.pl-box::before { /* the 4px edge: red above, blue below */
+  content: ""; position: absolute; inset-block: 0; inset-inline-start: 0; width: 4px;
+  background: linear-gradient(to bottom, var(--red) 50%, var(--blue) 50%);
+}
+.pl-box.is-checking { opacity: 0; transform: translateY(6px); }
+@media (min-width: 720px) { .pl-box { padding: 44px 40px 36px 44px; } [dir="rtl"] .pl-box { padding: 44px 44px 36px 40px; } }
+
+.pl-title { font-weight: 800; font-size: var(--step-lead); line-height: 1.2; }
+[lang="en"] .pl-title { font-family: var(--font-display); text-transform: uppercase; letter-spacing: 0.01em; font-size: clamp(2rem, 1.6rem + 1.6vw, 2.75rem); line-height: 1; }
+.pl-hint { margin-top: 10px; color: var(--muted); font-size: var(--step-small); line-height: 1.6; }
+
+/* ---------- fields ---------- */
+#pl-form { margin-top: 28px; display: grid; gap: 20px; }
+.pl-field { display: grid; gap: 8px; }
+.pl-field label { font-weight: 600; font-size: var(--step-small); }
+.pl-field input {
+  width: 100%; min-height: 52px; padding: 0 14px;
+  font: inherit; font-size: 16px; /* 16px or more: iOS does not zoom in */
+  color: var(--ink); background: var(--bg);
+  border: 2px solid var(--surface-2); border-radius: 0;
+  transition: border-color 0.6s var(--ease-soft);
+}
+.pl-field input:focus { outline: none; border-color: var(--blue-strong); }
+.pl-field input:focus-visible { outline: 3px solid var(--blue-strong); outline-offset: 2px; }
+.pl-field input[aria-invalid="true"] { border-color: var(--red); }
+.pl-pass { position: relative; }
+.pl-pass input { padding-inline-end: 84px; }
+.pl-eye {
+  position: absolute; inset-block: 0; inset-inline-end: 0; min-width: 76px; padding: 0 14px;
+  background: none; border: 0; cursor: pointer; color: var(--muted);
+  font-size: var(--step-small); font-weight: 600;
+  transition: color 0.6s var(--ease-soft);
+}
+@media (hover: hover) and (pointer: fine) { .pl-eye:hover { color: var(--ink); } }
+
+.pl-err { font-size: var(--step-small); color: #ff8a92; line-height: 1.5; }
+.pl-err[hidden], .pl-msg[hidden] { display: none; }
+
+/* ---------- remember me ---------- */
+.pl-check { display: flex; align-items: center; gap: 12px; min-height: 44px; cursor: pointer; font-size: var(--step-small); font-weight: 600; }
+.pl-check input { position: absolute; opacity: 0; width: 1px; height: 1px; }
+.pl-tick {
+  flex: none; width: 22px; height: 22px; border: 2px solid var(--muted); background: var(--bg);
+  display: grid; place-items: center;
+  transition: border-color 0.6s var(--ease-soft), background-color 0.6s var(--ease-soft);
+}
+.pl-tick::after {
+  content: ""; width: 10px; height: 5px; margin-top: -2px;
+  border-left: 2px solid var(--ink); border-bottom: 2px solid var(--ink);
+  transform: rotate(-45deg) scale(0); transition: transform 0.6s var(--ease-soft);
+}
+.pl-check input:checked + .pl-tick { border-color: var(--blue-strong); }
+.pl-check input:checked + .pl-tick::after { transform: rotate(-45deg) scale(1); }
+.pl-check input:focus-visible + .pl-tick { outline: 3px solid var(--blue-strong); outline-offset: 3px; }
+
+/* ---------- message under the form ---------- */
+.pl-msg {
+  padding: 12px 14px; font-size: var(--step-small); font-weight: 600; line-height: 1.5;
+  background: var(--bg); border-inline-start: 4px solid var(--red);
+}
+
+/* ---------- submit ---------- */
+.pl-submit { width: 100%; transition: transform var(--t-press) var(--ease-out), background-color 0.6s var(--ease-soft), opacity 0.6s var(--ease-soft); }
+.pl-submit:disabled { cursor: default; opacity: 0.6; }
+.pl-submit:disabled:active { transform: none; }
+.pl-submit.is-busy { background: var(--surface-2); opacity: 1; }
+
+/* ---------- soon links ---------- */
+.pl-links { margin-top: 20px; display: flex; flex-wrap: wrap; gap: 4px 24px; }
+.pl-soon { display: inline-flex; align-items: center; gap: 8px; min-height: 44px; font-size: var(--step-small); font-weight: 600; color: var(--muted); cursor: not-allowed; }
+.pl-soon em { font-style: normal; font-size: 0.8125rem; padding: 2px 8px; border: 1px solid var(--surface-2); color: var(--muted); }
+
+/* ---------- footer: the short one ---------- */
+.pl-foot { padding-top: 40px; padding-bottom: calc(24px + var(--safe-bottom)); }
+.pl-foot .foot-legal { padding-top: 0; }
+
+@media (prefers-reduced-motion: reduce) {
+  .pl-box, .pl-box.is-checking { transition: none; transform: none; }
+  .pl-submit.is-busy #pl-submit-label { animation: none; }
+}
+
+/* demo build: small tag next to the logo (remove when the real API is wired) */
+.demo-tag { margin-inline-start: 10px; padding: 2px 8px; border: 1px dashed var(--yellow); border-radius: 6px; color: var(--yellow); font: 700 12px/1.4 var(--font-text); letter-spacing: .08em; }
+.demo-note { color: var(--yellow); }
