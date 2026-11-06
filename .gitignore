@@ -18,3 +18,4 @@ graphify-out/
 # graphify instructions and hooks for Claude Code on this machine
 CLAUDE.md
 .claude/
+.router/
