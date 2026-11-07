@@ -18,6 +18,20 @@
       signOut: 'Sign out', langBtn: 'العربية', menu: 'Menu', close: 'Close',
       search: 'Search by name, mobile or #number',
       roles: { owner: 'Owner', manager: 'Manager', shift: 'Shift' },
+      navMembers: 'New members',
+      mTitle: 'New members', mSub: 'Sign-ups from the site. Check the ID, then accept or reject.',
+      mPending: 'Pending', mAccepted: 'Accepted', mRejected: 'Rejected', mNone: 'Nothing here.', mMore: 'Load more', mLoading: 'Loading…',
+      mId: 'ID ✓', mNoId: 'No ID', mAge: (n) => `${n} y`, mWa: 'WhatsApp',
+      mFirst: 'First name', mLast: 'Last name', mUser: 'Username', mPhone: 'Mobile', mEmail: 'Email', mBirth: 'Birth date', mAgeL: 'Age', mSent: 'Sent', mSource: 'Source',
+      mStatus: 'Status', mBy: 'Decided by', mReason: 'Reason', mIdFront: 'ID front', mIdBack: 'ID back', mTapZoom: 'Tap to zoom', mImgLoading: 'Loading photos…',
+      mWaitBranch: 'Waiting for branch visit: no ID photos were sent.', mAccept: 'Accept', mReject: 'Reject',
+      mConfirmAcceptQ: (n) => `Accept ${n}? This turns the lounge account on.`, mConfirm: 'Yes, accept', mBack: 'Back',
+      mRejectTitle: 'Why reject?', mQuick: ['ID not clear', "Name doesn't match ID", 'Under age', 'Other…'], mReasonPh: 'Write the reason', mReasonNeed: 'Write a reason first.', mSendReject: 'Reject request',
+      mDoneAccepted: 'Accepted. The account is on.', mDoneRejected: 'Rejected. The account stays off.', mTellMember: 'Now tell the member:', mWaSend: 'Send on WhatsApp',
+      mWaTextCome: (n) => `Hi ${n}, this is Clash Esports. To finish setting up your account, please come to the branch with your national ID. Thank you!`,
+      mErr401: 'Your sign-in expired. Sign out and sign in again.', mErr403: "Your account isn't staff.", mErrDown: 'The lounge system is not answering. Try again in a moment.',
+      mErrNet: 'Could not reach the server.', mErrNoApi: 'No server is set for this page.', mErrGeneric: 'Something went wrong.', mErrGone: 'This request was already handled.',
+      mS: { pending: 'Pending', accepted: 'Accepted', rejected: 'Rejected' }, mSrc: { web: 'Site', google: 'Google' },
       /* sign in */
       signInTitle: 'Staff sign in', signInLine: 'Bookings from the site, rooms and the team.', email: 'Email', password: 'Password', name: 'Name',
       signIn: 'Sign in', signUpTitle: 'Create a staff account', signUp: 'Create account', toSignUp: 'New here? Create an account', toSignIn: 'Have an account? Sign in',
@@ -81,6 +95,20 @@
       signOut: 'خروج', langBtn: 'English', menu: 'القائمة', close: 'قفل',
       search: 'دوّر بالاسم أو الموبايل أو رقم الحجز',
       roles: { owner: 'المالك', manager: 'مدير', shift: 'شيفت' },
+      navMembers: 'الأعضاء الجدد',
+      mTitle: 'الأعضاء الجدد', mSub: 'طلبات التسجيل من الموقع. اتأكد من البطاقة وبعدها اقبل أو ارفض.',
+      mPending: 'مستني', mAccepted: 'مقبول', mRejected: 'مرفوض', mNone: 'مفيش حاجة هنا.', mMore: 'هات أكتر', mLoading: 'بيحمّل…',
+      mId: 'بطاقة ✓', mNoId: 'من غير بطاقة', mAge: (n) => `${n} سنة`, mWa: 'واتساب',
+      mFirst: 'الاسم الأول', mLast: 'اسم العيلة', mUser: 'اسم المستخدم', mPhone: 'الموبايل', mEmail: 'الإيميل', mBirth: 'تاريخ الميلاد', mAgeL: 'السن', mSent: 'اتبعت', mSource: 'المصدر',
+      mStatus: 'الحالة', mBy: 'اللي قرر', mReason: 'السبب', mIdFront: 'البطاقة (الوش)', mIdBack: 'البطاقة (الضهر)', mTapZoom: 'دوس عشان تكبّر', mImgLoading: 'بنحمّل الصور…',
+      mWaitBranch: 'مستني زيارة الفرع: ما بعتش صور البطاقة.', mAccept: 'اقبل', mReject: 'ارفض',
+      mConfirmAcceptQ: (n) => `تقبل ${n}؟ ده هيفتح حسابه في الصالة.`, mConfirm: 'أيوه، اقبل', mBack: 'رجوع',
+      mRejectTitle: 'ليه الرفض؟', mQuick: ['البطاقة مش واضحة', 'الاسم مش زي البطاقة', 'تحت السن', 'سبب تاني…'], mReasonPh: 'اكتب السبب', mReasonNeed: 'اكتب السبب الأول.', mSendReject: 'ارفض الطلب',
+      mDoneAccepted: 'اتقبل. الحساب اشتغل.', mDoneRejected: 'اترفض. الحساب فاضل مقفول.', mTellMember: 'دلوقتي قوله:', mWaSend: 'ابعت على واتساب',
+      mWaTextCome: (n) => `أهلاً ${n}، معاك كلاش إسبورتس. عشان نكمّل تفعيل حسابك، تعالى الفرع ومعاك البطاقة. شكراً!`,
+      mErr401: 'تسجيل دخولك خلص. اخرج وادخل تاني.', mErr403: 'حسابك مش من الإدارة.', mErrDown: 'سيستم الصالة مش بيرد. جرّب كمان شوية.',
+      mErrNet: 'معرفناش نوصل للسيرفر.', mErrNoApi: 'مفيش سيرفر متحدد للصفحة دي.', mErrGeneric: 'حصلت مشكلة.', mErrGone: 'الطلب ده اتعامل معاه قبل كده.',
+      mS: { pending: 'مستني', accepted: 'مقبول', rejected: 'مرفوض' }, mSrc: { web: 'الموقع', google: 'جوجل' },
       signInTitle: 'دخول الإدارة', signInLine: 'حجوزات الموقع والأوض والفريق.', email: 'الإيميل', password: 'الباسورد', name: 'الاسم',
       signIn: 'دخول', signUpTitle: 'اعمل حساب للفريق', signUp: 'اعمل الحساب', toSignUp: 'أول مرة؟ اعمل حساب', toSignIn: 'عندك حساب؟ ادخل',
       demoGate: 'وضع تجريبي: أي باسورد ينفع. owner@clash.demo المالك، karim@clash.demo مدير، omar@clash.demo شيفت.',
@@ -246,6 +274,7 @@
       return;
     }
     route();
+    if (st.view === 'members') memLoad(false); else memPeek();
     await loadAll();
     st.bookings.forEach((b) => seen.add(b.id));
     watch();
@@ -253,10 +282,10 @@
 
   function route() {
     const v = location.hash.replace('#', '');
-    st.view = ['bookings', 'board', 'rooms', 'team'].includes(v) ? v : 'bookings';
+    st.view = ['bookings', 'board', 'rooms', 'team', 'members'].includes(v) ? v : 'bookings';
     if (st.view === 'team' && !can('seeTeam')) st.view = 'bookings';
   }
-  addEventListener('hashchange', () => { route(); st.menu = false; render(); });
+  addEventListener('hashchange', () => { route(); st.menu = false; if (st.view === 'members') memLoad(false); else render(); });
 
   /* ================================================================ rendering */
   function render() {
@@ -272,7 +301,7 @@
         ${topHtml()}
         <main class="canvas" id="main">${S.live ? '' : `<p class="demo-note"><span>${esc(w.demoNote)}</span><button class="btn btn-text" data-act="reset-demo">${esc(w.resetDemo)}</button></p>`}${viewHtml()}</main>
       </div>
-      ${st.open || st.adding ? drawerHtml() : ''}`;
+      ${st.open || st.adding ? drawerHtml() : ''}${mem.open && st.view === 'members' ? memDrawerHtml() : ''}`;
   }
 
   function sideHtml(waiting) {
@@ -288,6 +317,7 @@
           ${item('bookings', w.navBookings, waiting)}
           ${item('board', w.navBoard)}
           ${item('rooms', w.navRooms)}
+          ${item('members', w.navMembers, mem.pend ? `${mem.pend}${mem.pendMore ? '+' : ''}` : 0)}
           ${can('seeTeam') ? `<p class="nav-group">${esc(w.groupClash)}</p>${item('team', w.navTeam)}` : ''}
           <p class="nav-group">${esc(w.groupNext)}</p>
           ${soon(w.soonPc)}${soon(w.soonCustomers)}${soon(w.soonReports)}
@@ -316,6 +346,7 @@
   }
 
   function viewHtml() {
+    if (st.view === 'members') return membersHtml();
     if (st.loadErr) return `<div class="title-row"><div><h1>${esc(W().bookingsTitle)}</h1></div></div><div class="panel empty">${esc(W().loadErr)} <button class="btn btn-text" data-act="retry">${esc(W().retry)}</button></div>`;
     if (!st.loaded) return `<div class="title-row"><div><h1>${esc(W()[`nav${st.view[0].toUpperCase()}${st.view.slice(1)}`])}</h1></div></div><div class="panel empty">…</div>`;
     if (st.q.trim()) return bookingsHtml();
@@ -663,6 +694,316 @@
     setTimeout(() => el.remove(), 12000);
   }
 
+  /* ================================================================ new members (sign-up requests from the site) */
+  /* Talks to the Clash API (/v1/staff/*) with the staff member's Supabase access token. Demo mode: built-in sample requests.
+     ID photos arrive as data URLs; they are shown through object URLs that are released when the sheet closes, and are never stored. */
+  const MCFG = window.CLASH_CONFIG || {};
+  const mem = {
+    filter: 'pending', rows: [], cursor: null, loading: false, err: null, seq: 0, pend: null, pendMore: false,
+    open: null, sel: null, detail: null, imgs: {}, urls: [], mode: 'view', reason: '', quick: -1, working: false, derr: null, result: null, zoom: null,
+  };
+
+  /* which Clash API this page talks to: same rules as the member portal (clash-api.js) */
+  function apiBase() {
+    try {
+      const host = location.hostname;
+      const local = host === 'localhost' || host === '127.0.0.1';
+      const q = new URLSearchParams(location.search).get('api');
+      let saved = null;
+      try { saved = localStorage.getItem('clash-api-mode'); } catch (e) { /* storage unavailable */ }
+      const want = q === 'http' || q === 'staging' || q === 'mock' ? q : saved;
+      let url = '';
+      if (want === 'staging' && MCFG.CLASH_API_STAGING_URL) url = MCFG.CLASH_API_STAGING_URL;
+      else if (MCFG.CLASH_API_MODE === 'http' || (want === 'http' && local)) url = MCFG.CLASH_API_URL || 'http://127.0.0.1:8787';
+      return String(url).replace(/\/+$/, '');
+    } catch (e) { return ''; }
+  }
+
+  /* the current Supabase access token (the panel's own session, read from the same browser storage) */
+  let sbClient = null;
+  async function accessToken() {
+    if (!sbClient) {
+      const { createClient } = await import('https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.45.4/+esm');
+      sbClient = createClient(MCFG.supabaseUrl, MCFG.supabaseAnonKey, { auth: { autoRefreshToken: false } });
+    }
+    const { data } = await sbClient.auth.getSession();
+    return data.session ? data.session.access_token : null;
+  }
+
+  const apiErr = (code, status) => Object.assign(new Error(code), { code, status: status || 0 });
+  async function memApi(method, path, body) {
+    if (!S.live) return demoApi(method, path, body);
+    const base = apiBase();
+    if (!base) throw apiErr('NO_API');
+    let token = null;
+    try { token = await accessToken(); } catch (e) { throw apiErr('NETWORK'); }
+    if (!token) throw apiErr('UNAUTHORIZED', 401);
+    let res;
+    try {
+      res = await fetch(base + path, {
+        method, cache: 'no-store', body: body ? JSON.stringify(body) : undefined,
+        headers: Object.assign({ Authorization: `Bearer ${token}` }, body ? { 'Content-Type': 'application/json' } : {}),
+      });
+    } catch (e) { throw apiErr('NETWORK'); }
+    let data = null;
+    try { data = await res.json(); } catch (e) { /* no body */ }
+    if (!res.ok) throw apiErr((data && data.code) || `HTTP_${res.status}`, res.status);
+    return data || {};
+  }
+  function memErrText(e) {
+    const w = W();
+    if (!e) return '';
+    if (e.code === 'NEED_REASON') return w.mReasonNeed;
+    if (e.status === 401) return w.mErr401;
+    if (e.status === 403) return w.mErr403;
+    if (e.code === 'GIZMO_DOWN' || e.status === 502 || e.status === 503) return w.mErrDown;
+    if (e.code === 'NETWORK') return w.mErrNet;
+    if (e.code === 'NO_API') return w.mErrNoApi;
+    if (e.status === 409) return w.mErrGone;
+    return w.mErrGeneric;
+  }
+
+  /* ---- demo data: 3 pending (two with ID photos, one without), 2 accepted, 1 rejected */
+  const sampleId = (label, hue) => `data:image/svg+xml;charset=utf-8,${encodeURIComponent(
+    `<svg xmlns="http://www.w3.org/2000/svg" width="320" height="200" viewBox="0 0 320 200"><rect width="320" height="200" rx="14" fill="hsl(${hue},30%,26%)"/><rect x="18" y="52" width="76" height="96" rx="6" fill="hsl(${hue},20%,40%)"/><g fill="hsl(${hue},20%,62%)"><rect x="116" y="58" width="170" height="12" rx="3"/><rect x="116" y="84" width="130" height="12" rx="3"/><rect x="116" y="110" width="150" height="12" rx="3"/></g><text x="18" y="32" font-family="sans-serif" font-size="16" fill="#fff">SAMPLE ID ${label}</text></svg>`)}`;
+  const minsAgo = (m) => new Date(Date.now() - m * 60000).toISOString();
+  const demoRows = [
+    { uid: 'd1', username: 'ahmed.k', firstName: 'Ahmed', lastName: 'Khaled', phone: '+201012345678', birthDate: '2004-03-12', hasId: true, status: 'pending', source: 'web', createdAt: minsAgo(6) },
+    { uid: 'd2', username: 'mona_s', firstName: 'Mona', lastName: 'Samir', phone: '+201112223344', birthDate: '2001-09-30', hasId: false, status: 'pending', source: 'google', createdAt: minsAgo(95), email: 'mona@example.com' },
+    { uid: 'd3', username: 'youssef99', firstName: 'Youssef', lastName: 'Adel', phone: '+201223334455', birthDate: '2009-01-20', hasId: true, status: 'pending', source: 'web', createdAt: minsAgo(60 * 30) },
+    { uid: 'd4', username: 'sara.m', firstName: 'Sara', lastName: 'Mostafa', phone: '+201555667788', birthDate: '2000-06-02', hasId: true, status: 'accepted', source: 'web', createdAt: minsAgo(60 * 50), decidedBy: 'Karim' },
+    { uid: 'd5', username: 'omar_z', firstName: 'Omar', lastName: 'Zaki', phone: '+201066778899', birthDate: '2003-11-15', hasId: false, status: 'accepted', source: 'google', createdAt: minsAgo(60 * 80), decidedBy: 'gizmo' },
+    { uid: 'd6', username: 'hady7', firstName: 'Hady', lastName: 'Fathy', phone: '+201199887766', birthDate: '2002-02-02', hasId: true, status: 'rejected', source: 'web', createdAt: minsAgo(60 * 100), decidedBy: 'Omar', reason: 'ID not clear' },
+  ];
+  const DEMO_PAGE = +new URLSearchParams(location.search).get('mempage') || 20; // ?demo&mempage=2 to try Load more
+  async function demoApi(method, path, body) {
+    await new Promise((r) => setTimeout(r, 120));
+    const url = new URL(path, 'http://x');
+    const parts = url.pathname.split('/').filter(Boolean); // v1 staff signups [uid] [action]
+    if (parts.length === 3) {
+      const status = url.searchParams.get('status') || 'pending';
+      const all = demoRows.filter((r) => r.status === status).sort((a, b) => Date.parse(b.createdAt) - Date.parse(a.createdAt));
+      const from = +(url.searchParams.get('cursor') || 0);
+      const items = all.slice(from, from + DEMO_PAGE).map((r) => Object.assign({}, r));
+      return { items, nextCursor: from + DEMO_PAGE < all.length ? String(from + DEMO_PAGE) : null };
+    }
+    const row = demoRows.find((r) => r.uid === parts[3]);
+    if (!row) throw apiErr('NOT_FOUND', 404);
+    if (parts.length === 4) return Object.assign({}, row, row.hasId ? { idFront: sampleId('FRONT', 210), idBack: sampleId('BACK', 150) } : {});
+    if (row.status !== 'pending') throw apiErr('ALREADY_DECIDED', 409);
+    const ar = lang === 'ar';
+    const who = (st.me && st.me.staff && st.me.staff.name) || 'Staff';
+    if (parts[4] === 'accept') {
+      row.status = 'accepted'; row.decidedBy = who;
+      return { status: 'accepted', whatsapp: { phone: row.phone, text: ar ? `أهلاً ${row.firstName}، حسابك على كلاش اتفعّل. تقدر تدخل بيه دلوقتي!` : `Hi ${row.firstName}, your Clash account is active. You can sign in now!` } };
+    }
+    row.status = 'rejected'; row.reason = body && body.reason; row.decidedBy = who;
+    return { status: 'rejected', whatsapp: { phone: row.phone, text: ar ? `أهلاً ${row.firstName}، للأسف مقدرناش نفعّل حسابك: ${row.reason}. تعالى الفرع ومعاك البطاقة.` : `Hi ${row.firstName}, we could not activate your account: ${row.reason}. Please come to the branch with your ID.` } };
+  }
+
+  /* ---- helpers */
+  const listOf = (res) => (Array.isArray(res) ? res : (res && (res.items || res.signups || res.data)) || []);
+  const memName = (r) => `${r.firstName || ''} ${r.lastName || ''}`.trim() || r.username || '';
+  const localPhone = (p) => { const d = String(p || '').replace(/\D/g, ''); return d.startsWith('20') && d.length === 12 ? `0${d.slice(2)}` : d; };
+  const waDigits = (p) => { const d = String(p || '').replace(/\D/g, ''); if (d.startsWith('20') && d.length === 12) return d; if (d.startsWith('0') && d.length === 11) return `2${d}`; if (d.length === 10) return `20${d}`; return d; };
+  const waHref = (phone, text) => `https://wa.me/${waDigits(phone)}?text=${encodeURIComponent(text)}`;
+  const ageOf = (iso) => {
+    const m = /^(\d{4})-(\d{2})-(\d{2})/.exec(iso || '');
+    if (!m) return null;
+    const now = new Date();
+    let a = now.getFullYear() - +m[1];
+    if (now.getMonth() + 1 < +m[2] || (now.getMonth() + 1 === +m[2] && now.getDate() < +m[3])) a -= 1;
+    return a;
+  };
+  /* the "come to the branch with your ID" text, in the member's own language when known, else the panel's */
+  const comeText = (r) => WORDS[r.lang === 'ar' || r.lang === 'en' ? r.lang : lang].mWaTextCome(r.firstName || r.username || '');
+  const cap = (s) => s[0].toUpperCase() + s.slice(1);
+
+  /* ---- loading */
+  async function memLoad(more) {
+    const f = mem.filter;
+    const seq = ++mem.seq;
+    mem.loading = true; mem.err = null;
+    if (!more) { mem.rows = []; mem.cursor = null; }
+    render();
+    try {
+      const res = await memApi('GET', `/v1/staff/signups?status=${f}${more && mem.cursor ? `&cursor=${encodeURIComponent(mem.cursor)}` : ''}`);
+      if (seq !== mem.seq) return;
+      const items = listOf(res);
+      mem.rows = more ? mem.rows.concat(items) : items;
+      mem.cursor = (res && (res.nextCursor || res.cursor)) || null;
+      if (f === 'pending' && !more) { mem.pend = items.length; mem.pendMore = Boolean(mem.cursor); }
+    } catch (e) { if (seq !== mem.seq) return; mem.err = e; }
+    mem.loading = false;
+    render();
+  }
+  /* just the pending count for the tab badge */
+  async function memPeek() {
+    if (st.view === 'members' && mem.filter === 'pending') return;
+    try {
+      const res = await memApi('GET', '/v1/staff/signups?status=pending');
+      mem.pend = listOf(res).length; mem.pendMore = Boolean(res && (res.nextCursor || res.cursor));
+      if (!mem.open) render();
+    } catch (e) { /* the badge just stays as it was */ }
+  }
+
+  /* ---- detail sheet */
+  function toObjectUrl(u) {
+    if (typeof u !== 'string' || !u.startsWith('data:')) return null;
+    const i = u.indexOf(',');
+    const meta = u.slice(5, i);
+    const raw = u.slice(i + 1);
+    let bytes;
+    if (/;base64/.test(meta)) { const bin = atob(raw); bytes = new Uint8Array(bin.length); for (let k = 0; k < bin.length; k += 1) bytes[k] = bin.charCodeAt(k); }
+    else bytes = new TextEncoder().encode(decodeURIComponent(raw));
+    const url = URL.createObjectURL(new Blob([bytes], { type: meta.split(';')[0] || 'image/jpeg' }));
+    mem.urls.push(url);
+    return url;
+  }
+  function releaseImages() { mem.urls.forEach((u) => URL.revokeObjectURL(u)); mem.urls = []; mem.imgs = {}; }
+  async function memOpen(uid) {
+    const row = mem.rows.find((r) => r.uid === uid);
+    if (!row) return;
+    releaseImages();
+    Object.assign(mem, { open: uid, sel: row, detail: null, mode: 'view', reason: '', quick: -1, working: false, derr: null, result: null, zoom: null });
+    render();
+    if (!row.hasId) return;
+    try {
+      const d = await memApi('GET', `/v1/staff/signups/${encodeURIComponent(uid)}`);
+      if (mem.open !== uid) return;
+      mem.imgs = { front: toObjectUrl(d.idFront || (d.photos && d.photos.front)), back: toObjectUrl(d.idBack || (d.photos && d.photos.back)) };
+      delete d.idFront; delete d.idBack; delete d.photos;
+      mem.detail = d;
+      if (d.email && !row.email) row.email = d.email;
+    } catch (e) { if (mem.open === uid) mem.derr = e; }
+    if (mem.open === uid) render();
+  }
+  function memClose() { releaseImages(); Object.assign(mem, { open: null, sel: null, detail: null, zoom: null, result: null, derr: null }); render(); }
+
+  async function memDecide(kind) {
+    const row = mem.sel;
+    if (!row || mem.working) return;
+    if (kind === 'reject' && !mem.reason.trim()) { mem.derr = { code: 'NEED_REASON' }; render(); return; }
+    mem.working = true; mem.derr = null; render();
+    try {
+      const res = await memApi('POST', `/v1/staff/signups/${encodeURIComponent(row.uid)}/${kind}`, kind === 'reject' ? { reason: mem.reason.trim() } : undefined);
+      mem.result = { kind, wa: res && res.whatsapp };
+      /* the open sheet shows the new status in its header right away */
+      mem.sel = { ...row, status: kind === 'accept' ? 'accepted' : 'rejected', reason: kind === 'reject' ? mem.reason.trim() : row.reason };
+      mem.rows = mem.rows.filter((r) => r.uid !== row.uid);
+      if (mem.pend) mem.pend -= 1;
+      releaseImages();
+    } catch (e) { mem.derr = e; }
+    mem.working = false; render();
+  }
+
+  /* ---- rendering */
+  function membersHtml() {
+    const w = W();
+    const chips = ['pending', 'accepted', 'rejected'].map((f) => `<button class="chip" data-act="mem-filter" data-filter="${f}" aria-pressed="${mem.filter === f}">${esc(w[`m${cap(f)}`])}${f === 'pending' && mem.pend ? ` <b class="num">${mem.pend}${mem.pendMore ? '+' : ''}</b>` : ''}</button>`).join('');
+    const q = st.q.trim().toLowerCase();
+    const rows = q ? mem.rows.filter((r) => `${memName(r)} ${r.username} ${localPhone(r.phone)}`.toLowerCase().includes(q)) : mem.rows;
+    let body;
+    if (mem.err && !mem.rows.length) body = `<div class="panel empty">${esc(memErrText(mem.err))} <button class="btn btn-text" data-act="mem-retry">${esc(w.retry)}</button></div>`;
+    else if (mem.loading && !mem.rows.length) body = `<div class="panel empty">${esc(w.mLoading)}</div>`;
+    else if (!rows.length) body = `<div class="panel empty">${esc(w.mNone)}</div>`;
+    else {
+      body = `<ul class="panel mem-list">${rows.map((r) => {
+        const age = ageOf(r.birthDate);
+        return `<li class="mem-row">
+          <button class="mem-main" data-act="mem-open" data-uid="${esc(r.uid)}">
+            <span class="mem-name"><bdi>${esc(memName(r))}</bdi></span>
+            <span class="mem-sub"><bdi>@${esc(r.username)}</bdi> · <bdi dir="ltr">${esc(phonePretty(localPhone(r.phone)))}</bdi>${age == null ? '' : ` · ${esc(w.mAge(age))}`}</span>
+          </button>
+          <span class="mem-meta"><span class="pill ${r.hasId ? 'pill-confirmed' : 'pill-pending'}">${esc(r.hasId ? w.mId : w.mNoId)}</span><span class="cell-sub">${esc(ago(r.createdAt))}</span></span>
+          <a class="btn btn-line mem-wa" href="${esc(waHref(r.phone, comeText(r)))}" target="_blank" rel="noopener" aria-label="${esc(`${w.mWa}: ${memName(r)}`)}">${esc(w.mWa)}</a>
+        </li>`;
+      }).join('')}</ul>`;
+      if (mem.err) body += `<p class="warn mem-warn">${esc(memErrText(mem.err))}</p>`;
+      if (mem.cursor) body += `<p class="mem-more"><button class="btn btn-line" data-act="mem-more"${mem.loading ? ' disabled' : ''}>${esc(mem.loading ? w.mLoading : w.mMore)}</button></p>`;
+    }
+    return `
+      <div class="title-row"><div><h1>${esc(w.mTitle)}</h1><p>${esc(w.mSub)}</p></div></div>
+      <div class="chips" role="group" aria-label="${esc(w.mTitle)}">${chips}</div>
+      ${body}`;
+  }
+
+  function memDrawerHtml() {
+    const w = W();
+    const r = mem.sel;
+    const d = mem.detail || {};
+    const age = ageOf(r.birthDate);
+    const waBtn = `<a class="btn btn-line" href="${esc(waHref(r.phone, comeText(r)))}" target="_blank" rel="noopener">${esc(w.mWa)}</a>`;
+    const fact = (label, val, wide) => (val ? `<div${wide ? ' class="wide"' : ''}><dt>${esc(label)}</dt><dd>${val}</dd></div>` : '');
+    const fig = (side, label) => (mem.imgs[side]
+      ? `<figure class="mem-id"><button type="button" data-act="mem-zoom" data-side="${side}" aria-label="${esc(`${label}: ${w.mTapZoom}`)}"><img src="${mem.imgs[side]}" alt="${esc(label)}"></button><figcaption class="hint">${esc(label)} · ${esc(w.mTapZoom)}</figcaption></figure>` : '');
+    let ids = '';
+    if (mem.result) ids = '';
+    else if (!r.hasId) ids = `<p class="mem-note">${esc(w.mWaitBranch)}</p>`;
+    else if (mem.derr && !mem.detail) ids = `<p class="warn">${esc(memErrText(mem.derr))} <button class="btn btn-text" data-act="mem-open" data-uid="${esc(r.uid)}">${esc(w.retry)}</button></p>`;
+    else if (!mem.detail) ids = `<p class="hint">${esc(w.mImgLoading)}</p>`;
+    else ids = `<div class="mem-ids">${fig('front', w.mIdFront)}${fig('back', w.mIdBack)}</div>`;
+
+    const errHtml = mem.derr && (mem.detail || !r.hasId || mem.mode !== 'view' || mem.derr.code === 'NEED_REASON') ? `<p class="warn" role="alert">${esc(memErrText(mem.derr))}</p>` : '';
+    let actions;
+    if (mem.result) {
+      const ok = mem.result.kind === 'accept';
+      const wa = mem.result.wa;
+      actions = `<div class="mem-done"><p class="mem-done-msg ${ok ? 'is-ok' : 'is-bad'}">${esc(ok ? w.mDoneAccepted : w.mDoneRejected)}</p>
+        ${wa ? `<p class="hint">${esc(w.mTellMember)}</p><a class="btn btn-primary mem-wa-big" data-wa="result" href="${esc(waHref(wa.phone, wa.text))}" target="_blank" rel="noopener">${esc(w.mWaSend)}</a>` : ''}
+        <button class="btn btn-line" data-act="mem-close">${esc(w.close)}</button></div>`;
+    } else if (r.status !== 'pending') {
+      actions = `<div class="drawer-actions">${waBtn}</div>`;
+    } else if (mem.mode === 'confirm') {
+      actions = `<div class="mem-panel"><p><b>${esc(w.mConfirmAcceptQ(memName(r)))}</b></p>${errHtml}
+        <div class="drawer-actions"><button class="btn btn-primary" data-act="mem-accept-go"${mem.working ? ' disabled' : ''}>${esc(w.mConfirm)}</button><button class="btn btn-text" data-act="mem-mode" data-mode="view">${esc(w.mBack)}</button></div></div>`;
+    } else if (mem.mode === 'reject') {
+      actions = `<div class="mem-panel"><p><b>${esc(w.mRejectTitle)}</b></p>
+        <div class="quick">${w.mQuick.map((q, i) => `<button type="button" class="chip" data-act="mem-quick" data-i="${i}" aria-pressed="${mem.quick === i}">${esc(q)}</button>`).join('')}</div>
+        <label class="field"><span class="sr-only">${esc(w.mReason)}</span><textarea class="textarea" data-act="mem-reason" maxlength="200" placeholder="${esc(w.mReasonPh)}">${esc(mem.reason)}</textarea></label>${errHtml}
+        <div class="drawer-actions"><button class="btn btn-primary" data-act="mem-reject-go"${mem.working ? ' disabled' : ''}>${esc(w.mSendReject)}</button><button class="btn btn-text" data-act="mem-mode" data-mode="view">${esc(w.mBack)}</button></div></div>`;
+    } else {
+      actions = `${errHtml}<div class="drawer-actions"><button class="btn btn-primary" data-act="mem-mode" data-mode="confirm">${esc(w.mAccept)}</button><button class="btn btn-line" data-act="mem-mode" data-mode="reject">${esc(w.mReject)}</button>${waBtn}</div>`;
+    }
+
+    return `
+      <div class="drawer-back" data-act="mem-close"></div>
+      <aside class="drawer" role="dialog" aria-modal="true" aria-label="${esc(memName(r))}">
+        <div class="drawer-head"><span class="pill ${r.status === 'accepted' ? 'pill-confirmed' : r.status === 'rejected' ? 'pill-no_show' : 'pill-pending'}">${esc(w.mS[r.status] || r.status)}</span><button class="btn btn-text" data-act="mem-close">${esc(w.close)}</button></div>
+        <div class="who"><h2><bdi>${esc(memName(r))}</bdi></h2><p><bdi>@${esc(r.username)}</bdi> · ${esc(ago(r.createdAt))}</p></div>
+        <dl class="facts">
+          ${fact(w.mFirst, `<bdi>${esc(r.firstName)}</bdi>`)}${fact(w.mLast, `<bdi>${esc(r.lastName)}</bdi>`)}
+          ${fact(w.mUser, `<bdi>${esc(r.username)}</bdi>`)}${fact(w.mPhone, `<bdi dir="ltr">${esc(phonePretty(localPhone(r.phone)))}</bdi>`)}
+          ${fact(w.mBirth, `<bdi dir="ltr">${esc(r.birthDate)}</bdi>`)}${fact(w.mAgeL, age == null ? '' : esc(w.mAge(age)))}
+          ${fact(w.mEmail, r.email ? `<bdi dir="ltr">${esc(r.email)}</bdi>` : '', true)}
+          ${fact(w.mSource, esc(w.mSrc[r.source] || r.source || ''))}${fact(w.mSent, esc(ago(r.createdAt)))}
+          ${r.status !== 'pending' ? fact(w.mBy, esc(r.decidedBy || d.decidedBy || '')) : ''}${fact(w.mReason, esc(r.reason || d.reason || ''), true)}
+        </dl>
+        ${ids}
+        ${actions}
+      </aside>
+      ${mem.zoom && mem.imgs[mem.zoom] ? `<div class="zoom" data-act="mem-unzoom" role="dialog" aria-label="${esc(mem.zoom === 'front' ? w.mIdFront : w.mIdBack)}"><img src="${mem.imgs[mem.zoom]}" alt=""><button class="btn btn-primary" data-act="mem-unzoom">${esc(w.close)}</button></div>` : ''}`;
+  }
+
+  function memAct(el, act) {
+    if (act === 'mem-filter') { if (mem.filter !== el.dataset.filter) { mem.filter = el.dataset.filter; memLoad(false); } }
+    else if (act === 'mem-more') memLoad(true);
+    else if (act === 'mem-retry') memLoad(false);
+    else if (act === 'mem-open') memOpen(el.dataset.uid);
+    else if (act === 'mem-close') memClose();
+    else if (act === 'mem-zoom') { mem.zoom = el.dataset.side; render(); }
+    else if (act === 'mem-unzoom') { mem.zoom = null; render(); }
+    else if (act === 'mem-mode') { mem.mode = el.dataset.mode; mem.derr = null; render(); const t = app.querySelector('[data-act="mem-reason"]'); if (t) t.focus(); }
+    else if (act === 'mem-quick') {
+      const i = +el.dataset.i;
+      mem.quick = i; mem.reason = i === W().mQuick.length - 1 ? '' : W().mQuick[i]; mem.derr = null; render();
+      const t = app.querySelector('[data-act="mem-reason"]'); if (t) { t.focus(); t.setSelectionRange(t.value.length, t.value.length); }
+    }
+    else if (act === 'mem-accept-go') memDecide('accept');
+    else if (act === 'mem-reject-go') memDecide('reject');
+  }
+  function memReset() { releaseImages(); Object.assign(mem, { open: null, sel: null, rows: [], pend: null, cursor: null, err: null, zoom: null, result: null }); }
+
   /* ================================================================ actions */
   async function openBooking(id) {
     const b = st.bookings.find((x) => x.id === id);
@@ -723,6 +1064,7 @@
     const el = e.target.closest('[data-act]');
     if (!el) return;
     const act = el.dataset.act;
+    if (act.startsWith('mem-')) { memAct(el, act); return; }
     if (act === 'filter') { st.filter = el.dataset.filter; render(); }
     else if (act === 'open') openBooking(el.dataset.id);
     else if (act === 'close') closeDrawer();
@@ -732,7 +1074,7 @@
     else if (act === 'day') { const step = +el.dataset.step; st.boardDay = step ? T.addDays(st.boardDay, step) : today(); render(); }
     else if (act === 'menu') { st.menu = !st.menu; render(); }
     else if (act === 'lang') setLang(lang === 'ar' ? 'en' : 'ar');
-    else if (act === 'sign-out') { await S.signOut(); st.me = null; st.loaded = false; render(); }
+    else if (act === 'sign-out') { await S.signOut(); memReset(); st.me = null; st.loaded = false; render(); }
     else if (act === 'gate-switch') { st.gate = st.gate === 'up' ? 'in' : 'up'; st.gateMsg = null; render(); }
     else if (act === 'retry') loadAll();
     else if (act === 'reset-demo') { S.reset(); await loadAll(); }
@@ -768,7 +1110,8 @@
       const main = document.getElementById('main');
       if (main) main.innerHTML = (S.live ? '' : main.querySelector('.demo-note') ? main.querySelector('.demo-note').outerHTML : '') + viewHtml();
       el.focus(); el.setSelectionRange(pos, pos);
-    } else if (act === 'd-note') st.draft.staff_note = el.value;
+    } else if (act === 'mem-reason') mem.reason = el.value;
+    else if (act === 'd-note') st.draft.staff_note = el.value;
     else if (act === 'd-name') st.draft.name = el.value;
     else if (act === 'd-phone') st.draft.phone = el.value;
   });
@@ -794,9 +1137,9 @@
     }
   });
 
-  addEventListener('keydown', (e) => { if (e.key === 'Escape' && (st.open || st.adding)) closeDrawer(); });
+  addEventListener('keydown', (e) => { if (e.key !== 'Escape') return; if (mem.zoom) { mem.zoom = null; render(); } else if (mem.open) memClose(); else if (st.open || st.adding) closeDrawer(); });
   /* relative times stay true */
-  setInterval(() => { if (st.loaded && !st.open && !st.adding && document.activeElement.tagName !== 'INPUT') render(); }, 60000);
+  setInterval(() => { if (st.loaded && !st.open && !st.adding && !mem.open && document.activeElement.tagName !== 'INPUT') render(); if (st.me && !document.hidden) memPeek(); }, 60000);
 
   setLang(lang);
   boot();

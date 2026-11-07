@@ -296,3 +296,39 @@ button.rail-row:last-child { border-bottom: 0; }
   .toasts { inset-inline: 16px; }
 }
 @media (prefers-reduced-motion: reduce) { .btn, .toggle::after { transition: none; } }
+
+/* ---------- new members: sign-up requests ---------- */
+.chips, .quick { display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 16px; }
+.quick { margin-bottom: 0; }
+.chip { height: 34px; padding: 0 14px; border-radius: 999px; border: 1px solid var(--control); background: transparent; color: var(--muted); font-weight: 600; cursor: pointer; display: inline-flex; align-items: center; gap: 6px; }
+.chip[aria-pressed="true"] { background: var(--text); border-color: var(--text); color: #08080a; }
+.chip b { font-weight: 700; }
+@media (hover: hover) and (pointer: fine) { .chip[aria-pressed="false"]:hover { border-color: var(--muted); color: var(--text); } }
+.mem-row { display: grid; grid-template-columns: minmax(0, 1fr) auto auto; gap: 4px 16px; align-items: center; padding: 10px 12px; border-bottom: 1px solid var(--rule); }
+.mem-row:last-child { border-bottom: 0; }
+.mem-main { display: grid; gap: 2px; text-align: start; background: none; border: 0; padding: 4px 0; cursor: pointer; color: inherit; min-width: 0; }
+.mem-name { font-weight: 600; overflow-wrap: anywhere; }
+.mem-sub { color: var(--faint); font-size: var(--fs-small); line-height: 18px; overflow-wrap: anywhere; }
+.mem-meta { display: grid; gap: 2px; justify-items: end; }
+.mem-more { margin-top: 16px; text-align: center; }
+.mem-warn { margin-top: 12px; }
+.mem-ids { display: grid; gap: 12px; }
+.mem-id { display: grid; gap: 6px; }
+.mem-id button { padding: 0; border: 0; background: var(--raised); border-radius: var(--radius); overflow: hidden; cursor: zoom-in; display: block; }
+.mem-id img { display: block; width: 100%; height: auto; max-height: 340px; object-fit: contain; }
+.mem-note { padding: 12px 14px; border-radius: 8px; background: var(--wait-bg); color: var(--wait-ink); }
+.mem-panel { display: grid; gap: 12px; padding: 14px 16px; border-radius: var(--radius); background: var(--raised); }
+.mem-panel .textarea { background: var(--ground); }
+.mem-done { display: grid; gap: 12px; }
+.mem-done-msg { font-weight: 700; padding: 12px 14px; border-radius: 8px; }
+.mem-done-msg.is-ok { background: var(--ok-bg); color: var(--ok-ink); }
+.mem-done-msg.is-bad { background: var(--bad-bg); color: var(--bad-ink); }
+.mem-wa-big { height: 44px; }
+.zoom { position: fixed; inset: 0; z-index: 70; background: rgba(0, 0, 0, 0.92); display: grid; grid-template-rows: minmax(0, 1fr) auto; justify-items: center; gap: 12px; padding: calc(16px + var(--safe-top)) 16px calc(16px + var(--safe-bottom)); cursor: zoom-out; }
+.zoom img { max-width: 100%; max-height: 100%; min-height: 0; object-fit: contain; align-self: center; }
+@media (max-width: 760px) {
+  .mem-row { grid-template-columns: minmax(0, 1fr) auto; }
+  .mem-meta { grid-column: 2; grid-row: 1; }
+  .mem-wa { grid-column: 1 / -1; height: 40px; }
+  .drawer-actions .btn { flex: 1 1 auto; }
+}

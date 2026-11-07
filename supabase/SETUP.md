@@ -1,4 +1,4 @@
-# Connecting the bookings to Supabase
+   # Connecting the bookings to Supabase
 
 Until these steps are done, the site and the staff panel run in **demo mode**: the booking form on the
 PlayStation room pages only shows on a preview link (`zayed-ps-room.html?room=vip&demo`), and the panel

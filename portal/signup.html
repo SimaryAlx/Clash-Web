@@ -1,0 +1,198 @@
+<!doctype html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="utf-8">
+<meta name="robots" content="noindex, nofollow">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="theme-color" content="#08080a">
+<link rel="manifest" href="manifest.webmanifest">
+<link rel="apple-touch-icon" href="../assets/instagram-hd/profile.jpg">
+<title>إنشاء حساب | Clash Esports</title>
+<link rel="icon" href="../assets/instagram-hd/profile.jpg">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@600;700&family=Cairo:wght@400;600;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../css/style.css">
+<link rel="stylesheet" href="../css/portal-login.css">
+<link rel="stylesheet" href="../css/portal.css">
+<script>document.documentElement.classList.add('js');try{if(localStorage.getItem('clash-language')!=='ar'){document.documentElement.lang='en';document.documentElement.dir='ltr'}}catch(e){}</script>
+</head>
+<body class="pl-page">
+
+<a class="skip" href="#main" data-i18n="skip">روح للمحتوى</a>
+
+<header class="bar" id="top">
+  <a class="brand" href="../index.html" aria-label="Clash Esports">
+    <img src="../assets/instagram-hd/profile.jpg" width="150" height="150" alt="">
+    <span dir="ltr">CLASH</span>
+  </a>
+  <span class="demo-tag" dir="ltr" title="Demo with sample data">DEMO</span>
+  <nav class="nav" aria-label="القائمة" data-i18n-aria="navLabel">
+    <ul class="nav-links" id="nav-links">
+      <li><a href="../zayed.html" data-i18n="navSections">الأقسام</a></li>
+      <li><a href="../zayed-pc.html" data-i18n="navPc">أوض PC</a></li>
+      <li><a href="../zayed-ps.html" data-i18n="navPlaystation">بلايستيشن</a></li>
+      <li><a href="#contact" data-i18n="navContact">تواصل معانا</a></li>
+    </ul>
+  </nav>
+  <div class="bar-actions">
+    <button class="lang" type="button" id="lang-toggle" lang="en" aria-label="English">EN</button>
+    <button class="menu-toggle" type="button" id="menu-toggle" aria-expanded="false" aria-controls="nav-links">
+      <span data-i18n="menu">القائمة</span>
+    </button>
+  </div>
+</header>
+
+<main id="main" class="pl-main sg-main">
+  <section class="pl-box sg-box" id="sg-box" aria-labelledby="sg-title">
+
+    <div id="sg-start">
+      <h1 id="sg-title" class="pl-title" data-k="title"></h1>
+      <p class="pl-hint" data-k="hint"></p>
+      <p class="pl-hint demo-note" data-k="demoNote"></p>
+
+      <!-- 1. sign up with Google / Apple -->
+      <div class="sg-social" id="sg-social">
+        <div class="sg-social-slot" id="sg-google"></div>
+        <button type="button" class="sg-social-btn is-soon" id="sg-apple" disabled aria-disabled="true">
+          <svg viewBox="0 0 24 24" width="20" height="20" aria-hidden="true"><path fill="currentColor" d="M16.4 12.6c0-2.3 1.9-3.4 2-3.5-1.1-1.600-2.800-1.800-3.400-1.800-1.400-.1-2.800.9-3.500.9s-1.800-.8-3-.8c-1.500 0-3 .9-3.800 2.300-1.600 2.800-.4 7 1.200 9.300.8 1.100 1.700 2.400 2.900 2.300 1.200 0 1.600-.7 3-.7s1.800.7 3 .7 2-1.100 2.800-2.200c.9-1.300 1.200-2.500 1.300-2.600 0 0-2.500-1-2.500-3.900zM14.100 5.800c.6-.8 1.100-1.900.9-3-.9 0-2.100.6-2.700 1.400-.6.700-1.100 1.800-1 2.900 1.100.1 2.200-.5 2.800-1.300z"/></svg>
+          <span data-k="apple"></span>
+          <em class="sg-badge" data-k="soon"></em>
+        </button>
+      </div>
+      <p class="pl-msg" id="sg-gmsg" role="alert" hidden></p>
+      <p class="sg-google-note" id="sg-gnote" hidden></p>
+      <div class="sg-or" id="sg-or" role="separator"><span data-k="or"></span></div>
+    </div>
+
+    <form id="sg-form" class="sg-form" novalidate autocomplete="on">
+      <!-- 2. the details -->
+      <fieldset class="sg-step">
+        <legend><span class="sg-num" aria-hidden="true">1</span><span data-k="s1"></span></legend>
+
+        <div class="sg-two">
+          <div class="pl-field">
+            <label for="sg-first" data-k="first"></label>
+            <input id="sg-first" name="firstName" type="text" autocomplete="given-name" maxlength="40" aria-describedby="sg-first-err" required>
+            <p class="pl-err" id="sg-first-err" hidden></p>
+          </div>
+          <div class="pl-field">
+            <label for="sg-last" data-k="last"></label>
+            <input id="sg-last" name="lastName" type="text" autocomplete="family-name" maxlength="40" aria-describedby="sg-last-err" required>
+            <p class="pl-err" id="sg-last-err" hidden></p>
+          </div>
+        </div>
+
+        <div class="pl-field">
+          <label for="sg-user" data-k="user"></label>
+          <input id="sg-user" name="username" type="text" dir="ltr" autocomplete="username" autocapitalize="none" autocorrect="off" spellcheck="false" maxlength="20" aria-describedby="sg-user-hint sg-user-err" required>
+          <p class="sg-hint" id="sg-user-hint" data-k="userHint"></p>
+          <p class="pl-err" id="sg-user-err" hidden></p>
+        </div>
+
+        <div class="pl-field">
+          <label for="sg-pass" data-k="pass"></label>
+          <div class="pl-pass">
+            <input id="sg-pass" name="password" type="password" dir="ltr" autocomplete="new-password" maxlength="24" aria-describedby="sg-pass-hint sg-pass-err" required>
+            <button type="button" class="pl-eye" id="sg-eye" aria-controls="sg-pass" aria-pressed="false"></button>
+          </div>
+          <p class="sg-hint" id="sg-pass-hint" data-k="passHint"></p>
+          <p class="pl-err" id="sg-pass-err" hidden></p>
+        </div>
+
+        <div class="pl-field">
+          <label for="sg-phone" data-k="phone"></label>
+          <input id="sg-phone" name="phone" type="tel" dir="ltr" inputmode="tel" autocomplete="tel" placeholder="01XXXXXXXXX" maxlength="20" aria-describedby="sg-phone-err" required>
+          <p class="pl-err" id="sg-phone-err" hidden></p>
+        </div>
+
+        <div class="pl-field">
+          <label for="sg-email"><span data-k="email"></span> <span class="sg-opt" data-k="optional"></span></label>
+          <input id="sg-email" name="email" type="email" dir="ltr" inputmode="email" autocomplete="email" autocapitalize="none" spellcheck="false" maxlength="120" aria-describedby="sg-email-err">
+          <p class="pl-err" id="sg-email-err" hidden></p>
+        </div>
+
+        <div class="pl-field">
+          <label for="sg-birth" data-k="birth"></label>
+          <input id="sg-birth" name="birthDate" type="date" dir="ltr" autocomplete="bday" min="1920-01-01" aria-describedby="sg-birth-err" required>
+          <p class="pl-err" id="sg-birth-err" hidden></p>
+        </div>
+      </fieldset>
+
+      <!-- 3. national ID photos -->
+      <fieldset class="sg-step">
+        <legend><span class="sg-num" aria-hidden="true">2</span><span data-k="s2"></span></legend>
+        <p class="sg-hint" data-k="idWhy"></p>
+
+        <div class="sg-choice" role="radiogroup" aria-labelledby="sg-id-legend">
+          <span id="sg-id-legend" class="sg-sr" data-k="s2"></span>
+          <label class="sg-radio"><input type="radio" name="idmode" value="add" checked><span class="sg-dot" aria-hidden="true"></span><span data-k="idAdd"></span></label>
+          <label class="sg-radio"><input type="radio" name="idmode" value="skip"><span class="sg-dot" aria-hidden="true"></span><span data-k="idSkip"></span></label>
+        </div>
+
+        <div id="sg-id-add" class="sg-ids">
+          <div class="sg-id" data-side="front">
+            <p class="sg-id-title" data-k="idFront"></p>
+            <div class="sg-id-prev" id="sg-prev-front" hidden><img alt="" id="sg-img-front"><button type="button" class="sg-link" data-remove="front" data-k="remove"></button></div>
+            <div class="sg-id-btns" id="sg-btns-front">
+              <label class="sg-pick"><input type="file" accept="image/*" capture="environment" data-side="front" class="sg-file"><span data-k="take"></span></label>
+              <label class="sg-pick"><input type="file" accept="image/*" data-side="front" class="sg-file"><span data-k="choose"></span></label>
+            </div>
+            <p class="sg-hint" id="sg-id-front-state" aria-live="polite"></p>
+            <p class="pl-err" id="sg-id-front-err" hidden></p>
+          </div>
+          <div class="sg-id" data-side="back">
+            <p class="sg-id-title" data-k="idBack"></p>
+            <div class="sg-id-prev" id="sg-prev-back" hidden><img alt="" id="sg-img-back"><button type="button" class="sg-link" data-remove="back" data-k="remove"></button></div>
+            <div class="sg-id-btns" id="sg-btns-back">
+              <label class="sg-pick"><input type="file" accept="image/*" capture="environment" data-side="back" class="sg-file"><span data-k="take"></span></label>
+              <label class="sg-pick"><input type="file" accept="image/*" data-side="back" class="sg-file"><span data-k="choose"></span></label>
+            </div>
+            <p class="sg-hint" id="sg-id-back-state" aria-live="polite"></p>
+            <p class="pl-err" id="sg-id-back-err" hidden></p>
+          </div>
+          <p class="pl-err" id="sg-ids-err" hidden></p>
+        </div>
+        <p class="sg-skip-note" id="sg-id-skip" data-k="skipNote" hidden></p>
+      </fieldset>
+
+      <!-- 4. bot check -->
+      <div class="sg-turnstile" id="sg-ts" hidden></div>
+
+      <p class="pl-msg" id="sg-msg" hidden></p>
+
+      <!-- 5. send -->
+      <button class="btn pl-submit" type="submit" id="sg-submit"><span id="sg-submit-label"></span></button>
+      <p class="sg-hint sg-privacy" data-k="privacy"></p>
+    </form>
+
+    <ul class="pl-links sg-links" id="sg-links">
+      <li><a class="link" href="login.html" data-k="haveAccount"></a></li>
+    </ul>
+
+    <!-- success -->
+    <div id="sg-done" class="sg-done" hidden>
+      <h2 class="pl-title" id="sg-done-title" tabindex="-1" data-k="doneTitle"></h2>
+      <p class="sg-done-text" id="sg-done-text"></p>
+      <p class="sg-done-actions">
+        <a class="btn" href="../index.html" data-k="backSite"></a>
+        <a class="link" href="login.html" data-k="goLogin"></a>
+      </p>
+    </div>
+  </section>
+</main>
+
+<footer class="foot pl-foot" id="contact">
+  <div class="foot-legal">
+    <p><a href="https://wa.me/201099584833" target="_blank" rel="noopener" data-i18n="help">محتاج مساعدة؟ كلمنا على واتساب</a> · <a href="../index.html" data-i18n="back">ارجع للموقع</a> · <span dir="ltr">© 2026 Clash Esports</span></p>
+    <p class="foot-policies" style="margin-top:8px;font-size:.875em;opacity:.8"><a href="../terms.html">Terms · الشروط</a> · <a href="../privacy.html">Privacy · الخصوصية</a> · <a href="../refund.html">Refunds · الاسترجاع</a> · <a href="../contact.html">Contact · تواصل</a></p>
+  </div>
+</footer>
+
+<script src="../js/config.js" defer></script>
+<script src="../js/pc-layout.js" defer></script>
+<script src="../js/clash-api.js" defer></script>
+<script src="../js/site.js" defer></script>
+<script src="../js/portal-signup.js" defer></script>
+</body>
+</html>

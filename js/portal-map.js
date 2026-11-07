@@ -2,7 +2,71 @@
    Everything it knows comes from window.ClashAPI (places, zones, watchZone, me.startSession, me.endSession).
    Seat positions come from js/pc-layout.js through ClashAPI.places(): nothing is hard-coded here.
    portal.js owns the words (its W table, key `map`) and the dashboard; it calls PortalMap.init() once and PortalMap.setDash() on every
-   dashboard load. Waiting list (T7) hooks into the empty .pn-wait-slot inside the zone box. */
+   dashboard load. Waiting list (T7) hooks into the empty .pn-wait-slot inside the zone box.
+   "Buy time" buttons (zone box when a zone has no time, open-a-PC sheet) call PortalShop.open(zoneId) when js/portal-shop.js is loaded. */
+
+/* window.PortalFmt: durations, counts and clock times for every portal script (this file loads first).
+   English keeps h:mm. Arabic writes durations in words that read right to left: compact "2 س 30 د" / "45 د" / "3 س" for values,
+   and "ساعتين و30 دقيقة" inside sentences. Each compact Arabic duration is isolated (RLI…PDI, or <bdi dir="rtl">) so a nearby
+   English word or number can never pull its parts apart. Counts follow Egyptian plurals: دقيقة / دقيقتين / 3-10 دقايق / 11+ دقيقة. */
+window.PortalFmt = (() => {
+  const RLI = '⁧', PDI = '⁩';
+  const UNITS = { min: ['دقيقة', 'دقيقتين', 'دقايق'], hour: ['ساعة', 'ساعتين', 'ساعات'], sec: ['ثانية', 'ثانيتين', 'ثواني'] };
+  const pad = (n) => String(n).padStart(2, '0');
+  const whole = (mins) => Math.max(0, Math.round(Number(mins) || 0));
+  /* Arabic count with its noun: 1 -> "دقيقة", 2 -> "دقيقتين", 5 -> "5 دقايق", 15 -> "15 دقيقة" */
+  const count = (n, unit) => {
+    const u = UNITS[unit]; const v = Math.max(0, Math.round(Number(n) || 0));
+    if (v === 1) return u[0];
+    if (v === 2) return u[1];
+    return v >= 3 && v <= 10 ? `${v} ${u[2]}` : `${v} ${u[0]}`;
+  };
+  const hm = (mins) => { const m = whole(mins); return `${Math.floor(m / 60)}:${pad(m % 60)}`; };
+  /* [[2, 'س'], [30, 'د']]; a zero part is dropped ("3 س", "45 د"), nothing at all is "0 د" */
+  const parts = (mins) => {
+    const m = whole(mins); const h = Math.floor(m / 60); const r = m % 60; const out = [];
+    if (h) out.push([h, 'س']);
+    if (r || !h) out.push([r, 'د']);
+    return out;
+  };
+  /* plain text (textContent, aria, sentences): "2:30" / "2 س 30 د" (isolated, no-break spaces so it never wraps apart) */
+  const NB = ' ';
+  const dur = (mins, lang) => (lang === 'ar' ? RLI + parts(mins).map(([n, u]) => `${n}${NB}${u}`).join(NB) + PDI : hm(mins));
+  /* HTML for big values: numbers in <tag> (or bare), units in <small>; English gets h:mm in <tag> */
+  const durHtml = (mins, lang, tag) => {
+    const num = (n) => (tag ? `<${tag}>${n}</${tag}>` : String(n));
+    if (lang !== 'ar') return num(hm(mins));
+    return `<bdi dir="rtl" class="pn-dur">${parts(mins).map(([n, u]) => `${num(n)}<small>${u}</small>`).join(' ')}</bdi>`;
+  };
+  /* inside an Arabic sentence: "ساعتين و30 دقيقة", "ساعة", "5 دقايق"; English: "2:30" */
+  const durText = (mins, lang) => {
+    if (lang !== 'ar') return hm(mins);
+    const m = whole(mins); const h = Math.floor(m / 60); const r = m % 60;
+    if (h && r) return `${count(h, 'hour')} و${count(r, 'min')}`;
+    return h ? count(h, 'hour') : count(r, 'min');
+  };
+  /* offer hold countdown: English "04:59"; Arabic "4 د 05 ث" (HTML, isolated) */
+  const countdown = (secs, lang) => {
+    const s = Math.max(0, Math.round(Number(secs) || 0)); const m = Math.floor(s / 60); const r = s % 60;
+    if (lang !== 'ar') return `${pad(m)}:${pad(r)}`;
+    return `<bdi dir="rtl" class="pn-dur">${m ? `${m}<small>د</small> ` : ''}${m ? pad(r) : r}<small>ث</small></bdi>`;
+  };
+  /* clock time and date: Arabic with Western digits like the rest of the site ("10:30 م", "7 نوفمبر 2026 · 10:30 م") */
+  const clock = (iso, lang) => {
+    try { return new Date(iso).toLocaleTimeString(lang === 'ar' ? 'ar-EG-u-nu-latn' : 'en-US', { hour: 'numeric', minute: '2-digit' }); } catch (e) { return ''; }
+  };
+  const date = (iso, lang) => {
+    const d = new Date(iso);
+    if (!iso || isNaN(d)) return '';
+    try {
+      if (lang !== 'ar') return new Intl.DateTimeFormat('en-GB', { dateStyle: 'medium', timeStyle: 'short' }).format(d);
+      const day = new Intl.DateTimeFormat('ar-EG-u-nu-latn', { day: 'numeric', month: 'long', year: 'numeric' }).format(d);
+      return `${day} · ${clock(iso, 'ar')}`;
+    } catch (e) { return d.toLocaleString(); }
+  };
+  return { count, hm, dur, durHtml, durText, countdown, clock, date };
+})();
+
 (() => {
   const BRANCH = 'zayed';
   const LAST_KEY = 'clash-portal-place';
@@ -12,7 +76,7 @@
   let api, site, getW, onSession, onSignedOut, onEnded, ready = false;
   const S = {
     phase: 'idle', err: null, zones: {}, places: [], placeId: null, upd: {}, firstUpd: null,
-    dash: null, dashAt: 0, pick: null, busy: false, sheetErr: '', notice: '', done: null, endBusy: false,
+    dash: null, dashAt: 0, pick: null, busy: false, sheetErr: '', sheetCode: '', notice: '', done: null, endBusy: false,
   };
   let unsub = [];
   let token = 0;
@@ -23,11 +87,9 @@
   const lang = () => (site.lang === 'ar' ? 'ar' : 'en');
   const tr = (v) => (v && typeof v === 'object' ? (v[lang()] || v.en || '') : String(v || ''));
   const M = () => getW().map;
-  const pad = (n) => String(n).padStart(2, '0');
-  const hm = (mins) => { const m = Math.max(0, Math.round(mins || 0)); return `${Math.floor(m / 60)}:${pad(m % 60)}`; };
-  const clock = (iso) => {
-    try { return new Date(iso).toLocaleTimeString(lang() === 'ar' ? 'ar-EG' : 'en-US', { hour: 'numeric', minute: '2-digit' }); } catch (e) { return ''; }
-  };
+  const F = window.PortalFmt;
+  const hm = (mins) => F.dur(mins, lang()); /* "2:30" / "2 س 30 د" (isolated) */
+  const clock = (iso) => F.clock(iso, lang());
   const SIDES = ['red', 'blue', 'yellow', 'both', 'none'];
   const sideOf = (zoneId) => { const z = S.zones[zoneId]; return z && SIDES.includes(z.side) ? z.side : 'none'; };
   const zn = (id) => (S.zones[id] ? tr(S.zones[id].name) : String(id));
@@ -45,6 +107,12 @@
   const saveLast = (id) => { try { localStorage.setItem(LAST_KEY, id); } catch (e) { /* fine */ } };
   const readLast = () => { try { return localStorage.getItem(LAST_KEY); } catch (e) { return null; } };
   const uuid = () => (window.crypto && crypto.randomUUID ? crypto.randomUUID() : `k${Date.now()}${Math.random().toString(16).slice(2)}`);
+  /* "Buy time" (js/portal-shop.js): shown only when the shop is there */
+  const shop = () => (window.PortalShop && window.PortalShop.ready ? window.PortalShop : null);
+  const buyBtn = (cls, zoneId, id) => `<button type="button" class="${cls} pn-buy" ${id ? `id="${id}" ` : ''}data-zone="${esc(zoneId)}">${esc(shop().label)}</button>`;
+  function buyTime(zoneId) { const s = shop(); if (s) s.open(zoneId); }
+  /* another sheet is opening: put the shop sheet away */
+  function closeShop() { const s = shop(); if (s && s.isOpen) s.close(); }
 
   /* ---------- load ---------- */
   function load() {
@@ -152,6 +220,7 @@
         <div><dt id="pn-zfreelabel"></dt><dd id="pn-zfree"></dd></div>
       </dl>
       <div class="pn-zone-full" id="pn-zfull" hidden><p id="pn-zfullline"></p></div>
+      <div class="pn-zone-buy" id="pn-zbuy" hidden></div>
     </div>`;
 
     floor.innerHTML = `<div class="pn-map t-${side}" id="pn-mapbox">
@@ -194,14 +263,14 @@
     if (S.phase !== 'data') return;
     const p = place(); if (!p) return;
     const m = M();
-    document.querySelectorAll('.pn-chip').forEach((b) => {
+    document.querySelectorAll('#places .pn-chip[data-place]').forEach((b) => {
       const q = S.places.find((x) => x.id === b.dataset.place);
       const on = b.dataset.place === S.placeId;
       b.classList.toggle('is-on', on); b.setAttribute('aria-pressed', String(on));
       b.classList.toggle('is-full', !!q && placeFull(q));
     });
     const prices = [...new Set(p.zones.map((z) => S.zones[z] && S.zones[z].price).filter((x) => x != null))].sort((a, b) => a - b);
-    $('pn-price').textContent = `${prices.length > 1 ? `${prices[0]}-${prices[prices.length - 1]}` : (prices[0] ?? '')} ${m.perHour}`;
+    $('pn-price').textContent = m.price(prices.length > 1 ? `${prices[0]}-${prices[prices.length - 1]}` : (prices[0] ?? ''));
     const mins = p.zones.map((z) => zoneMins(z));
     $('pn-ztime').innerHTML = p.zones.length > 1
       ? p.zones.map((z, i) => `<span class="pn-ztime-row"><small>${esc(zn(z))}</small> ${mins[i] > 0 ? hm(mins[i]) : esc(m.noTimeShort)}</span>`).join('')
@@ -210,7 +279,7 @@
     const zname = zn(p.zones[0]);
     $('pn-zfreelabel').textContent = shared ? m.freeAll(zname) : m.freeNow;
     const seats = placeSeats(p);
-    $('pn-zfree').textContent = `${seats.filter((s) => s.state === 'free').length} / ${seats.length}`;
+    $('pn-zfree').textContent = m.freeOf(seats.filter((s) => s.state === 'free').length, seats.length);
 
     const full = seats.length > 0 && seats.every((s) => s.state !== 'free');
     const fb = $('pn-zfull');
@@ -225,6 +294,7 @@
     } else {
       const slot = fb.querySelector('.pn-wait-slot'); if (slot) slot.remove();
     }
+    renderZoneBuy(p);
 
     document.querySelectorAll('#pn-mapbox .pn-seat').forEach((b) => {
       const s = findSeat(b.dataset.host); if (!s) return;
@@ -242,6 +312,18 @@
     renderSession();
   }
 
+  /* zone box: a "Buy time" button while a zone of this place has no time (redrawn only when it changes, so focus stays) */
+  function renderZoneBuy(p) {
+    const box = $('pn-zbuy'); if (!box) return;
+    const zero = shop() && S.dash ? p.zones.find((z) => zoneMins(z) <= 0) : null;
+    const key = zero ? `${zero}|${lang()}` : '';
+    if (box.dataset.key === key) return;
+    box.dataset.key = key;
+    box.hidden = !zero;
+    box.innerHTML = zero ? buyBtn('pn-ghost', zero) : '';
+    const b = box.querySelector('.pn-buy'); if (b) b.addEventListener('click', () => buyTime(zero));
+  }
+
   function tickUpdated() {
     const el = $('pn-upd'); const p = place();
     if (!el || !p) return;
@@ -254,9 +336,11 @@
   function tapSeat(hostId) {
     const s = findSeat(hostId);
     if (!s || s.state !== 'free' || S.busy) return;
+    /* a different PC is a new attempt: new idempotency key */
     S.pick = S.pick && S.pick.hostId === hostId ? null : { hostId, idem: uuid() };
-    S.sheetErr = ''; S.notice = '';
+    S.sheetErr = ''; S.sheetCode = ''; S.notice = '';
     if (S.pick && window.PortalWait) window.PortalWait.closeSheet();
+    if (S.pick) closeShop();
     patch();
   }
 
@@ -285,15 +369,19 @@
     const m = M();
     const mins = zoneMins(s.zoneId);
     const wz = window.PortalWait ? window.PortalWait.waitingZone() : null;
-    const key = `${s.id}|${S.busy}|${S.sheetErr}|${mins}|${lang()}|${S.pick.idem}|${wz}`;
+    const canBuy = !!shop();
+    const key = `${s.id}|${S.busy}|${S.sheetErr}|${S.sheetCode}|${mins}|${lang()}|${S.pick.idem}|${wz}|${canBuy}`;
     if (key === S.sheetKey && sheetEl.firstChild) return;
     S.sheetKey = key;
     const side = sideOf(s.zoneId);
     const pname = tr(p.name);
     const time = mins > 0 ? hm(mins) : m.noTimeShort;
+    const soon = `<span class="pn-cta is-soon" aria-disabled="true">${esc(m.buyHours)} <em>${esc(getW().soonWord)}</em></span>`;
     const cta = mins > 0
       ? `<button type="button" class="pn-cta" id="pn-open" ${S.busy ? 'disabled' : ''}>${esc(S.busy ? m.opening : m.openNow(s.number))}</button>`
-      : `<span class="pn-cta is-soon" aria-disabled="true">${esc(m.buyHours)} <em>${esc(getW().soonWord)}</em></span>`;
+      : (canBuy ? buyBtn('pn-cta', s.zoneId, 'pn-sbuy') : soon);
+    /* the server said NO_TIME although the dashboard had time: offer to buy under the message */
+    const buyAfterErr = mins > 0 && S.sheetCode === 'NO_TIME' && canBuy ? buyBtn('pn-ghost', s.zoneId, 'pn-sbuy') : '';
     sheetEl.innerHTML = `<span class="pn-grab" aria-hidden="true"></span>
       <div class="pn-sheet-box t-${side}">
         <div class="pn-sheet-top"><span class="pn-sheet-pc">${esc(m.pc(s.number))}</span><button type="button" class="pn-change" id="pn-change" ${S.busy ? 'disabled' : ''}>${esc(m.change)}</button></div>
@@ -302,9 +390,11 @@
       ${mins > 0 ? '' : `<p class="pn-warn">${esc(m.noTimeLine(zn(s.zoneId)))}</p>`}
       ${wz ? `<p class="pn-wtext" id="pn-offlist">${esc(m.offList(zn(wz)))}</p>` : ''}
       ${S.sheetErr ? `<p class="pn-warn" role="alert">${esc(S.sheetErr)}</p>` : ''}
+      ${buyAfterErr}
       ${cta}`;
-    $('pn-change').addEventListener('click', () => { S.pick = null; S.sheetErr = ''; patch(); });
+    $('pn-change').addEventListener('click', () => { S.pick = null; S.sheetErr = ''; S.sheetCode = ''; patch(); });
     const o = $('pn-open'); if (o) o.addEventListener('click', confirmOpen);
+    const b = $('pn-sbuy'); if (b) b.addEventListener('click', () => { if (!S.busy) buyTime(s.zoneId); });
   }
 
   function errText(err) {
@@ -321,7 +411,7 @@
   function confirmOpen() {
     if (S.busy || !S.pick) return;
     const pick = S.pick;
-    S.busy = true; S.sheetErr = '';
+    S.busy = true; S.sheetErr = ''; S.sheetCode = '';
     patch();
     api.me.startSession(pick.hostId, pick.idem).then((sess) => {
       S.busy = false; S.pick = null; S.done = Object.assign({}, sess, { gotAt: Date.now() });
@@ -333,7 +423,9 @@
       S.busy = false;
       const c = err && err.code;
       if (c === 'NOT_SIGNED_IN') { if (onSignedOut) onSignedOut(); return; }
-      if (c !== 'NETWORK' && S.pick === pick) pick.idem = uuid(); /* a final answer: the next try is a new attempt */
+      /* a final answer: the next try is a new attempt. NETWORK / 5xx keep the key so the server can finish the first one */
+      if (api.isFinal(c) && S.pick === pick) pick.idem = uuid();
+      S.sheetCode = c || '';
       if (c === 'HOST_TAKEN' || c === 'NOT_FOUND') {
         S.pick = null; S.notice = M().errors[c];
         refreshMap();
@@ -479,7 +571,10 @@
     zoneMins,
     refresh: () => { if (ready && S.phase === 'data') refreshMap(); },
     repaint: () => { if (ready) patch(); },
-    clearPick: () => { if (S.pick) { S.pick = null; S.sheetErr = ''; patch(); } },
+    clearPick: () => { if (S.pick) { S.pick = null; S.sheetErr = ''; S.sheetCode = ''; patch(); } },
+    /* what portal-shop.js needs: the zones of the place on screen, and the zone of the picked PC */
+    placeZones: () => { const p = ready && place(); return p ? p.zones.slice() : []; },
+    pickedZone: () => { const s = S.pick && findSeat(S.pick.hostId); return s ? s.zoneId : null; },
     started: (sess) => { S.pick = null; S.done = Object.assign({}, sess, { gotAt: Date.now() }); onSession(); renderDone(); patch(); refreshMap(); },
   };
 

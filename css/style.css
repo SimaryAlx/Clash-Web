@@ -149,6 +149,7 @@ button { font: inherit; color: inherit; }
   font-family: "Barlow Condensed", sans-serif; font-weight: 700;
   font-size: 41vw; line-height: 0.8; letter-spacing: -0.03em; /* the cropped name, the page's one giant size */
   white-space: nowrap; color: var(--surface-2);
+  pointer-events: none; /* decoration only: never sits on top of the footer links' clicks */
   margin: 0 calc(var(--margin) * -1) -0.18em;
 }
 
@@ -202,6 +203,8 @@ button { font: inherit; color: inherit; }
   .foot-invite .btn { width: 100%; }
   .foot-branch, .foot-branch + .foot-branch, .foot-social { grid-column: 1 / 13; }
   .foot-name { font-size: 46vw; }
+  /* footer and legal links: a 40 px hit area (padding, not a bigger font) */
+  .foot-legal a, .foot li a, .foot-branch h3 a, .foot-social a:not(.btn) { display: inline-flex; align-items: center; min-height: 40px; }
 }
 
 /* ---------- arriving from another page: it fades in from dark ---------- */

@@ -5,6 +5,7 @@ window.ClashSite = (() => {
   const AR = {};
   let EN = {};
   let lang = 'ar';
+  let langReady = false; /* true once initLang has applied the saved choice (before that, lang is only the Arabic default) */
   let titleEn = '';
   let onChange = () => {};
 
@@ -83,6 +84,7 @@ window.ClashSite = (() => {
     /* opts.en: English words by key; opts.titleEn: the English page title; opts.onChange(lang): redraw what the page builds */
     initLang(opts) {
       EN = opts.en;
+      langReady = true;
       titleEn = opts.titleEn;
       if (opts.onChange) onChange = opts.onChange;
       capture();
@@ -98,6 +100,7 @@ window.ClashSite = (() => {
       wireMenu();
     },
     get lang() { return lang; },
+    get langReady() { return langReady; },
     /* a value that is either plain or { ar, en } */
     tr: (v) => (v && typeof v === 'object' ? v[lang] : v),
     /* change the titles the switch uses, for pages that know their title only after reading the address */

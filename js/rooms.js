@@ -3,7 +3,9 @@
    (zayed-pc-room.html?room=vip, zayed-ps-room.html?room=pool, october-pc-room.html?room=team).
    Which rooms: <body data-branch> (zayed | october) and <body data-kind> (pc | ps); which page: <body data-page> (list | room).
    Data: data/clash-zayed.md (WhatsApp catalogue and Gizmo, 2026-10-23), data/clash-october.md (catalogue, 2026-10-24).
-   Booking goes to WhatsApp until Clash API is wired (GET /zones, GET /rooms). Runs after site.js. */
+   Booking: PlayStation rooms book through the staff panel (ClashBooking on Supabase). Zayed PC rooms open from the
+   member portal (portal/index.html?place=<id>) and also take WhatsApp. October PC rooms book on WhatsApp.
+   Runs after site.js. */
 (() => {
   const BRANCHES = {
     zayed: { whatsapp: '201099584833', photos: 'clash-hd' },
@@ -232,6 +234,7 @@
       packTotal: (v, full) => `باقة 10 ساعات = <b>${egpAr(v)}</b> بدل ${egpAr(full)}`,
       book: 'احجز على واتساب',
       bookNote: 'هنأكدلك الميعاد على واتساب. الحجز من حسابك على الموقع جاي قريب.',
+      openPc: 'افتح جهاز من حسابك', bookNotePortal: 'افتح جهازك دلوقتي من حسابك، أو احجز على واتساب.',
       bookText: (name, h) => `عايز أحجز ${name} لمدة ${hoursAr(h)}`,
       kind: { pc: 'أوض PC', ps: 'بلايستيشن' },
       place: { zayed: 'زايد', october: 'أكتوبر' },
@@ -257,6 +260,7 @@
       packTotal: (v, full) => `10-hour pack = <b>${egpEn(v)}</b> instead of ${egpEn(full)}`,
       book: 'Book on WhatsApp',
       bookNote: 'We confirm your time on WhatsApp. Booking from your account on the site is coming soon.',
+      openPc: 'Open a PC from your account', bookNotePortal: 'Open a PC now from your account, or book on WhatsApp.',
       bookText: (name, h) => `I want to book the ${name} for ${hoursEn(h)}`,
       kind: { pc: 'PC rooms', ps: 'PlayStation' },
       place: { zayed: 'Zayed', october: 'October' },
@@ -269,6 +273,9 @@
   const { whatsapp, photos: PHOTO_DIR } = BRANCHES[BRANCH];
 
   const W = () => WORDS[ClashSite.lang];
+  /* Zayed PC room id -> seat place id in js/pc-layout.js (the portal opens it with ?place=) */
+  const PORTAL_PLACE = { normal: 'normal', vip: 'vip', team: 'team1', cave: 'cave', elite: 'elite', stream: 'stream1', duo: 'duo' };
+  const portalPlace = () => (BRANCH === 'zayed' && KIND === 'pc' ? PORTAL_PLACE[currentRoom().id] : null);
   const tr = (v) => ClashSite.tr(v);
   const shortName = (r) => r.short || r.name.replace(' Room', '');
   const roomUrl = (r) => `${BRANCH}-${KIND}-room.html?room=${r.id}`;
@@ -425,8 +432,9 @@
             </div>
           </div>
           <p class="rp-total" id="total"></p>
+          ${portalPlace() ? `<a class="btn rp-cta" href="portal/index.html?place=${portalPlace()}">${w.openPc}</a>` : ''}
           <a class="btn rp-cta" id="book" href="#" target="_blank" rel="noopener">${w.book}</a>
-          <p class="rp-note">${w.bookNote}</p>`}
+          <p class="rp-note">${portalPlace() ? w.bookNotePortal : w.bookNote}</p>`}
         </div>
       </div>`;
     const media = document.querySelector('.rp-media');

@@ -5,6 +5,8 @@
 <meta name="robots" content="noindex, nofollow">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <meta name="theme-color" content="#08080a">
+<link rel="manifest" href="manifest.webmanifest">
+<link rel="apple-touch-icon" href="../assets/instagram-hd/profile.jpg">
 <title>حسابي | Clash Esports</title>
 <meta name="robots" content="noindex">
 <link rel="icon" href="../assets/instagram-hd/profile.jpg">
@@ -17,7 +19,7 @@
 </head>
 <body class="portal" data-page="portal">
 
-<a class="skip" href="#main" data-i18n="skip">اقفز للمحتوى</a>
+<a class="skip" href="#main" data-i18n="skip">روح للمحتوى</a>
 
 <header class="bar" id="top">
   <button class="pn-toggle" type="button" id="pn-toggle" aria-expanded="false" aria-controls="pn-menu" aria-label="القائمة" data-i18n-aria="menu">
@@ -37,11 +39,12 @@
 <div class="pn-shell">
   <nav class="pn-menu" id="pn-menu" aria-label="قائمة الحساب" data-i18n-aria="menuLabel">
     <ul>
-      <li><a class="is-active" href="index.html" aria-current="page" data-i18n="tabDash">لوحتي</a></li>
+      <li><a class="is-active" href="index.html" aria-current="page" data-i18n="tabDash">الرئيسية</a></li>
       <li><a href="#places" id="pn-menu-open" data-i18n="tabOpen">افتح PC</a></li>
       <li><button type="button" class="pn-menu-btn" id="pn-menu-wait" disabled><span data-i18n="tabWait">قائمة الانتظار</span><em id="pn-menu-badge" hidden></em></button></li>
-      <li><span class="is-soon" aria-disabled="true"><span data-i18n="tabSessions">الجلسات</span><em data-i18n="soon">قريبًا</em></span></li>
-      <li><span class="is-soon" aria-disabled="true"><span data-i18n="tabTopup">شحن رصيد</span><em data-i18n="soon">قريبًا</em></span></li>
+      <li><button type="button" class="pn-menu-btn" id="pn-menu-history"><span data-i18n="tabHistory">السجل</span></button></li>
+      <li><button type="button" class="pn-menu-btn" id="pn-menu-buy" disabled><span data-i18n="tabBuy">اشتري وقت</span></button></li>
+      <li><button type="button" class="pn-menu-btn" id="pn-menu-topup" disabled><span data-i18n="tabTopup">اشحن رصيدك</span></button></li>
       <li><span class="is-soon" aria-disabled="true"><span data-i18n="tabOffers">العروض</span><em data-i18n="soon">قريبًا</em></span></li>
     </ul>
     <button class="pn-logout" type="button" id="pn-logout" data-i18n="logout">تسجيل الخروج</button>
@@ -65,7 +68,10 @@
     <!-- T5 fills this: the floor map (halls and rooms drawn from js/pc-layout.js) -->
     <section id="floor"></section>
 
-    <!-- bottom sheets (open a PC, waiting list): phone = bottom sheet, desktop = under the zone box -->
+    <!-- History view (js/portal-history.js): shown instead of the sections above while the History menu item is on -->
+    <section id="history" class="pn-hist" aria-label="السجل" data-i18n-aria="tabHistory" hidden></section>
+
+    <!-- bottom sheets (open a PC, waiting list, buy time): phone = bottom sheet, desktop = under the zone box -->
     <div id="dock"></div>
   </main>
 </div>
@@ -98,6 +104,7 @@
   </div>
   <div class="foot-legal">
     <p><span dir="ltr">© 2026 Clash Esports</span></p>
+    <p class="foot-policies" style="margin-top:8px;font-size:.875em;opacity:.8"><a href="../terms.html">Terms · الشروط</a> · <a href="../privacy.html">Privacy · الخصوصية</a> · <a href="../refund.html">Refunds · الاسترجاع</a> · <a href="../contact.html">Contact · تواصل</a></p>
   </div>
   <p class="foot-name" aria-hidden="true" dir="ltr"><span>CLA</span><span>SH</span></p>
 </footer>
@@ -108,6 +115,8 @@
 <script src="../js/site.js" defer></script>
 <script src="../js/portal-map.js" defer></script>
 <script src="../js/portal-wait.js" defer></script>
+<script src="../js/portal-history.js" defer></script>
+<script src="../js/portal-shop.js" defer></script>
 <script src="../js/portal.js" defer></script>
 </body>
 </html>

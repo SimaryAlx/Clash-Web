@@ -4,11 +4,12 @@
 (() => {
   const api = window.ClashAPI;
   const site = window.ClashSite;
+  const F = window.PortalFmt; /* js/portal-map.js: durations and counts (Arabic words, English h:mm) */
 
   const EN = {
     skip: 'Skip to content', menu: 'Menu', menuLabel: 'Account menu', cardsLabel: 'Your balance',
-    backSite: 'Website', tabDash: 'Dashboard', tabOpen: 'Open a PC', tabWait: 'Waiting list',
-    tabSessions: 'Sessions', tabTopup: 'Top up', tabOffers: 'Offers', soon: 'soon', logout: 'Log out',
+    backSite: 'Website', tabDash: 'Dashboard', tabOpen: 'Open a PC', tabWait: 'Waiting list', tabHistory: 'History',
+    tabSessions: 'Sessions', tabBuy: 'Buy time', tabTopup: 'Top up balance', tabOffers: 'Offers', soon: 'soon', logout: 'Log out',
     footTitle: 'Come play today', footCta: 'Book on WhatsApp', branchZayed: 'Zayed branch', branchOctober: 'October branch',
     map: 'On the map', hours: 'Open 24 hours, every day',
   };
@@ -25,6 +26,7 @@
       soonWord: 'soon',
       map: {
         placesLabel: 'Places', yourTime: 'Your time here', noTimeShort: 'No time', perHour: 'EGP / hour', freeNow: 'Free now',
+        price: (p) => `${p} EGP / hour`, freeOf: (a, b) => `${a} / ${b}`,
         freeAll: (n) => `Free in all ${n}s`,
         full: (n, m) => `${n} is full right now, next PC in about ${m} min`,
         fullAll: (n, m) => `All ${n}s are full right now, next PC in about ${m} min`,
@@ -56,41 +58,42 @@
     },
     ar: {
       title: 'حسابي | Clash Esports',
-      balance: 'الرصيد', egp: 'ج.م', points: 'النقاط', pts: 'نقطة', time: 'إجمالي الوقت المتاح', hm: 'س:د',
+      balance: 'الرصيد', egp: 'جنيه', points: 'النقاط', pts: 'نقطة', time: 'إجمالي وقتك', hm: '',
       ready: 'جاهز تلعب', playing: (n) => `بتلعب على PC ${n}`, member: 'عضو',
       down: 'الخدمة مش متاحة دلوقتي، جرّب تاني بعد شوية',
       generic: 'حصلت مشكلة. جرّب تاني.',
       retry: 'جرّب تاني', loading: 'بنحمّل حسابك',
       soonWord: 'قريبًا',
       map: {
-        placesLabel: 'الأماكن', yourTime: 'وقتك هنا', noTimeShort: 'مفيش وقت', perHour: 'ج.م / ساعة', freeNow: 'فاضي دلوقتي',
-        freeAll: (n) => `فاضي في كل ${n}`,
-        full: (n, m) => `${n} مليانة دلوقتي، أقرب PC بعد حوالي ${m} دقيقة`,
-        fullAll: (n, m) => `كل ${n} مليانة دلوقتي، أقرب PC بعد حوالي ${m} دقيقة`,
-        empty: 'مفيش أجهزة نعرضها دلوقتي.',
-        mapHall: (n) => `${n} · اضغط على PC فاضي`, mapRoom: 'جوه الأوضة · اضغط على PC فاضي', screen: 'حيطة الشاشات', door: 'الباب',
-        updated: (n) => `اتحدّث من ${n} ث`,
-        lgFree: 'فاضي', lgBusy: 'مستخدم', lgHeld: 'محجوز مؤقتًا', lgOut: 'عطلان', lgPick: 'اختيارك',
-        left: (n) => `باقي ${n} د`, held: 'محجوز', out: 'عطلان',
-        pc: (n) => `PC ${n}`, state: { free: 'فاضي', busy: 'مستخدم', reserved: 'محجوز مؤقتًا', out: 'عطلان' },
-        sheetSub: (p, t) => `${p} · وقتك هنا ${t}`, change: 'غيّر', openNow: (n) => `افتح PC ${n} دلوقتي`, opening: 'بنفتح…',
-        buyHours: 'اشتري ساعات', noTimeLine: (z) => `مفيش عندك وقت في ${z}. اشتري ساعات الأول.`,
+        placesLabel: 'الأماكن', yourTime: 'وقتك هنا', noTimeShort: 'مفيش وقت', perHour: 'جنيه للساعة', freeNow: 'فاضي دلوقتي',
+        price: (p) => `${p} جنيه للساعة`, freeOf: (a, b) => `${a} من ${b}`,
+        freeAll: (n) => `الفاضي في كل ${n}`,
+        full: (n, m) => `${n} مليانة دلوقتي، أقرب PC هيفضى بعد حوالي ${F.durText(m, 'ar')}`,
+        fullAll: (n, m) => `كل أماكن ${n} مليانة دلوقتي، أقرب PC هيفضى بعد حوالي ${F.durText(m, 'ar')}`,
+        empty: 'مفيش حاجة نعرضها دلوقتي.',
+        mapHall: (n) => `${n} · دوس على PC فاضي`, mapRoom: 'جوه الأوضة · دوس على PC فاضي', screen: 'ناحية الشاشات', door: 'الباب',
+        updated: (n) => (n < 1 ? 'اتحدّث دلوقتي' : `اتحدّث من ${F.count(n, 'sec')}`),
+        lgFree: 'فاضي', lgBusy: 'مشغول', lgHeld: 'محجوز', lgOut: 'عطلان', lgPick: 'اختيارك',
+        left: (n) => `باقي\n${F.dur(n, 'ar')}`, held: 'محجوز', out: 'عطلان', /* two lines (css: pre-line) */
+        pc: (n) => `PC ${n}`, state: { free: 'فاضي', busy: 'مشغول', reserved: 'محجوز', out: 'عطلان' },
+        sheetSub: (p, t) => `${p} · وقتك هنا ${t}`, change: 'غيّر', openNow: (n) => `افتح PC ${n} دلوقتي`, opening: 'بنفتحه…',
+        buyHours: 'اشتري وقت', noTimeLine: (z) => `مفيش عندك وقت في المنطقة دي (${z}). اشتري وقت الأول.`,
         errors: {
-          NO_TIME: 'مفيش عندك وقت في المنطقة دي. اشتري ساعات الأول.',
-          HOST_TAKEN: 'الجهاز ده اتاخد حالًا، اختار جهاز تاني.',
-          HOST_OUT: 'الجهاز ده عطلان، اختار جهاز تاني.',
-          GIZMO_DOWN: 'نظام الصالة مش بيرد دلوقتي، جرّب تاني بعد شوية.',
+          NO_TIME: 'مفيش عندك وقت في المنطقة دي. اشتري وقت الأول.',
+          HOST_TAKEN: 'حد سبقك على الـ PC ده، اختار واحد تاني.',
+          HOST_OUT: 'الـ PC ده عطلان، اختار واحد تاني.',
+          GIZMO_DOWN: 'سيستم الصالة مش بيرد دلوقتي، جرّب تاني بعد شوية.',
           NETWORK: 'مش قادرين نوصل للخدمة. اتأكد من النت وجرّب تاني.',
-          NOT_WIRED: 'ده لسه مش متوصّل.',
-          NOT_FOUND: 'الجهاز ده مش في الصالة دلوقتي.',
+          NOT_WIRED: 'الخدمة دي لسه مش متوصّلة.',
+          NOT_FOUND: 'الـ PC ده مبقاش موجود في الصالة.',
         },
-        rate: (n) => `محاولات كتير، استنى ${n} ثانية.`,
-        offList: (z) => `فتح الجهاز ده هيشيلك من قائمة انتظار ${z}.`,
-        errAlready: (n) => `إنت بتلعب أصلًا على PC ${n}، أنهي الجلسة دي الأول.`,
-        errAlreadyAny: 'إنت بتلعب أصلًا على جهاز تاني، أنهي الجلسة دي الأول.',
-        sessionStarted: 'بدأت الجلسة', isOn: (n) => `PC ${n} اشتغل`, sessionTitle: 'بتلعب دلوقتي',
-        doneLine: (n, z) => `اسمك على PC ${n} في ${z}. اقعد والعب؛ الوقت بيتخصم من ساعات ${z}.`,
-        started: 'بدأت', timeLeft: 'الوقت المتبقي', endSession: 'إنهاء الجلسة', ending: 'بننهي…', back: 'رجوع للصالة',
+        rate: (n) => `محاولات كتير، استنى ${F.count(n, 'sec')}.`,
+        offList: (z) => `لو فتحت الـ PC ده هتخرج من قائمة انتظار ${z}.`,
+        errAlready: (n) => `إنت بتلعب دلوقتي على PC ${n}، خلّص الجلسة دي الأول.`,
+        errAlreadyAny: 'إنت بتلعب دلوقتي على PC تاني، خلّص الجلسة دي الأول.',
+        sessionStarted: 'الجلسة بدأت', isOn: (n) => `PC ${n} اشتغل`, sessionTitle: 'بتلعب دلوقتي',
+        doneLine: (n, z) => `اسمك على PC ${n} · ${z}. اقعد والعب، والوقت هيتخصم من وقتك في المنطقة دي.`,
+        started: 'بدأت', timeLeft: 'الوقت الباقي', endSession: 'خلّص الجلسة', ending: 'بنخلّصها…', back: 'ارجع للصالة',
       },
     },
   };
@@ -98,12 +101,12 @@
 
   const $ = (id) => document.getElementById(id);
   const esc = (s) => String(s).replace(/[&<>"']/g, (c) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]));
-  const pad = (n) => String(n).padStart(2, '0');
-  const hm = (mins) => { const m = Math.max(0, Math.round(mins || 0)); return `${Math.floor(m / 60)}:${pad(m % 60)}`; };
+  const lang = () => (site.lang === 'ar' ? 'ar' : 'en');
   const num = (n) => Number(n || 0).toLocaleString('en-US');
 
   const state = { phase: 'loading', data: null, err: null };
   let token = 0;
+  let again = false; /* a refresh asked for while the first load was still running */
 
   function initials(user) {
     const parts = [user.firstName, user.lastName].filter(Boolean).join(' ').trim() || user.username || '';
@@ -127,9 +130,10 @@
       <div class="pn-who"><h1 class="pn-name">${esc(fullName(d.user))}</h1>${status}</div>`;
   }
 
-  function cardHtml(tone, label, value, unit, skel) {
+  /* valueHtml: already safe HTML (the Arabic duration brings its own units) */
+  function cardHtml(tone, label, value, unit, skel, valueHtml) {
     if (skel) return `<div class="pn-card is-skel"><dt><span class="pn-skel line"></span></dt><dd><span class="pn-skel big" style="display:block"></span></dd></div>`;
-    return `<div class="pn-card t-${tone}"><dt>${esc(label)}</dt><dd>${esc(value)}${unit ? `<small>${esc(unit)}</small>` : ''}</dd></div>`;
+    return `<div class="pn-card t-${tone}"><dt>${esc(label)}</dt><dd>${valueHtml || esc(value)}${unit ? `<small>${esc(unit)}</small>` : ''}</dd></div>`;
   }
 
   function cardsHtml() {
@@ -142,7 +146,7 @@
     const d = state.data;
     return cardHtml('red', t.balance, num(d.balance), t.egp)
       + cardHtml('blue', t.points, num(d.points), '')
-      + cardHtml('yellow', t.time, hm(d.totalMinutes), t.hm);
+      + cardHtml('yellow', t.time, '', t.hm, false, F.durHtml(d.totalMinutes, lang()));
   }
 
   function render() {
@@ -150,6 +154,8 @@
     main.setAttribute('aria-busy', state.phase === 'loading' ? 'true' : 'false');
     $('member').innerHTML = memberHtml();
     $('cards').innerHTML = cardsHtml();
+    const buy = $('pn-menu-buy'); if (buy) buy.disabled = state.phase !== 'data';
+    const top = $('pn-menu-topup'); if (top) top.disabled = state.phase !== 'data';
     if (state.phase === 'data') { $('member').classList.add('pn-fade'); $('cards').classList.add('pn-fade'); }
     const retry = $('pn-retry');
     if (retry) retry.addEventListener('click', load);
@@ -170,6 +176,8 @@
       state.phase = 'data'; state.data = data;
       render();
       window.PortalMap.setDash(data);
+      safe(() => window.PortalShop.sync());
+      if (again) { again = false; refreshDash(); }
     }, (err) => {
       if (mine !== token) return;
       if (err && err.code === 'NOT_SIGNED_IN') { toLogin(); return; }
@@ -180,11 +188,13 @@
 
   /* quiet re-read of the dashboard (after a session starts or ends): no skeleton, no flash */
   function refreshDash() {
+    if (state.phase === 'loading') { again = true; return Promise.resolve(); }
     return api.me.dashboard().then((data) => {
       if (state.phase !== 'data') return;
       state.data = data;
       render();
       window.PortalMap.setDash(data);
+      safe(() => window.PortalShop.sync());
     }, () => {});
   }
 
@@ -196,10 +206,36 @@
     document.addEventListener('keydown', (e) => { if (e.key === 'Escape') set(false); });
     $('main').addEventListener('click', () => set(false));
     $('pn-menu-open').addEventListener('click', () => set(false));
+    const dashLink = document.querySelector('#pn-menu a[href="index.html"]');
+    const histBtn = $('pn-menu-history');
+    const showView = (hist) => {
+      $('main').classList.toggle('is-history', hist);
+      histBtn.classList.toggle('is-active', hist);
+      if (dashLink) {
+        dashLink.classList.toggle('is-active', !hist);
+        if (hist) dashLink.removeAttribute('aria-current'); else dashLink.setAttribute('aria-current', 'page');
+      }
+      if (hist) window.PortalHistory.show(); else window.PortalHistory.hide();
+    };
+    histBtn.addEventListener('click', () => { set(false); showView(true); try { window.scrollTo({ top: 0 }); } catch (e) { /* fine */ } });
+    if (dashLink) dashLink.addEventListener('click', (e) => { if (window.PortalHistory.active) { e.preventDefault(); set(false); showView(false); } });
+    $('pn-menu-open').addEventListener('click', () => { if (window.PortalHistory.active) showView(false); });
     $('pn-menu-wait').addEventListener('click', () => { set(false); window.PortalWait.openSheet(); });
+    $('pn-menu-buy').addEventListener('click', () => {
+      set(false);
+      if (window.PortalHistory.active) showView(false);
+      window.PortalShop.open();
+    });
+    $('pn-menu-topup').addEventListener('click', () => {
+      set(false);
+      if (window.PortalHistory.active) showView(false);
+      window.PortalShop.openTopup();
+    });
     $('pn-logout').addEventListener('click', () => {
       const go = () => location.replace('login.html');
-      api.logout().then(go, go);
+      /* drop this device's push subscription first (needs the session), but never wait long */
+      const push = Promise.race([Promise.resolve().then(() => window.PortalWait.pushCleanup()).catch(() => {}), new Promise((r) => setTimeout(r, 1500))]);
+      push.then(() => api.logout()).then(go, go);
     });
   }
 
@@ -208,7 +244,10 @@
   const onEnded = () => { if (state.data) { state.data = Object.assign({}, state.data, { activeSession: null }); if (state.phase === 'data') render(); } };
   safe(() => window.PortalMap.init({ api, site, getW: w, onSession: refreshDash, signedOut: toLogin, onEnded }));
   safe(() => window.PortalWait.init({ api, site, hooks: window.PortalMap.hooks, signedOut: toLogin }));
-  safe(() => site.initLang({ en: EN, titleEn: W.en.title, onChange: () => { if (token) { render(); safe(() => window.PortalMap.rerender()); safe(() => window.PortalWait.rerender()); } } }));
+  safe(() => window.PortalHistory.init({ api, site, signedOut: toLogin, zoneName: (id) => window.PortalMap.hooks.zoneName(id) }));
+  safe(() => window.PortalShop.init({ api, site, getW: w, getDash: () => state.data, zoneName: (id) => window.PortalMap.hooks.zoneName(id), onDone: refreshDash, signedOut: toLogin }));
+  safe(() => api.envTags());
+  safe(() => site.initLang({ en: EN, titleEn: W.en.title, onChange: () => { if (token) { render(); safe(() => window.PortalMap.rerender()); safe(() => window.PortalWait.rerender()); safe(() => window.PortalHistory.rerender()); safe(() => window.PortalShop.rerender()); } } }));
   safe(wireMenu);
   load();
 })();
