@@ -425,23 +425,26 @@
 
 /* ---------- signup + login extras (portal/signup.html, login.html): .sg-* ---------- */
 .sg-box { max-width: 560px; }
-.sg-social { margin-top: 24px; display: grid; gap: 12px; }
-.sg-social-slot { min-height: 48px; display: grid; }
+.sg-social { margin: 24px auto 0; display: grid; gap: 12px; width: 100%; max-width: 400px; }
+.sg-social-slot { height: 40px; display: flex; justify-content: center; align-items: center; overflow: hidden; }
 .sg-social-btn {
   position: relative; display: flex; align-items: center; justify-content: center; gap: 10px;
-  width: 100%; min-height: 48px; padding: 0 16px; cursor: pointer;
-  background: var(--bg); color: var(--ink); border: 2px solid var(--surface-2); border-radius: 0;
-  font: 600 var(--step-small) var(--font-text);
+  box-sizing: border-box; width: 100%; height: 40px; padding: 0 56px; cursor: pointer;
+  background: #131314; color: #e3e3e3; border: 1px solid #8e918f; border-radius: 4px;
+  font: 500 14px/1 Roboto, var(--font-text); letter-spacing: 0.25px; white-space: nowrap;
   transition: border-color 0.6s var(--ease-soft), background-color 0.6s var(--ease-soft), opacity 0.6s var(--ease-soft);
 }
+.sg-social-btn.is-apple { background: #000; color: #fff; }
+.sg-social-btn svg { flex: none; }
 @media (hover: hover) and (pointer: fine) { .sg-social-btn:not(:disabled):hover { border-color: var(--blue-strong); } }
 .sg-social-btn:focus-visible { outline: 3px solid var(--blue-strong); outline-offset: 2px; }
 .sg-social-btn.is-soon, .sg-social-btn:disabled { cursor: not-allowed; opacity: 0.55; }
-#sg-apple { filter: blur(0.6px); }
 .sg-badge {
-  font-style: normal; font-size: 0.8125rem; padding: 2px 8px; border: 1px solid var(--muted); color: var(--muted);
-  margin-inline-start: 4px;
+  position: absolute; inset-inline-end: 10px; top: 50%; transform: translateY(-50%);
+  font-style: normal; font-size: 11px; font-weight: 600; line-height: 1; letter-spacing: 0.3px; padding: 4px 8px;
+  border: 1px solid currentColor; border-radius: 99px; opacity: 0.85;
 }
+.sg-badge:empty { display: none; }
 .sg-google-note { margin-top: 20px; padding: 12px 14px; background: var(--bg); border-inline-start: 4px solid var(--blue); font-size: var(--step-small); line-height: 1.6; }
 .sg-google-note[hidden], .sg-social[hidden], .sg-or[hidden], .sg-ids[hidden], .sg-skip-note[hidden], .sg-done[hidden], .sg-turnstile[hidden], .sg-id-prev[hidden], .sg-id-btns[hidden], .sg-form[hidden] { display: none; }
 .sg-or { display: flex; align-items: center; gap: 14px; margin: 22px 0 4px; color: var(--muted); font-size: var(--step-small); }

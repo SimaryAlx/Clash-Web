@@ -882,7 +882,8 @@ window.ClashAPI = (() => {
 
   /* Google sign-in button (Google Identity Services). Client id from js/config.js; empty = not available (the page shows "Soon"). */
   const GOOGLE_ID = String(cfg.GOOGLE_CLIENT_ID || '');
-  let gsi = null;
+  let gsi = null, gBound = false;
+  const gDraws = new Set();
   const google = {
     enabled: !!GOOGLE_ID,
     render(el, o) {
@@ -904,7 +905,20 @@ window.ClashAPI = (() => {
       });
       return gsi.then(() => {
         window.google.accounts.id.initialize({ client_id: GOOGLE_ID, callback: (r) => o.onCredential(r && r.credential), ux_mode: 'popup' });
-        window.google.accounts.id.renderButton(el, { type: 'standard', theme: 'filled_black', size: 'large', shape: 'rectangular', text: o.text || 'signin_with', locale: o.locale, width: Math.min(400, Math.max(200, el.clientWidth || 320)) });
+        const draw = () => { // GSI draws a fixed-size button: pass the slot's pixel width (200 to 400), redraw only when it changed
+          const wd = Math.min(400, Math.max(200, Math.round(el.clientWidth || 320)));
+          if (el.firstChild && el._gw === wd) return;
+          el._gw = wd; el.textContent = '';
+          window.google.accounts.id.renderButton(el, { type: 'standard', theme: 'filled_black', size: 'large', shape: 'rectangular', text: o.text || 'signin_with', logo_alignment: 'center', locale: o.locale, width: wd });
+        };
+        el._gdraw = draw; el._gw = 0; draw();
+        gDraws.add(el);
+        if (!gBound) {
+          gBound = true;
+          let tm = 0;
+          const redo = () => { clearTimeout(tm); tm = setTimeout(() => gDraws.forEach((x) => { if (x.isConnected && x._gdraw) x._gdraw(); else gDraws.delete(x); }), 200); };
+          window.addEventListener('resize', redo); window.addEventListener('orientationchange', redo);
+        }
         return true;
       }, () => false);
     },

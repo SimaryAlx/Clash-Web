@@ -196,24 +196,22 @@
   function paintGoogle() {
     const slot = $('sg-google');
     if (st.ticket) return;
-    if (!API.google.enabled) {
-      if (!slot.querySelector('.is-soon')) {
-        slot.textContent = '';
-        const b = document.createElement('button');
-        b.type = 'button'; b.className = 'sg-social-btn is-soon'; b.disabled = true; b.setAttribute('aria-disabled', 'true');
-        b.appendChild(gIcon());
-        const s = document.createElement('span'); s.dataset.k = 'google'; b.appendChild(s);
-        const em = document.createElement('em'); em.className = 'sg-badge'; em.dataset.k = 'soon'; b.appendChild(em);
-        slot.appendChild(b);
-        const t = w(); s.textContent = t.google; em.textContent = t.soon;
-      }
-      return;
-    }
-    if (gLang === lang()) return;
+    const soonBtn = () => { /* our own disabled Google-styled button, same size as the real one */
+      slot.textContent = '';
+      const b = document.createElement('button');
+      b.type = 'button'; b.className = 'sg-social-btn is-soon'; b.disabled = true; b.setAttribute('aria-disabled', 'true');
+      b.insertAdjacentHTML('beforeend', '<svg viewBox="0 0 48 48" width="18" height="18" aria-hidden="true"><path fill="#EA4335" d="M24 9.5c3.5 0 6.6 1.2 9.1 3.6l6.8-6.8C35.800 2.400 30.300 0 24 0 14.600 0 6.500 5.400 2.600 13.200l7.900 6.100C12.400 13.600 17.700 9.500 24 9.500z"/><path fill="#4285F4" d="M46.500 24.500c0-1.600-.1-3.100-.4-4.500H24v9h12.700c-.6 3-2.200 5.500-4.700 7.200l7.600 5.900c4.400-4.100 6.900-10.100 6.900-17.600z"/><path fill="#FBBC05" d="M10.500 28.700A14.500 14.500 0 0 1 9.500 24c0-1.600.3-3.200.8-4.700l-7.900-6.100A24 24 0 0 0 0 24c0 3.900.9 7.500 2.600 10.800l7.900-6.100z"/><path fill="#34A853" d="M24 48c6.500 0 11.900-2.100 15.900-5.800l-7.600-5.900c-2.100 1.400-4.900 2.300-8.300 2.300-6.300 0-11.600-4.100-13.500-9.800l-7.900 6.100C6.500 42.600 14.600 48 24 48z"/></svg>');
+      const s = document.createElement('span'); s.dataset.k = 'google'; b.appendChild(s);
+      const em = document.createElement('em'); em.className = 'sg-badge'; em.dataset.k = 'soon'; b.appendChild(em);
+      slot.appendChild(b);
+      const t = w(); s.textContent = t.google; em.textContent = t.soon;
+    };
+    if (!API.google.enabled) { if (!slot.querySelector('.is-soon')) soonBtn(); return; }
+    if (gLang === lang() && slot.firstChild) return;
     gLang = lang();
     const t = w();
     API.google.render(slot, { label: t.google, text: 'signup_with', locale: lang() === 'ar' ? 'ar' : 'en', onCredential: onGoogle }).then((ok) => {
-      if (!ok) { st.gmsgKey = 'GOOGLE_FAIL'; gLang = ''; paintMsgOnly(); }
+      if (!ok) soonBtn();
     });
   }
   function paintMsgOnly() { const gm = $('sg-gmsg'); const t = w(); gm.textContent = st.gmsgKey ? t[st.gmsgKey] : ''; gm.hidden = !st.gmsgKey; }
