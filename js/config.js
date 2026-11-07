@@ -14,5 +14,5 @@ window.CLASH_CONFIG = {
   // member signup with Google: the OAuth web client id (Google Cloud console); empty = the Google buttons show "Soon"
   GOOGLE_CLIENT_ID: '757498736430-s63549jpkr1viie6o10q96fhhq68654u.apps.googleusercontent.com',
   // member signup bot check: the Cloudflare Turnstile site key (public); empty = no check widget (the form sends 'mock')
-  TURNSTILE_SITE_KEY: '',
+  TURNSTILE_SITE_KEY: '0x4AAAAAAF3c71UR8bvfhxZQ',
 };
